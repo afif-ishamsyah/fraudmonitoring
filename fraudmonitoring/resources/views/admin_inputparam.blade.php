@@ -30,6 +30,7 @@
         @if (Session::has('success'))
         <div class="alert alert-success">{{ Session::get('success') }}</div>
         @endif
+        <div class="col-md-12">
         <div class="box box-danger">
           <div class="box-header">
             <form class="form-horizontal" role="form" action="addcaseparam" method="post">
@@ -54,7 +55,9 @@
             </form>
             </div>
             </div>
+          </div>
 
+          <div class="col-md-12">
           <div class="box box-danger">
           <div class="box-header">
             <form class="form-horizontal" role="form" action="{{URL::to('addactparam')}}" method="post">
@@ -89,6 +92,7 @@
             </form>
             </div>
 
+          </div>
           </div>
           </div>
         </section><!-- /.content -->

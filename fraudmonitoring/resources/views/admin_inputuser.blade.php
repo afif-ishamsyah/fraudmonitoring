@@ -30,6 +30,7 @@
         @if (session('success'))
         <div class="alert alert-success">{{session('success') }}</div>
         @endif
+        <div class="col-md-12">
         <div class="box box-danger">
         <div class="box-body">
           <form class="form-horizontal" role="form" action="{{URL::to('register')}}" method="post">
@@ -70,6 +71,7 @@
               </div>
             </div>
             </form>
+            </div>
             </div>
             </div>
           </div>

@@ -30,6 +30,7 @@
         @if (Session::has('success'))
         <div class="alert alert-success">{{ Session::get('success') }}</div>
         @endif
+        <div class="col-md-12">
         <div class="box box-danger">
         <div class="box-body">
           <form class="form-horizontal" role="form" action="{{URL::to('edituser')}}" method="post">
@@ -75,6 +76,7 @@
               </div>
             </div>
             </form>
+            </div>
             </div>
             </div>
             </div>
