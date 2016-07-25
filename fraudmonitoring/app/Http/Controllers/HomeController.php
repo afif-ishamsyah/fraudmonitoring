@@ -366,7 +366,10 @@ class HomeController extends Controller
 			if(Auth::user()->previledge=='0')
 			{
 				$data = array();
-      			$data['nomor'] = DB::table('profile')->select('telephone_number','customer','am','segment','revenue')->get();
+      			$data['nomor'] = DB::table('case')->join('profile','case.id_case','=','profile.id_case')
+      											  ->select('profile.id_case','profile.telephone_number','profile.customer','profile.am','profile.segment','profile.revenue','case.status')
+      											  ->where('case.status','=','0')
+      											  ->get();
 
 	  			return view('edit_profile',$data);
 			}
@@ -388,7 +391,9 @@ class HomeController extends Controller
 			if(Auth::user()->previledge=='0')
 			{
 				$data = array();
-      			$data['nomor'] = DB::table('profile')->select('telephone_number','nipnas','nikam','customer','am','segment','revenue')->where('profile.telephone_number','=',$id1)->get();
+      			$data['nomor'] = DB::table('case')->join('profile','case.id_case','=','profile.id_case')
+      											     ->select('case.id_case','profile.telephone_number','profile.nipnas','profile.customer','profile.nikam','profile.am','profile.segment','profile.revenue','case.status')
+      												 ->where('case.id_case','=',$id1)->get();
 
 	  			return view('edit',$data);
 			}
@@ -409,7 +414,7 @@ class HomeController extends Controller
 	    {
 	     	$data=Input::all();
 	     	DB::table('profile')
-		              ->where('telephone_number', $data['telephonenumber'])
+		              ->where('id_case', $data['idcase'])
 		              ->update(['nipnas' => $data['nipnas'], 'customer' => $data['customer'], 'nikam' => $data['nikam'], 'am' => $data['am'], 'segment' => $data['segment'], 'revenue' => $data['revenue']]);
 		    Session::flash('success','Edit profile berhasil');
 			return redirect('listprofile');

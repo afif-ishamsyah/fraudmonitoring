@@ -89,7 +89,7 @@
               </div>
                @if($checks->status=='0')
                 <div class="pull-right">
-                <button type="button" class="btn btn-danger"><i class="fa fa-edit"></i> <span>Edit Profile</span></button>
+                <a href="{{URL::to('editingprofile')}}/{{$checks->id_case}}" type="button" class="btn btn-danger"><i class="fa fa-edit"></i> <span>Edit Profile</span></a>
               </div>
                @endif
                @endforeach

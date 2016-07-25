@@ -31,7 +31,7 @@
               <label class="control-label col-sm-2" for="notelepon">Nomor Telepon:</label>
               <div class="col-sm-10">
                 <input class="form-control" name="telnumber" id="telnumber" placeholder="{{$number->telephone_number}}" disabled>
-                <input class="form-control" type="hidden" name="telephonenumber" id="telephonenumber" value="{{$number->telephone_number}}">
+                <input class="form-control" type="hidden" name="idcase" id="telephonenumber" value="{{$number->id_case}}">
               </div>
             </div>
 

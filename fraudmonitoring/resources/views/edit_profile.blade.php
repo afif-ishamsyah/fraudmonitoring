@@ -56,7 +56,7 @@
                         <td>{{$number->am}}</td>
                         <td>{{$number->segment}}</td>
                         <td>{{$number->revenue}}</td>
-                        <td><a href="{{URL::to('editingprofile')}}/{{$number->telephone_number}}" type="submit" class="btn btn-danger">Edit</a></td>
+                        <td><a href="{{URL::to('editingprofile')}}/{{$number->id_case}}" type="submit" class="btn btn-danger">Edit</a></td>
                       </tr>
                       @endforeach
                       </tbody>
