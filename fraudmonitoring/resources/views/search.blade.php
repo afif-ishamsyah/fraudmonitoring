@@ -205,7 +205,12 @@
                         <td>{{$number->case_time}}</td>
                         <td>{{$number->customer}}</td>
                         <td>{{$number->am}}</td>
+                        @if($number->status=='0')
                         <td><a href="{{URL::to('cases')}}/{{$number->id_case}}"type="get" class="btn btn-danger">Update</a></td>
+                        @endif
+                        @if($number->status=='1')
+                        <td><a href="{{URL::to('cases')}}/{{$number->id_case}}"type="get" class="btn btn-success">View</a></td>
+                        @endif
                       </tr>
                       @endforeach
                       </tbody>

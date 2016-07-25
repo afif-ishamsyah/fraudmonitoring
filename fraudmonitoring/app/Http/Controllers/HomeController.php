@@ -474,7 +474,7 @@ class HomeController extends Controller
 			    //$data['nomor']=DB::table('case')->select('case.id_case','case.telephone_number')->where('case.status','=','0')->get();
 			    $data['nomor']=DB::table('case')->join('profile','case.id_case','=','profile.id_case')
 			    								->select('case.id_case','case.telephone_number','profile.customer','profile.am','case.case_time','case.status')
-			    								->orderBy('case.status', 'desc')
+			    								->orderBy('case.status', 'asc')
 			    								->get();
 			    return view('search',$data);
 			}
@@ -689,7 +689,8 @@ class HomeController extends Controller
 			if(Auth::user()->previledge=='0')
 			{
 				//$entry = Fileentry::where('filename', '=', $filename)->firstOrFail();
-				  //$number = DB::table('case')->where('case.id_case','=',$id)->value('telephone_number');
+				  $number = DB::table('case')->where('case.id_case','=',$id)->value('telephone_number');
+				  $tanggal = DB::table('case')->where('case.id_case','=',$id)->value('case_time');
 
 				  $data = array();
 			      $data['nomor'] = DB::table('profile')->select('telephone_number','customer','am','segment','revenue')->where('profile.id_case','=',$id)->get();
@@ -706,6 +707,16 @@ class HomeController extends Controller
 			      									->get();
 
 			      $data['actlist'] = DB::table('activity_parameter')->select('description','id_parameter')->get();
+
+			      $data['jumlah'] = DB::table('case')->where('case.telephone_number','=',$number)
+			      									 ->where('case.case_time','<',$tanggal)
+			      									 ->count('case.id_case');
+
+			      $data['history'] = DB::table('case')->join('case_parameter','case.case_parameter','=','case_parameter.id_parameter')
+			      								->select('case.case_time','case.destination_number','case.destination','case.duration','case.number_of_call','case_parameter.description')
+			      								->where('case.telephone_number','=',$number)
+			      								->where('case.case_time','<',$tanggal)
+			      								->get();
 				  return view('activity',$data);
 			}
 			elseif(Auth::user()->previledge=='1')

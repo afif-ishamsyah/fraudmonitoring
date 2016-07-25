@@ -68,6 +68,12 @@
                   <label class="control-label col-sm-5">Average Revenue:</label>
                     <label class="control-label col-sm-7">{{$profile->revenue}}<br></label>
                 </div>
+
+                <div class="form-group">
+                  <label class="control-label col-md-5">Previous Case:</label>
+                  <label class="control-label col-md-3">{{$jumlah}} times<br></label>
+                  <button class="btn btn-primary btn-xs col-md-4 pull-right" data-toggle="modal" data-target="#myModal3"><i class="fa fa-search"></i> <span>View Previous Case</span></button>
+                </div>
                 @endforeach
             </div>
             <div class="box-footer">
@@ -80,11 +86,13 @@
                 @if($checks->status=='1')
                 <a type="button" href="#" class="btn btn-success"><i class="fa fa-book"></i> <span>View Report</span></a>
                 @endif
-                @endforeach
-                @foreach($cases as $kas)
-                <a href="{{URL::to('getcase')}}/{{$kas->filename}}" type="get" class="btn btn-danger"><i class="fa fa-book"></i><span>View Case Evidence</span></a>
-                @endforeach
               </div>
+               @if($checks->status=='0')
+                <div class="pull-right">
+                <button type="button" class="btn btn-danger"><i class="fa fa-edit"></i> <span>Edit Profile</span></button>
+              </div>
+               @endif
+               @endforeach
               </div>
             </div>
           </div>
@@ -131,6 +139,14 @@
                   <label class="control-label col-sm-5">Description:</label>
                     <label class="control-label col-sm-7">{{$kasus->des2}}<br></label>
                 </div>
+
+                <div class="form-group">
+                  <label class="control-label col-sm-5">Evidence:</label>
+                  <div class="col-sm-7">
+                    <a href="{{URL::to('getcase')}}/{{$kasus->filename}}" type="button" class="btn btn-primary btn-xs"><i class="fa fa-download"></i><span>Download Evidence</span></a>
+                  </div>
+                </div>
+
                 @endforeach
             </div>
           </div>
@@ -249,6 +265,58 @@
               </div>
               </form>
             </div>
+
+            <!-- Modal -->
+            <div class="modal fade" id="myModal3" role="dialog">
+              <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Previous Case</h4>
+                  </div>
+                  <div class="modal-body">
+                    <table id="example2" class="table table-bordered table-striped">
+                    <thead>
+                      <tr>
+                        <th>Case Date</th>
+                        <th>Destination Number</th>
+                        <th>Destination Country</th>
+                        <th>Duration(sec)</th>
+                        <th>Call Frequency</th>
+                        <th>Case Type</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      @foreach($history as $past)
+                      <tr>
+                        <td>{{$past->case_time}}</td>
+                        <td>{{$past->destination_number}}</td>
+                        <td>{{$past->destination}}</td>
+                        <td>{{$past->duration}}</td>
+                        <td>{{$past->number_of_call}}</td>
+                        <td>{{$past->description}}</td>
+                      </tr>
+                      @endforeach
+                    </tbody>
+                      <tfoot>
+                      <tr>
+                        <th>Case Date</th>
+                        <th>Destination Number</th>
+                        <th>Destination Country</th>
+                        <th>Duration(sec)</th>
+                        <th>Call Frequency</th>
+                        <th>Case Type</th>                      
+                      </tr>
+                    </tfoot>
+                  </table>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
             </div>
         </section><!-- /.content -->
       </div><!-- /.content-wrapper -->
