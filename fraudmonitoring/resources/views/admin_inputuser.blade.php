@@ -23,12 +23,12 @@
         <!-- Main content -->
         <section class="content">
         <div class="row">
-        @if (Session::has('fail'))
-        <div class="alert alert-danger">{{ Session::get('fail') }}</div>
+        @if (session('fail'))
+        <div class="alert alert-danger">{{session('fail') }}</div>
         @endif
 
-        @if (Session::has('success'))
-        <div class="alert alert-success">{{ Session::get('success') }}</div>
+        @if (session('success'))
+        <div class="alert alert-success">{{session('success') }}</div>
         @endif
         <div class="box box-danger">
         <div class="box-body">

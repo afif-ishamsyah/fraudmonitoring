@@ -292,13 +292,13 @@ class HomeController extends Controller
 	    	if($exist)
 	    	{
 	    		Session::flash('fail','Penambahan gagal. Case Parameter sudah ada sebelumnya');
-				return redirect('paramform');
+				//return Redirect::back()->with('fail','Penambahan gagal. Case Parameter sudah ada sebelumnya');
 	    	}
 	    	else
 	    	{
 		    	DB::table('case_parameter')->insert(['description' => $data['parameter']]);
 		    	Session::flash('success','Case Parameter berhasil ditambah');
-				return redirect('paramform');
+				//return Redirect::back()->with('success','Case Parameter berhasil ditambah');
 			}
 	    }
 	    elseif(Request::isMethod('get'))
@@ -420,23 +420,25 @@ class HomeController extends Controller
 	    }
 	}
 
-	public function insertnumber()
+	public function insertcase()
 	{
 		if(Request::isMethod('post'))
 	    {
 	    	$file = Request::file('fileupload');
 	    	$data=Input::all();
 	    	
-	      	$profileexist = DB::table('profile')->select('profile.telephone_number')->where('profile.telephone_number','=',$data['telephonenumber'])->get();
-	      	$caseexist = DB::table('case')->select('case.telephone_number')->where('case.status','=','0')->where('case.telephone_number','=',$data['telephonenumber'])->get();
+	      	//$profileexist = DB::table('profile')->select('profile.telephone_number')->where('profile.telephone_number','=',$data['telephonenumber'])->get();
+	  		// if(!$profileexist)
+	  		// {
+	          	
+	    //   	}
+	    	$caseexist = DB::table('case')->select('case.telephone_number')->where('case.status','=','0')->where('case.telephone_number','=',$data['telephonenumber'])->get();
 
-	  		if(!$profileexist)
-	  		{
-	          	DB::table('profile')->insert(['telephone_number' => $data['telephonenumber']]);
-	      	}
 
 	      	if(!$caseexist)
 	  		{
+				
+
 	  			$id =  Uuid::uuid4();
 
 				$date = str_replace('/', '-', $data['casedate']);
@@ -446,6 +448,7 @@ class HomeController extends Controller
 				Storage::disk('local')->put($file->getFilename().'.'.$extension,  File::get($file));
 
 	          	DB::table('case')->insert(['id_case'=>$id,'telephone_number'=>$data['telephonenumber'],'destination'=>$data['destcountry'],'destination_number'=>$data['destnumber'],'duration'=>$data['durasi'],'number_of_call'=>$data['frekuensi'],'case_parameter'=>$data['casetype'],'case_time'=>$dates,'description'=>$data['deskripsi'],'input_date'=>Carbon::now(),'mime'=>$file->getClientMimeType(),'original_filename'=>$file->getClientOriginalName(),'filename'=>$file->getFilename().'.'.$extension]);
+	           	DB::table('profile')->insert(['id_case'=>$id,'telephone_number' => $data['telephonenumber']]);
 	           	Session::flash('success','Case berhasil ditambah');
 	           	return redirect('caseform');
 	      	}
@@ -468,7 +471,58 @@ class HomeController extends Controller
 			if(Auth::user()->previledge=='0')
 			{
 				$data=array();
-			    $data['nomor']=DB::table('case')->select('case.telephone_number')->where('case.status','=','0')->get();
+			    //$data['nomor']=DB::table('case')->select('case.id_case','case.telephone_number')->where('case.status','=','0')->get();
+			    $data['nomor']=DB::table('case')->join('profile','case.id_case','=','profile.id_case')
+			    								->select('case.id_case','case.telephone_number','profile.customer','profile.am','case.case_time','case.status')
+			    								->orderBy('case.status', 'desc')
+			    								->get();
+			    return view('search',$data);
+			}
+			elseif(Auth::user()->previledge=='1')
+			{
+				return redirect('admin');
+			}
+		}
+		else
+		{
+			return redirect('loginform');
+		}
+	}
+
+	public function searchnumber()
+	{	
+		if(Auth::check())
+		{
+			if(Auth::user()->previledge=='0')
+			{
+				$datas=Input::all();
+			    $data=array();
+
+			    if($datas['opsi1']=='1')
+			    {
+			    	$data['nomor']=DB::table('case')->join('profile','case.id_case','=','profile.id_case')
+			    								->select('case.id_case','case.telephone_number','profile.customer','profile.am','case.case_time','case.status')
+			    								->where('case.telephone_number','LIKE','%'.$datas['telephone'].'%')
+			    								->orderBy('case.status', 'desc')
+			    								->get();
+			    }
+			    elseif($datas['opsi1']=='2')
+			    {
+			    	$data['nomor']=DB::table('case')->join('profile','case.id_case','=','profile.id_case')
+			    								->select('case.id_case','case.telephone_number','profile.customer','profile.am','case.case_time','case.status')
+			    								->where('case.telephone_number','LIKE','%'.$datas['telephone'].'%')
+			    								->where('case.status','=','0')
+			    								->get();
+			    }
+			    elseif($datas['opsi1']=='3')
+			    {
+			    	$data['nomor']=DB::table('case')->join('profile','case.id_case','=','profile.id_case')
+			    								->select('case.id_case','case.telephone_number','profile.customer','profile.am','case.case_time','case.status')
+			    								->where('case.telephone_number','LIKE','%'.$datas['telephone'].'%')
+			    								->where('case.status','=','1')
+			    								->get();
+			    }
+			   	//$data['nomor']=DB::table('case')->select('case.telephone_number','case.id_case')->where('case.telephone_number','LIKE','%'.$datas['telephone'].'%')->where('case.status','=','0')->get();
 			    return view('search',$data);
 			}
 			elseif(Auth::user()->previledge=='1')
@@ -491,7 +545,31 @@ class HomeController extends Controller
 				$datas=Input::all();
 				$date = Carbon::createFromFormat('d/m/Y', $datas['date']);
 			    $data=array();
-			    $data['nomor']=DB::table('case')->select('case.telephone_number','case.id_case')->where('case.case_time','<=',$date)->where('case.status','=','0')->get();
+			    if($datas['opsi1']=='1')
+			    {
+			    	$data['nomor']=DB::table('case')->join('profile','case.id_case','=','profile.id_case')
+			    								->select('case.id_case','case.telephone_number','profile.customer','profile.am','case.case_time','case.status')
+			    								->where('case.case_time','<=',$date)
+			    								->orderBy('case.status', 'desc')
+			    								->get();
+			    }
+			    elseif($datas['opsi1']=='2')
+			    {
+			    	$data['nomor']=DB::table('case')->join('profile','case.id_case','=','profile.id_case')
+			    								->select('case.id_case','case.telephone_number','profile.customer','profile.am','case.case_time','case.status')
+			    								->where('case.case_time','<=',$date)
+			    								->where('case.status','=','0')
+			    								->get();
+			    }
+			    elseif($datas['opsi1']=='3')
+			    {
+			    	$data['nomor']=DB::table('case')->join('profile','case.id_case','=','profile.id_case')
+			    								->select('case.id_case','case.telephone_number','profile.customer','profile.am','case.case_time','case.status')
+			    								->where('case.case_time','<=',$date)
+			    								->where('case.status','=','1')
+			    								->get();
+			    }
+			    //$data['nomor']=DB::table('case')->select('case.telephone_number','case.id_case')->where('case.case_time','<=',$date)->where('case.status','=','0')->get();
 			    return view('search',$data);
 			}
 			elseif(Auth::user()->previledge=='1')
@@ -513,9 +591,33 @@ class HomeController extends Controller
 			{
 				$datas=Input::all();
 	    		$data=array();
-	    		$data['nomor']=DB::table('profile')->join('case','profile.telephone_number','=','case.telephone_number')
-	    										   ->select('case.telephone_number','case.id_case')
-	    									       ->where(strtolower('profile.am'),'LIKE','%'.strtolower($datas['am']).'%')->where('case.status','=','0')->get();
+	    		if($datas['opsi1']=='1')
+			    {
+			    	$data['nomor']=DB::table('case')->join('profile','case.id_case','=','profile.id_case')
+			    								->select('case.id_case','case.telephone_number','profile.customer','profile.am','case.case_time','case.status')
+			    								->where(strtolower('profile.am'),'LIKE','%'.strtolower($datas['am']).'%')
+			    								->orderBy('case.status', 'desc')
+			    								->get();
+			    }
+			    elseif($datas['opsi1']=='2')
+			    {
+			    	$data['nomor']=DB::table('case')->join('profile','case.id_case','=','profile.id_case')
+			    								->select('case.id_case','case.telephone_number','profile.customer','profile.am','case.case_time','case.status')
+			    								->where(strtolower('profile.am'),'LIKE','%'.strtolower($datas['am']).'%')
+			    								->where('case.status','=','0')
+			    								->get();
+			    }
+			    elseif($datas['opsi1']=='3')
+			    {
+			    	$data['nomor']=DB::table('case')->join('profile','case.id_case','=','profile.id_case')
+			    								->select('case.id_case','case.telephone_number','profile.customer','profile.am','case.case_time','case.status')
+			    								->where(strtolower('profile.am'),'LIKE','%'.strtolower($datas['am']).'%')
+			    								->where('case.status','=','1')
+			    								->get();
+			    }
+	    		// $data['nomor']=DB::table('profile')->join('case','profile.telephone_number','=','case.telephone_number')
+	    		// 								   ->select('case.telephone_number','case.id_case')
+	    		// 							       ->where(strtolower('profile.am'),'LIKE','%'.strtolower($datas['am']).'%')->where('case.status','=','0')->get();
 	    		return view('search',$data);
 			}
 			elseif(Auth::user()->previledge=='1')
@@ -538,9 +640,33 @@ class HomeController extends Controller
 			{
 				$datas=Input::all();
 			    $data=array();
-			    $data['nomor']=DB::table('profile')->join('case','profile.telephone_number','=','case.telephone_number')
-			    									->select('case.telephone_number','case.id_case')
-			    									->where(strtolower('profile.customer'),'LIKE','%'.strtolower($datas['customer']).'%')->where('case.status','=','0')->get();
+			    if($datas['opsi1']=='1')
+			    {
+			    	$data['nomor']=DB::table('case')->join('profile','case.id_case','=','profile.id_case')
+			    								->select('case.id_case','case.telephone_number','profile.customer','profile.am','case.case_time','case.status')
+			    								->where(strtolower('profile.customer'),'LIKE','%'.strtolower($datas['customer']).'%')
+			    								->orderBy('case.status', 'desc')
+			    								->get();
+			    }
+			    elseif($datas['opsi1']=='2')
+			    {
+			    	$data['nomor']=DB::table('case')->join('profile','case.id_case','=','profile.id_case')
+			    								->select('case.id_case','case.telephone_number','profile.customer','profile.am','case.case_time','case.status')
+			    								->where(strtolower('profile.customer'),'LIKE','%'.strtolower($datas['customer']).'%')
+			    								->where('case.status','=','0')
+			    								->get();
+			    }
+			    elseif($datas['opsi1']=='3')
+			    {
+			    	$data['nomor']=DB::table('case')->join('profile','case.id_case','=','profile.id_case')
+			    								->select('case.id_case','case.telephone_number','profile.customer','profile.am','case.case_time','case.status')
+			    								->where(strtolower('profile.customer'),'LIKE','%'.strtolower($datas['customer']).'%')
+			    								->where('case.status','=','1')
+			    								->get();
+			    }
+			    // $data['nomor']=DB::table('profile')->join('case','profile.telephone_number','=','case.telephone_number')
+			    // 									->select('case.telephone_number','case.id_case')
+			    // 									->where(strtolower('profile.customer'),'LIKE','%'.strtolower($datas['customer']).'%')->where('case.status','=','0')->get();
 			    return view('search',$data);
 			}
 			elseif(Auth::user()->previledge=='1')
@@ -555,26 +681,28 @@ class HomeController extends Controller
 
 	}
 
-	public function activity($id1)
+	public function cases($id)
 	{
 
 		if(Auth::check())
 		{
 			if(Auth::user()->previledge=='0')
 			{
+				//$entry = Fileentry::where('filename', '=', $filename)->firstOrFail();
+				  //$number = DB::table('case')->where('case.id_case','=',$id)->value('telephone_number');
+
 				  $data = array();
-			      $data['nomor'] = DB::table('profile')->select('telephone_number','customer','am','segment','revenue')->where('profile.telephone_number','=',$id1)->get();
+			      $data['nomor'] = DB::table('profile')->select('telephone_number','customer','am','segment','revenue')->where('profile.id_case','=',$id)->get();
 
-			      $idcase = DB::table('case')->where('case.telephone_number','=',$id1)->where('case.status','=','0')->value('id_case');
-
+			      
 			      $data['aktivitas'] = DB::table('activity')->join('activity_parameter','activity.activity_number','=','activity_parameter.id_parameter')
 			      										    ->select('activity.activity_date as tanggal','activity_parameter.description as type','activity.description as descr','activity.filename')
-			      										    ->where('activity.id_case','=',$idcase)
+			      										    ->where('activity.id_case','=',$id)
 			      										    ->get();
 
 			      $data['cases'] = DB::table('case')->join('case_parameter','case.case_parameter','=','case_parameter.id_parameter')
 			      									->select('case.id_case','case.destination','case.status','case.destination_number','case.duration','case.number_of_call','case_parameter.description as des1','case.case_time','case.description as des2','case.filename')
-			      									->where('case.id_case','=',$idcase)
+			      									->where('case.id_case','=',$id)
 			      									->get();
 
 			      $data['actlist'] = DB::table('activity_parameter')->select('description','id_parameter')->get();
@@ -683,136 +811,6 @@ class HomeController extends Controller
 
 	}
 
-	public function closedactivity($id)
-	{
-		if(Auth::check())
-		{
-			if(Auth::user()->previledge=='0')
-			{
-				//$entry = Fileentry::where('filename', '=', $filename)->firstOrFail();
-				  $number = DB::table('case')->where('case.id_case','=',$id)->value('telephone_number');
-
-				  $data = array();
-			      $data['nomor'] = DB::table('profile')->select('telephone_number','customer','am','segment','revenue')->where('profile.telephone_number','=',$number)->get();
-
-			      
-			      $data['aktivitas'] = DB::table('activity')->join('activity_parameter','activity.activity_number','=','activity_parameter.id_parameter')
-			      										    ->select('activity.activity_date as tanggal','activity_parameter.description as type','activity.description as descr','activity.filename')
-			      										    ->where('activity.id_case','=',$id)
-			      										    ->get();
-
-			      $data['cases'] = DB::table('case')->join('case_parameter','case.case_parameter','=','case_parameter.id_parameter')
-			      									->select('case.id_case','case.destination','case.status','case.destination_number','case.duration','case.number_of_call','case_parameter.description as des1','case.case_time','case.description as des2','case.filename')
-			      									->where('case.id_case','=',$id)
-			      									->get();
-
-			      $data['actlist'] = DB::table('activity_parameter')->select('description','id_parameter')->get();
-				  return view('activity',$data);
-			}
-			elseif(Auth::user()->previledge=='1')
-			{
-				return redirect('admin');
-			}
-		}
-		else
-		{
-			return redirect('loginform');
-		}
-
-	}
-
-	public function closesearch()
-	{
-	    if(Auth::check())
-		{
-			if(Auth::user()->previledge=='0')
-			{
-				$data=array();
-			    $data['nomor']=DB::table('case')->select('case.id_case','case.telephone_number')->where('case.status','=','1')->get();
-			    return view('searchclose',$data);
-			}
-			elseif(Auth::user()->previledge=='1')
-			{
-				return redirect('admin');
-			}
-		}
-		else
-		{
-			return redirect('loginform');
-		}
-	}
-
-	public function closesearchdate()
-	{	
-		if(Auth::check())
-		{
-			if(Auth::user()->previledge=='0')
-			{
-				$datas=Input::all();
-				$date = Carbon::createFromFormat('d/m/Y', $datas['date']);
-			    $data=array();
-			    $data['nomor']=DB::table('case')->select('case.telephone_number','case.id_case')->where('case.case_time','<=',$date)->where('case.status','=','1')->get();
-			    return view('searchclose',$data);
-			}
-			elseif(Auth::user()->previledge=='1')
-			{
-				return redirect('admin');
-			}
-		}
-		else
-		{
-			return redirect('loginform');
-		}
-	}
-
-	public function closesearcham()
-	{
-		if(Auth::check())
-		{
-			if(Auth::user()->previledge=='0')
-			{
-				$datas=Input::all();
-			    $data=array();
-			    $data['nomor']=DB::table('profile')->join('case','profile.telephone_number','=','case.telephone_number')
-			    								   ->select('case.telephone_number','case.id_case')
-			    								   ->where(strtolower('profile.am'),'LIKE','%'.strtolower($datas['am']).'%')->where('case.status','=','1')->get();
-			    return view('searchclose',$data);
-			}
-			elseif(Auth::user()->previledge=='1')
-			{
-				return redirect('admin');
-			}
-		}
-		else
-		{
-			return redirect('loginform');
-		}
-
-	}
-
-	public function closesearchcustomer()
-	{
-		if(Auth::check())
-		{
-			if(Auth::user()->previledge=='0')
-			{
-				$datas=Input::all();
-			    $data=array();
-			    $data['nomor']=DB::table('profile')->join('case','profile.telephone_number','=','case.telephone_number')
-			    									->select('case.telephone_number','case.id_case')
-			    									->where(strtolower('profile.customer'),'LIKE','%'.strtolower($datas['customer']).'%')->where('case.status','=','1')->get();
-			    return view('searchclose',$data);
-			}
-			elseif(Auth::user()->previledge=='1')
-			{
-				return redirect('admin');
-			}
-		}
-		else
-		{
-			return redirect('loginform');
-		}
-	}
 }
 
 	

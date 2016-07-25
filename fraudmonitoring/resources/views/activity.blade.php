@@ -8,7 +8,6 @@
             <li><a href="{{URL::to('user')}}"><i class="fa fa-home"></i><span>Home</span></a></li>
             <li><a href="{{URL::to('caseform')}}"><i class="fa fa-edit"></i><span>Input Case</span></a></li>
             <li><a href="{{URL::to('search')}}"><i class="fa fa-search"></i> <span>Search Case</span></a></li>
-            <li><a href="{{URL::to('closesearch')}}"><i class="fa fa-list"></i> <span>View Closed Case</span></a></li>
             <li><a href="{{URL::to('listprofile')}}"><i class="fa fa-list"></i> <span>List Profile</span></a></li>
           </ul>
         </section>
@@ -19,13 +18,15 @@
       <div class="content-wrapper">
         <!-- Content Header (Page header) -->
         <section class="content-header col-md-12">
-        <h1 class="pull-left">Activity</h1>
+        
         @foreach($cases as $check)
         @if($check->status=='1')
+          <h1 class="pull-left">Closed Case</h1>
           <h1><span class="label label-success pull-right">Case Closed
           </span></h1>
         @endif
         @if($check->status=='0')
+          <h1 class="pull-left">Case</h1>
           <h1><span class="label label-danger pull-right">Case Opened
           </span></h1>
         @endif

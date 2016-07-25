@@ -1,5 +1,6 @@
 @extends('layout/layout')
 @section('content')
+
       <aside class="main-sidebar">
       <section class="sidebar">
           <!-- sidebar menu: : style can be found in sidebar.less -->
@@ -7,7 +8,6 @@
             <li><a href="{{URL::to('user')}}"><i class="fa fa-home"></i><span>Home</span></a></li>
             <li><a href="{{URL::to('caseform')}}"><i class="fa fa-edit"></i><span>Input Case</span></a></li>
             <li><a href="{{URL::to('search')}}"><i class="fa fa-search"></i> <span>Search Case</span></a></li>
-            <li><a href="{{URL::to('closesearch')}}"><i class="fa fa-list"></i> <span>View Closed Case</span></a></li>
             <li class="active"><a href="{{URL::to('listprofile')}}"><i class="fa fa-list"></i> <span>List Profile</span></a></li>  
           </ul>
         </section>

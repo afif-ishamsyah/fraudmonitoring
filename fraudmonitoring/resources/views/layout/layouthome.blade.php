@@ -95,29 +95,11 @@
     <script src="{{URL::to ('plugins/jQuery/jQuery-2.1.4.min.js')}}"></script>
     <!-- Bootstrap 3.3.5 -->
     <script src="{{URL::to ('bootstrap/js/bootstrap.min.js')}}"></script>
-    <!-- DataTables -->
-    <script src="{{URL::to ('plugins/datatables/jquery.dataTables.min.js')}}"></script>
-    <script src="{{URL::to ('plugins/datatables/dataTables.bootstrap.min.js')}}"></script>
-    <!-- Select2 -->
-    <script src="{{URL::to ('plugins/select2/select2.full.min.js')}}"></script>
+    <!-- ChartJS 1.0.1 -->
+    <script src="{{URL::to ('plugins/chartjs/Chart.min.js')}}"></script>
     <!-- Morris.js charts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
-    <script src="{{URL::to('plugins/morris/morris.min.js')}}"></script>
-    <!-- InputMask -->
-    <script src="{{URL::to ('plugins/input-mask/jquery.inputmask.js')}}"></script>
-    <script src="{{URL::to ('plugins/input-mask/jquery.inputmask.date.extensions.js')}}"></script>
-    <script src="{{URL::to ('plugins/input-mask/jquery.inputmask.extensions.js')}}"></script>
-    <!-- date-range-picker -->
-    <script src="{{URL::to ('https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.2/moment.min.js')}}"></script>
-    <script src="{{URL::to ('plugins/daterangepicker/daterangepicker.js')}}"></script>
-    <!-- bootstrap color picker -->
-    <script src="{{URL::to ('plugins/colorpicker/bootstrap-colorpicker.min.js')}}"></script>
-    <!-- bootstrap time picker -->
-    <script src="{{URL::to ('plugins/timepicker/bootstrap-timepicker.min.js')}}"></script>
-    <!-- SlimScroll 1.3.0 -->
-    <script src="{{URL::to ('plugins/slimScroll/jquery.slimscroll.min.js')}}"></script>
-    <!-- iCheck 1.0.1 -->
-    <script src="{{URL::to ('plugins/iCheck/icheck.min.js')}}"></script>
+    <script src="{{URL::to ('plugins/morris/morris.min.js')}}"></script>
     <!-- FastClick -->
     <script src="{{URL::to ('plugins/fastclick/fastclick.min.js')}}"></script>
     <!-- AdminLTE App -->
@@ -131,77 +113,94 @@
     <script src="{{URL::to ('plugins/flot/jquery.flot.pie.min.js')}}"></script>
     <!-- FLOT CATEGORIES PLUGIN - Used to draw bar charts -->
     <script src="{{URL::to ('plugins/flot/jquery.flot.categories.min.js')}}"></script>
-    <script>
-     $(function () {
-        //Initialize Select2 Elements
-        $(".select2").select2();
-        $("#example1").DataTable();
-        $('#example2').DataTable({
-          "paging": true,
-          "lengthChange": false,
-          "searching": false,
-          "ordering": true,
-          "info": true,
-          "autoWidth": false
+    <!-- page script -->
+
+     <script>
+      $(function () {
+       //DONUT CHART
+        var donut = new Morris.Donut({
+          element: 'sales-chart',
+          resize: true,
+          colors: ["#f56954", "#00a65a"],
+          data: [
+            {label: "Unfinished Case", value: 30},
+            {label: "Finished Case", value: 20}
+          ],
+          hideHover: 'auto'
         });
 
-        //Datemask dd/mm/yyyy
-        $("#datemask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/yyyy"});
-        //Datemask2 mm/dd/yyyy
-        $("#datemask2").inputmask("mm/dd/yyyy", {"placeholder": "mm/dd/yyyy"});
-        //Money Euro
-        $("[data-mask]").inputmask();
-
-        //Date range picker
-        $('#reservation').daterangepicker();
-        //Date range picker with time picker
-        $('#reservationtime').daterangepicker({timePicker: true, timePickerIncrement: 30, format: 'MM/DD/YYYY h:mm A'});
-        //Date range as a button
-        $('#daterange-btn').daterangepicker(
-            {
-              ranges: {
-                'Today': [moment(), moment()],
-                'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-                'Last 7 Days': [moment().subtract(6, 'days'), moment()],
-                'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-                'This Month': [moment().startOf('month'), moment().endOf('month')],
-                'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
-              },
-              startDate: moment().subtract(29, 'days'),
-              endDate: moment()
-            },
-        function (start, end) {
-          $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
-        }
-        );
-
-        //iCheck for checkbox and radio inputs
-        $('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({
-          checkboxClass: 'icheckbox_minimal-blue',
-          radioClass: 'iradio_minimal-blue'
-        });
-        //Red color scheme for iCheck
-        $('input[type="checkbox"].minimal-red, input[type="radio"].minimal-red').iCheck({
-          checkboxClass: 'icheckbox_minimal-red',
-          radioClass: 'iradio_minimal-red'
-        });
-        //Flat red color scheme for iCheck
-        $('input[type="checkbox"].flat-red, input[type="radio"].flat-red').iCheck({
-          checkboxClass: 'icheckbox_flat-green',
-          radioClass: 'iradio_flat-green'
+        //BAR CHART
+        var bar = new Morris.Bar({
+          element: 'bar-chart',
+          resize: true,
+          data: [
+            {y: '2006', a: 100, b: 90},
+            {y: '2007', a: 75, b: 65},
+            {y: '2008', a: 50, b: 40},
+            {y: '2009', a: 75, b: 65},
+            {y: '2010', a: 50, b: 40},
+            {y: '2011', a: 75, b: 65},
+            {y: '2012', a: 100, b: 90}
+          ],
+          barColors: ['#00a65a', '#f56954'],
+          xkey: 'y',
+          ykeys: ['a', 'b'],
+          labels: ['CPU', 'DISK'],
+          hideHover: 'auto'
         });
 
-        //Colorpicker
-        $(".my-colorpicker1").colorpicker();
-        //color picker with addon
-        $(".my-colorpicker2").colorpicker();
+        /*
+         * DONUT CHART
+         * -----------
+         */
 
-        //Timepicker
-        $(".timepicker").timepicker({
-          showInputs: false
+        var donutData = [
+          {label: "One to Many", data: 60, color: getRandomColor()},
+          {label: "Many to One", data: 40, color: getRandomColor()},
+          {label: "Many to Many", data: 100, color: getRandomColor()}
+        ];
+        $.plot("#donut-chart", donutData, {
+          series: {
+            pie: {
+              show: true,
+              radius: 0.8,
+              /*innerRadius: 0.5,*/
+              label: {
+                show: true,
+                radius: 1 / 1,
+                formatter: labelFormatter,
+                threshold: 0.1
+              }
+
+            }
+          },
+          legend: {
+            show: true
+          }
         });
-
+        /*
+         * END DONUT CHART
+         */
       });
-     </script>
+      /*
+       * Custom Label formatter
+       * ----------------------
+       */
+      function labelFormatter(label, series) {
+        return '<div style="font-size:13px; text-align:center; padding:2px; color: #000; font-weight: 600;">'
+                + Math.round(series.percent) + "%</div>";
+      }
+
+      function getRandomColor() {
+      var letters = '0123456789ABCDEF'.split('');
+      var color = '#';
+      for (var i = 0; i < 6; i++ ) {
+        color += letters[Math.floor(Math.random() * 16)];
+      }
+      return color;
+      }
+
+    </script>
+
 </body>
 </html>
