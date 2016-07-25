@@ -31,7 +31,8 @@
         @if (Session::has('success'))
         <div class="alert alert-success">{{ Session::get('success') }}</div>
         @endif
-              <div class="box box-danger col-md-12">
+          <div class="col-md-12">
+              <div class="box box-danger">
                 <div class="box-header">
                   <h3 class="box-title">List of Profile Number</h3>
                 </div><!-- /.box-header -->
@@ -72,6 +73,7 @@
                     </table>
                     </div>
                     </div>
+                  </div>
               </div>
         </section><!-- /.content -->
       </div><!-- /.content-wrapper -->

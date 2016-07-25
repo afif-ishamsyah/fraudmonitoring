@@ -30,6 +30,7 @@
         @if(Session::has('success'))
         <div class="alert alert-success">{{ Session::get('success') }}</div>
         @endif
+        <div class="col-sm-12">
         <div class="box box-danger">
         <div class="box-body">
           <form class="form-horizontal" role="form" action="{{URL::to('insert')}}" method="post" enctype="multipart/form-data">
@@ -110,13 +111,12 @@
               <div class="pull-right">
                 <button type="submit" class="btn btn-danger">Submit</button>
               </div>
-            </form>
             </div>
-            </div>
-            </div>
-            </div>
-
-            </div>
+          </form>
+          </div>
+          </div>
+         </div>  
+         </div> 
         </section><!-- /.content -->
       </div><!-- /.content-wrapper -->
 

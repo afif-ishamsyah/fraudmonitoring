@@ -17,7 +17,7 @@
       <!-- Content Wrapper. Contains page content -->
       <div class="content-wrapper">
         <!-- Content Header (Page header) -->
-        <section class="content-header col-md-12">
+        <section class="content-header">
         
         @foreach($cases as $check)
         @if($check->status=='1')
@@ -35,7 +35,7 @@
 
         <br>
         <!-- Main content -->
-        <section class="content col-md-12">
+        <section class="content">
         <div class="row">
         <div class="col-md-6">
           <div class="box box-danger">
@@ -152,7 +152,8 @@
           </div>
           </div>
 
-          <div class="box box-danger col-md-12">
+          <div class="col-md-12">
+          <div class="box box-danger">
             <div class="box-header">
               <h3 class="box-title">List Activity</h3>
             </div><!-- /.box-header -->
@@ -187,7 +188,7 @@
                   </table>
             </div>
           </div>
-
+          </div>
         <!-- Modal -->
             <div class="modal fade" id="myModal" role="dialog">
               <div class="modal-dialog modal-lg">
