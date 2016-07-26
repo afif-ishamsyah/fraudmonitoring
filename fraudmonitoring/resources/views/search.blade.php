@@ -56,7 +56,7 @@
                       <div class="radio-inline">
                         <label>
                           <input type="radio" name="opsi1" id="opsi1" value="2">
-                          Opened Case
+                          Open Case
                         </label>
                       </div>
                       <div class="radio-inline">
@@ -95,7 +95,7 @@
                       <div class="radio-inline">
                         <label>
                           <input type="radio" name="opsi1" id="opsi1" value="2">
-                          Opened Case
+                          Open Case
                         </label>
                       </div>
                       <div class="radio-inline">
@@ -129,7 +129,7 @@
                       <div class="radio-inline">
                         <label>
                           <input type="radio" name="opsi1" id="opsi1" value="2">
-                          Opened Case
+                          Open Case
                         </label>
                       </div>
                       <div class="radio-inline">
@@ -163,7 +163,7 @@
                       <div class="radio-inline">
                         <label>
                           <input type="radio" name="opsi1" id="opsi1" value="2">
-                          Opened Case
+                          Open Case
                         </label>
                       </div>
                       <div class="radio-inline">

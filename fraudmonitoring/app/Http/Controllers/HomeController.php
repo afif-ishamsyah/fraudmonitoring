@@ -48,7 +48,37 @@ class HomeController extends Controller
 		{
 			if(Auth::user()->previledge=='0')
 			{
-				return view('home_user');
+				$data = array();
+				$data['finish'] = DB::table('case')->where('status','=','1')->count('id_case');
+				$data['unfinish'] = DB::table('case')->where('status','=','0')->count('id_case');
+
+				$data['tahun1'] = Carbon::now()->year;
+				$data['tahun2'] = Carbon::now()->year-1;
+				$data['tahun3'] = Carbon::now()->year-2;
+				$data['tahun4'] = Carbon::now()->year-3;
+				$data['tahun5'] = Carbon::now()->year-4;
+
+				$data['closed1'] = DB::table('case')->whereYear('case_time','=',$data['tahun1'])->where('status','=','1')->count('id_case');
+				$data['open1'] = DB::table('case')->whereYear('case_time','=',$data['tahun1'])->where('status','=','0')->count('id_case');
+
+				$data['closed2'] = DB::table('case')->whereYear('case_time','=',$data['tahun2'])->where('status','=','1')->count('id_case');
+				$data['open2'] = DB::table('case')->whereYear('case_time','=',$data['tahun2'])->where('status','=','0')->count('id_case');
+
+				$data['closed3'] = DB::table('case')->whereYear('case_time','=',$data['tahun3'])->where('status','=','1')->count('id_case');
+				$data['open3'] = DB::table('case')->whereYear('case_time','=',$data['tahun3'])->where('status','=','0')->count('id_case');
+
+				$data['closed4'] = DB::table('case')->whereYear('case_time','=',$data['tahun4'])->where('status','=','1')->count('id_case');
+				$data['open4'] = DB::table('case')->whereYear('case_time','=',$data['tahun4'])->where('status','=','0')->count('id_case');
+				
+				$data['closed5'] = DB::table('case')->whereYear('case_time','=',$data['tahun5'])->where('status','=','1')->count('id_case');
+				$data['open5'] = DB::table('case')->whereYear('case_time','=',$data['tahun5'])->where('status','=','0')->count('id_case');
+
+				$data['parameter'] = DB::table('case_parameter')->join('case','case_parameter.id_parameter','=','case.case_parameter')
+																->select('case_parameter.description',DB::raw('count(case.id_case) as total'))
+																->groupBy('case.case_parameter')
+    	             											->orderBy('case.case_parameter','asc')
+    	             											->get();
+				return view('home_user',$data);
 			}
 			elseif(Auth::user()->previledge=='1')
 			{
@@ -71,7 +101,39 @@ class HomeController extends Controller
 			}
 			elseif(Auth::user()->previledge=='1')
 			{
-				return view('home_admin');
+				
+				$data = array();
+				$data['finish'] = DB::table('case')->where('status','=','1')->count('id_case');
+				$data['unfinish'] = DB::table('case')->where('status','=','0')->count('id_case');
+
+				$data['tahun1'] = Carbon::now()->year;
+				$data['tahun2'] = Carbon::now()->year-1;
+				$data['tahun3'] = Carbon::now()->year-2;
+				$data['tahun4'] = Carbon::now()->year-3;
+				$data['tahun5'] = Carbon::now()->year-4;
+
+				$data['closed1'] = DB::table('case')->whereYear('case_time','=',$data['tahun1'])->where('status','=','1')->count('id_case');
+				$data['open1'] = DB::table('case')->whereYear('case_time','=',$data['tahun1'])->where('status','=','0')->count('id_case');
+
+				$data['closed2'] = DB::table('case')->whereYear('case_time','=',$data['tahun2'])->where('status','=','1')->count('id_case');
+				$data['open2'] = DB::table('case')->whereYear('case_time','=',$data['tahun2'])->where('status','=','0')->count('id_case');
+
+				$data['closed3'] = DB::table('case')->whereYear('case_time','=',$data['tahun3'])->where('status','=','1')->count('id_case');
+				$data['open3'] = DB::table('case')->whereYear('case_time','=',$data['tahun3'])->where('status','=','0')->count('id_case');
+
+				$data['closed4'] = DB::table('case')->whereYear('case_time','=',$data['tahun4'])->where('status','=','1')->count('id_case');
+				$data['open4'] = DB::table('case')->whereYear('case_time','=',$data['tahun4'])->where('status','=','0')->count('id_case');
+				
+				$data['closed5'] = DB::table('case')->whereYear('case_time','=',$data['tahun5'])->where('status','=','1')->count('id_case');
+				$data['open5'] = DB::table('case')->whereYear('case_time','=',$data['tahun5'])->where('status','=','0')->count('id_case');
+
+				$data['parameter'] = DB::table('case_parameter')->join('case','case_parameter.id_parameter','=','case.case_parameter')
+																->select('case_parameter.description',DB::raw('count(case.id_case) as total'))
+																->groupBy('case.case_parameter')
+    	             											->orderBy('case.case_parameter','asc')
+    	             											->get();
+
+				return view('home_admin',$data);
 			}
 		}
 		else

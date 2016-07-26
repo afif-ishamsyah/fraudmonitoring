@@ -27,7 +27,7 @@
         @endif
         @if($check->status=='0')
           <h1 class="pull-left">Case</h1>
-          <h1><span class="label label-danger pull-right">Case Opened
+          <h1><span class="label label-danger pull-right">Open Case
           </span></h1>
         @endif
         @endforeach
