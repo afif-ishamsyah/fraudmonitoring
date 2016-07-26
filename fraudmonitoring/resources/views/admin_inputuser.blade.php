@@ -24,11 +24,11 @@
         <section class="content">
         <div class="row">
         @if (session('fail'))
-        <div class="alert alert-danger">{{session('fail') }}</div>
+        <div class="col-md-12"><div class="alert alert-danger">{{session('fail') }}</div></div>
         @endif
 
         @if (session('success'))
-        <div class="alert alert-success">{{session('success') }}</div>
+        <div class="col-md-12"><div class="alert alert-success">{{session('success') }}</div></div>
         @endif
         <div class="col-md-12">
         <div class="box box-danger">
