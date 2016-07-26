@@ -19,18 +19,16 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
         
-        @foreach($cases as $check)
-        @if($check->status=='1')
+        @if($cases->status=='1')
           <h1 class="pull-left">Closed Case</h1>
           <h1><span class="label label-success pull-right">Case Closed
           </span></h1>
         @endif
-        @if($check->status=='0')
+        @if($cases->status=='0')
           <h1 class="pull-left">Case</h1>
           <h1><span class="label label-danger pull-right">Open Case
           </span></h1>
         @endif
-        @endforeach
         </section>
 
         <br>
@@ -43,30 +41,39 @@
               <h3 class="box-title">Profile</h3>
             </div><!-- /.box-header -->
             <div class="box-body">
-              @foreach($nomor as $profile)
                 <div class="form-group">
                   <label class="control-label col-sm-5">Nomor Telepon:</label>
-                    <label class="control-label col-sm-7">{{$profile->telephone_number}}<br></label>
+                    <label class="control-label col-sm-7">{{$nomor->telephone_number}}<br></label>
+                </div>
+
+                <div class="form-group">
+                  <label class="control-label col-sm-5">Nomor Induk:</label>
+                    <label class="control-label col-sm-7">{{$nomor->main_number}}<br></label>
                 </div>
 
                 <div class="form-group">
                   <label class="control-label col-sm-5">Corporate Customer:</label>
-                    <label class="control-label col-sm-7">{{$profile->customer}}<br></label>
+                    <label class="control-label col-sm-7">{{$nomor->customer}}<br></label>
                 </div>
 
                 <div class="form-group">
                   <label class="control-label col-sm-5">Account Manager:</label>
-                    <label class="control-label col-sm-7">{{$profile->am}}<br></label>
+                    <label class="control-label col-sm-7">{{$nomor->am}}<br></label>
+                </div>
+
+                <div class="form-group">
+                  <label class="control-label col-sm-5">Alamat Instalasi:</label>
+                    <label class="control-label col-sm-7">{{$nomor->installation}}<br></label>
                 </div>
 
                 <div class="form-group">
                   <label class="control-label col-sm-5">Segment:</label>
-                    <label class="control-label col-sm-7">{{$profile->segment}}<br></label>
+                    <label class="control-label col-sm-7">{{$nomor->segment}}<br></label>
                 </div>
 
                 <div class="form-group">
                   <label class="control-label col-sm-5">Average Revenue:</label>
-                    <label class="control-label col-sm-7">{{$profile->revenue}}<br></label>
+                    <label class="control-label col-sm-7">{{$nomor->revenue}}<br></label>
                 </div>
 
                 <div class="form-group">
@@ -74,25 +81,26 @@
                   <label class="control-label col-md-3">{{$jumlah}} times<br></label>
                   <button class="btn btn-primary btn-xs col-md-4 pull-right" data-toggle="modal" data-target="#myModal3"><i class="fa fa-search"></i> <span>View Previous Case</span></button>
                 </div>
-                @endforeach
             </div>
             <div class="box-footer">
             <div class="form-group">
-              <div class="pull-left">
-                @foreach($cases as $checks)
-                @if($checks->status=='0')
-                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModal"><i class="fa fa-plus"></i> <span>Add Activity</span></button>
+
+                 @if($cases->status=='0')
+                <div class="col-md-4">
+                <a type="button" class="btn btn-danger center-block" data-toggle="modal" data-target="#myModal"><i class="fa fa-plus"></i> <span>Add Activity</span></a>
+                </div>
+                <div class="col-md-4">
+                <a type="button" class="btn btn-success center-block" data-toggle="modal" data-target="#myModal4"><i class="fa fa-envelope"></i> <span>Print Email</span></a>
+                </div>
                 @endif
-                @if($checks->status=='1')
-                <a type="button" href="#" class="btn btn-success"><i class="fa fa-book"></i> <span>View Report</span></a>
-                @endif
-              </div>
-               @if($checks->status=='0')
-                <div class="pull-right">
-                <a href="{{URL::to('editingprofile')}}/{{$checks->id_case}}" type="button" class="btn btn-danger"><i class="fa fa-edit"></i> <span>Edit Profile</span></a>
+
+
+               @if($cases->status=='0')
+                <div class="col-md-4">
+                <a href="{{URL::to('editingprofile')}}/{{$cases->id_case}}" type="button" class="btn btn-danger center-block"><i class="fa fa-edit"></i> <span>Edit Profile</span></a>
               </div>
                @endif
-               @endforeach
+
               </div>
             </div>
           </div>
@@ -104,50 +112,47 @@
               <h3 class="box-title">Case Details</h3>
             </div><!-- /.box-header -->
             <div class="box-body">
-              @foreach($cases as $kasus)
                 <div class="form-group">
                   <label class="control-label col-sm-5">Destination Number:</label>
-                    <label class="control-label col-sm-7">{{$kasus->destination}}<br></label>
+                    <label class="control-label col-sm-7">{{$cases->destination}}<br></label>
                 </div>
 
                 <div class="form-group">
                   <label class="control-label col-sm-5">Destination Country:</label>
-                    <label class="control-label col-sm-7">{{$kasus->destination_number}}<br></label>
+                    <label class="control-label col-sm-7">{{$cases->destination_number}}<br></label>
                 </div>
 
                 <div class="form-group">
                   <label class="control-label col-sm-5">Duration (sec):</label>
-                    <label class="control-label col-sm-7">{{$kasus->duration}}<br></label>
+                    <label class="control-label col-sm-7">{{$cases->duration}}<br></label>
                 </div>
 
                 <div class="form-group">
                   <label class="control-label col-sm-5">Call Frequency:</label>
-                    <label class="control-label col-sm-7">{{$kasus->number_of_call}}<br></label>
+                    <label class="control-label col-sm-7">{{$cases->number_of_call}}<br></label>
                 </div>
 
                 <div class="form-group">
                   <label class="control-label col-sm-5">Case Type:</label>
-                    <label class="control-label col-sm-7">{{$kasus->des1}}<br></label>
+                    <label class="control-label col-sm-7">{{$cases->des1}}<br></label>
                 </div>
 
                 <div class="form-group">
                   <label class="control-label col-sm-5">Case Date:</label>
-                    <label class="control-label col-sm-7">{{$kasus->case_time}}<br></label>
+                    <label class="control-label col-sm-7">{{$cases->case_time}}<br></label>
                 </div>
 
                 <div class="form-group">
                   <label class="control-label col-sm-5">Description:</label>
-                    <label class="control-label col-sm-7">{{$kasus->des2}}<br></label>
+                    <label class="control-label col-sm-7">{{$cases->des2}}<br></label>
                 </div>
 
                 <div class="form-group">
                   <label class="control-label col-sm-5">Evidence:</label>
                   <div class="col-sm-7">
-                    <a href="{{URL::to('getcase')}}/{{$kasus->filename}}" type="button" class="btn btn-primary btn-xs"><i class="fa fa-download"></i><span>Download Evidence</span></a>
+                    <a href="{{URL::to('getcase')}}/{{$cases->filename}}" type="button" class="btn btn-primary btn-xs"><i class="fa fa-download"></i><span>Download Evidence</span></a>
                   </div>
                 </div>
-
-                @endforeach
             </div>
           </div>
           </div>
@@ -206,9 +211,7 @@
                             <div class="input-group-addon">
                               <i class="fa fa-calendar"></i>
                             </div>
-                            @foreach($cases as $kasuss)
-                            <input class="form-control" type="hidden" name="idcase" id="idcase" value="{{$kasuss->id_case}}">
-                            @endforeach
+                            <input class="form-control" type="hidden" name="idcase" id="idcase" value="{{$cases->id_case}}">
                             <input type="text" name="actdate" class="form-control" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask placeholder="dd/mm/yyyy">
                           </div><!-- /.input group -->
                           </div>
@@ -318,8 +321,70 @@
               </div>
             </div>
 
+             <div class="modal fade" id="myModal4" role="dialog">
+              <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Email</h4>
+                  </div>
+                  <div id="post-shortlink" class="modal-body">
+                    <p>Rekan rekan AM CC – {{$nomor->am}}/{{$nomor->customer}} (NIPNAS {{$nomor->nipnas}})  dan Support ({{$nomor->segment}})<br><span></span><br>Selamat Siang,</p><br>
+                    <p>Mohon bantuannya untuk menginformasikan ke pelanggan terkait adanya indikasi traffic Toll fraud (SLI) / anomaly call yang tergenerate dari nomor {{$nomor->telephone_number}}  atas nama {{$nomor->am}}/{{$nomor->customer}} (NIPNAS {{$nomor->nipnas}}) pada tanggal  {{$cases->case_time}} untuk destinasi {{$cases->destination}} seperti berikut ini:</p>
+                    <table id="example3" class="table table-bordered table-striped">
+                    <thead>
+                      <tr>
+                        <th>No</th>
+                        <th>Tanggal</th>
+                        <th>ANUMBER</th>
+                        <th>BNUMBER</th>
+                        <th>Jumlah Durasi</th>
+                        <th>Jumlah Call</th>
+                        <th>Destinasi</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>1</td>
+                        <td>{{$cases->case_time}}</td>
+                        <td>{{$cases->telephone_number}}</td>
+                        <td>{{$cases->destination_number}}</td>
+                        <td>{{$cases->duration}}</td>
+                        <td>{{$cases->number_of_call}}</td>
+                        <td>{{$cases->destination}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <br>
+                  <p>
+                    Apabila CC merasa tidak melakukan call SLI dengan destinasi {{$cases->destination}}, agar disarankan utk segera melakukan langkah 2 preventif sbb:
+                  </p>
+                  <p>1. Mengganti semua password PABX (termasuk password admin / root) secara rutin dan tidak menggunakan password default.</p>
+                  <p>2. Mengganti port PABX (tidak menggunakan port default)</p>
+                  <p>3. Menonaktifkan port2 remote yang biasa digunakan utk maintenance.</p>
+                  <p>4. Mendefinisikan / mengaktifkan routing table pada PABX (Mengaktifkan firewall pada PABX), untuk mencegah SIP-invite atau connection attempt ke PABX</p>
+                  <p>5. Melakukan monitoring log PABX secara rutin</p>
+                  <p>6. Sangat umum pelaku menghapus log CDR setelah melakukan panggilan, mungkin dapat disarankan kepada pelanggan utk menganalisis lebih detail log system PBX mereka, apakah ada file / script tambahan atau ada perubahan paramater database di PBX.</p>
+                  <p>Agar diusulkan isoliran/bloking SLI untuk nomor tersebut, untuk menghindari fraud SLI menjadi bertambah besar. Untuk notel apabila ISDN agar di blok di no.induk dan apabila hunting untuk di blokir juga seluruh notel ikutannya, namun demikian apabila call tersebut di akui sebagai penggunaan maka akan ditagihkan. Demikian disampaikan, terima kasih atas perhatian dan kerjasamanya.</p><br>
+                  <p>Salam</p>
+                  <p>SUHARDI W</p>
+                  <br>
+                  <p>081319095566</p>
+                  </div>
+                  <div class="modal-footer">
+                    <button class="btn btn-success" id="copy-button" data-clipboard-target="#post-shortlink">Copy</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
             </div>
         </section><!-- /.content -->
       </div><!-- /.content-wrapper -->
+      <script src="//cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.4.0/clipboard.min.js"></script>
+      <script type="text/javascript">(function(){
+        new Clipboard('#copy-button');
+        })();</script>
 
 @endsection

@@ -42,6 +42,13 @@
             </div>
 
             <div class="form-group">
+              <label class="control-label col-sm-2" for="no. telp">Nomor Induk:</label>
+              <div class="col-sm-10">
+                <input class="form-control" name="mainnumber" id="notelepon" placeholder="Masukkan Nomor Induk">
+              </div>
+            </div>
+
+            <div class="form-group">
               <label class="control-label col-sm-2" for="destnumber">Destination Number:</label>
               <div class="col-sm-10">
                 <input class="form-control" name="destnumber" id="destnumber" placeholder="Masukkan Nomor Telepon Tujuan">

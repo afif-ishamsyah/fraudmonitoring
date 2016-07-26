@@ -429,7 +429,7 @@ class HomeController extends Controller
 			{
 				$data = array();
       			$data['nomor'] = DB::table('case')->join('profile','case.id_case','=','profile.id_case')
-      											  ->select('profile.id_case','profile.telephone_number','profile.customer','profile.am','profile.segment','profile.revenue','case.status')
+      											  ->select('profile.id_case','profile.telephone_number','profile.main_number','profile.customer','profile.am','profile.segment','profile.revenue','profile.installation','case.status')
       											  ->where('case.status','=','0')
       											  ->get();
 
@@ -454,8 +454,8 @@ class HomeController extends Controller
 			{
 				$data = array();
       			$data['nomor'] = DB::table('case')->join('profile','case.id_case','=','profile.id_case')
-      											     ->select('case.id_case','profile.telephone_number','profile.nipnas','profile.customer','profile.nikam','profile.am','profile.segment','profile.revenue','case.status')
-      												 ->where('case.id_case','=',$id1)->get();
+      											     ->select('case.id_case','profile.telephone_number','profile.main_number','profile.nipnas','profile.customer','profile.nikam','profile.am','profile.installation','profile.segment','profile.revenue','case.status')
+      												 ->where('case.id_case','=',$id1)->first();
 
 	  			return view('edit',$data);
 			}
@@ -477,7 +477,7 @@ class HomeController extends Controller
 	     	$data=Input::all();
 	     	DB::table('profile')
 		              ->where('id_case', $data['idcase'])
-		              ->update(['nipnas' => $data['nipnas'], 'customer' => $data['customer'], 'nikam' => $data['nikam'], 'am' => $data['am'], 'segment' => $data['segment'], 'revenue' => $data['revenue']]);
+		              ->update(['nipnas' => $data['nipnas'], 'customer' => $data['customer'], 'nikam' => $data['nikam'], 'am' => $data['am'], 'installation'=>$data['alamat'],'segment' => $data['segment'], 'revenue' => $data['revenue']]);
 		    Session::flash('success','Edit profile berhasil');
 			return redirect('listprofile');
 	    }
@@ -515,7 +515,7 @@ class HomeController extends Controller
 				Storage::disk('local')->put($file->getFilename().'.'.$extension,  File::get($file));
 
 	          	DB::table('case')->insert(['id_case'=>$id,'telephone_number'=>$data['telephonenumber'],'destination'=>$data['destcountry'],'destination_number'=>$data['destnumber'],'duration'=>$data['durasi'],'number_of_call'=>$data['frekuensi'],'case_parameter'=>$data['casetype'],'case_time'=>$dates,'description'=>$data['deskripsi'],'input_date'=>Carbon::now(),'mime'=>$file->getClientMimeType(),'original_filename'=>$file->getClientOriginalName(),'filename'=>$file->getFilename().'.'.$extension]);
-	           	DB::table('profile')->insert(['id_case'=>$id,'telephone_number' => $data['telephonenumber']]);
+	           	DB::table('profile')->insert(['id_case'=>$id,'telephone_number' => $data['telephonenumber'],'main_number'=>$data['mainnumber']]);
 	           	Session::flash('success','Case berhasil ditambah');
 	           	return redirect('caseform');
 	      	}
@@ -650,6 +650,53 @@ class HomeController extends Controller
 		}
 	}
 
+	public function searchinputdate()
+	{	
+		if(Auth::check())
+		{
+			if(Auth::user()->previledge=='0')
+			{
+				$datas=Input::all();
+				$date = Carbon::createFromFormat('d/m/Y', $datas['date']);
+			    $data=array();
+			    if($datas['opsi1']=='1')
+			    {
+			    	$data['nomor']=DB::table('case')->join('profile','case.id_case','=','profile.id_case')
+			    								->select('case.id_case','case.telephone_number','profile.customer','profile.am','case.case_time','case.status')
+			    								->where('case.input_date','<=',$date)
+			    								->orderBy('case.status', 'desc')
+			    								->get();
+			    }
+			    elseif($datas['opsi1']=='2')
+			    {
+			    	$data['nomor']=DB::table('case')->join('profile','case.id_case','=','profile.id_case')
+			    								->select('case.id_case','case.telephone_number','profile.customer','profile.am','case.case_time','case.status')
+			    								->where('case.input_date','<=',$date)
+			    								->where('case.status','=','0')
+			    								->get();
+			    }
+			    elseif($datas['opsi1']=='3')
+			    {
+			    	$data['nomor']=DB::table('case')->join('profile','case.id_case','=','profile.id_case')
+			    								->select('case.id_case','case.telephone_number','profile.customer','profile.am','case.case_time','case.status')
+			    								->where('case.input_date','<=',$date)
+			    								->where('case.status','=','1')
+			    								->get();
+			    }
+			    //$data['nomor']=DB::table('case')->select('case.telephone_number','case.id_case')->where('case.case_time','<=',$date)->where('case.status','=','0')->get();
+			    return view('search',$data);
+			}
+			elseif(Auth::user()->previledge=='1')
+			{
+				return redirect('admin');
+			}
+		}
+		else
+		{
+			return redirect('loginform');
+		}
+	}
+
 	public function searcham()
 	{
 		if(Auth::check())
@@ -760,7 +807,7 @@ class HomeController extends Controller
 				  $tanggal = DB::table('case')->where('case.id_case','=',$id)->value('case_time');
 
 				  $data = array();
-			      $data['nomor'] = DB::table('profile')->select('telephone_number','customer','am','segment','revenue')->where('profile.id_case','=',$id)->get();
+			      $data['nomor'] = DB::table('profile')->select('telephone_number','main_number','nipnas','customer','nikam','am','installation','segment','revenue')->where('profile.id_case','=',$id)->first();
 
 			      
 			      $data['aktivitas'] = DB::table('activity')->join('activity_parameter','activity.activity_number','=','activity_parameter.id_parameter')
@@ -769,9 +816,9 @@ class HomeController extends Controller
 			      										    ->get();
 
 			      $data['cases'] = DB::table('case')->join('case_parameter','case.case_parameter','=','case_parameter.id_parameter')
-			      									->select('case.id_case','case.destination','case.status','case.destination_number','case.duration','case.number_of_call','case_parameter.description as des1','case.case_time','case.description as des2','case.filename')
+			      									->select('case.id_case','case.telephone_number','case.destination','case.status','case.destination_number','case.duration','case.number_of_call','case_parameter.description as des1','case.case_time','case.description as des2','case.filename')
 			      									->where('case.id_case','=',$id)
-			      									->get();
+			      									->first();
 
 			      $data['actlist'] = DB::table('activity_parameter')->select('description','id_parameter')->get();
 
@@ -890,7 +937,3 @@ class HomeController extends Controller
 	}
 
 }
-
-	
-	
-

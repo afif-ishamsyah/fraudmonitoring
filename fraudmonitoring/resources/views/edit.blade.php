@@ -23,60 +23,73 @@
         <!-- Main content -->
         <section class="content">
         <div class="row">
+        <div class="col-md-12">
         <div class="box box-danger">
         <div class="box-body">
-        <form class="form-horizontal" role="form" action="{{URL::to('editingprofileprocess')}}" method="post">
-        @foreach($nomor as $number)  
+        <form class="form-horizontal" role="form" action="{{URL::to('editingprofileprocess')}}" method="post"> 
             <div class="form-group">
               <label class="control-label col-sm-2" for="notelepon">Nomor Telepon:</label>
               <div class="col-sm-10">
-                <input class="form-control" name="telnumber" id="telnumber" placeholder="{{$number->telephone_number}}" disabled>
-                <input class="form-control" type="hidden" name="idcase" id="telephonenumber" value="{{$number->id_case}}">
+                <input class="form-control" name="telnumber" id="telnumber" placeholder="{{$nomor->telephone_number}}" disabled>
+                <input class="form-control" type="hidden" name="idcase" id="idcase" value="{{$nomor->id_case}}">
+              </div>
+            </div>
+
+             <div class="form-group">
+              <label class="control-label col-sm-2" for="destnumber">Nomor Induk:</label>
+              <div class="col-sm-10">
+                <input class="form-control" name="main" id="destnumber" placeholder="{{$nomor->main_number}}" disabled>
               </div>
             </div>
 
             <div class="form-group">
               <label class="control-label col-sm-2" for="destnumber">NIP NAS:</label>
               <div class="col-sm-10">
-                <input class="form-control" name="nipnas" id="destnumber" placeholder="{{$number->nipnas}}">
+                <input class="form-control" name="nipnas" id="destnumber" placeholder="{{$nomor->nipnas}}">
               </div>
             </div>
 
             <div class="form-group">
               <label class="control-label col-sm-2" for="no. telp">Corporate Customer:</label>
               <div class="col-sm-10">
-                <input class="form-control" name="customer" id="notelepon" placeholder="{{$number->customer}}">
+                <input class="form-control" name="customer" id="notelepon" placeholder="{{$nomor->customer}}">
               </div>
             </div>
 
             <div class="form-group">
               <label class="control-label col-sm-2" for="durasi">NIK AM:</label>
               <div class="col-sm-10">
-                <input class="form-control" name="nikam" id="durasi" placeholder="{{$number->nikam}}">
+                <input class="form-control" name="nikam" id="durasi" placeholder="{{$nomor->nikam}}">
+              </div>
+            </div>
+
+             <div class="form-group">
+              <label class="control-label col-sm-2" for="durasi">Alamat Instalasi:</label>
+              <div class="col-sm-10">
+                <input class="form-control" name="alamat" id="durasi" placeholder="{{$nomor->installation}}">
               </div>
             </div>
 
             <div class="form-group">
               <label class="control-label col-sm-2" for="frekueni">Account Manager:</label>
               <div class="col-sm-10">
-                <input class="form-control" name="am" id="frekunsi" placeholder="{{$number->am}}">
+                <input class="form-control" name="am" id="frekunsi" placeholder="{{$nomor->am}}">
               </div>
             </div>
 
             <div class="form-group">
               <label class="control-label col-sm-2" for="frekueni">Segment:</label>
               <div class="col-sm-10">
-                <input class="form-control" name="segment" id="frekunsi" placeholder="{{$number->segment}}">
+                <input class="form-control" name="segment" id="frekunsi" placeholder="{{$nomor->segment}}">
               </div>
             </div>
 
             <div class="form-group">
               <label class="control-label col-sm-2" for="frekueni">Average Revenue:</label>
               <div class="col-sm-10">
-                <input class="form-control" name="revenue" id="frekunsi" placeholder="{{$number->revenue}}">
+                <input class="form-control" name="revenue" id="frekunsi" placeholder="{{$nomor->revenue}}">
               </div>
             </div>
-            @endforeach
             </div>
             {{csrf_field()}}
 
@@ -105,6 +118,7 @@
                 </div>
               </div>
               </form>
+            </div>
             </div>
             </div>
             </div>

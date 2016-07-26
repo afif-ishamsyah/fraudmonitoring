@@ -189,11 +189,7 @@
     <!-- page script -->
 
      <script type="text/javascript">
-<<<<<<< HEAD
-      $(function () { 
-=======
       $(function () {
->>>>>>> 22221307bcb71aebad00b8e8f2e5fb8998db21b2
        //DONUT CHART
         var donut = new Morris.Donut({
           element: 'sales-chart',

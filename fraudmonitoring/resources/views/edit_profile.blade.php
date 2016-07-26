@@ -41,8 +41,10 @@
                     <thead>
                       <tr>
                         <th>Telephone Number</th>
+                        <th>Main Number</th>
                         <th>Corporate Customer</th>
                         <th>Account Manager</th>
+                        <th>Installation Adress</th>
                         <th>Segment</th>
                         <th>Average Revenue (Last 3 Month)</th>
                         <th>Action</th>
@@ -52,8 +54,10 @@
                       @foreach($nomor as $number)
                       <tr>
                         <td>{{$number->telephone_number}}</td>
+                        <td>{{$number->main_number}}</td>
                         <td>{{$number->customer}}</td>
                         <td>{{$number->am}}</td>
+                        <td>{{$number->installation}}</td>
                         <td>{{$number->segment}}</td>
                         <td>{{$number->revenue}}</td>
                         <td><a href="{{URL::to('editingprofile')}}/{{$number->id_case}}" type="submit" class="btn btn-danger">Edit</a></td>
@@ -63,8 +67,10 @@
                       <tfoot>
                       <tr>
                         <th>Telephone Number</th>
+                        <th>Main Number</th>
                         <th>Corporate Customer</th>
                         <th>Account Manager</th>
+                        <th>Installation Adress</th>
                         <th>Segment</th>
                         <th>Average Revenue (Last 3 Month)</th>
                         <th>Action</th>
