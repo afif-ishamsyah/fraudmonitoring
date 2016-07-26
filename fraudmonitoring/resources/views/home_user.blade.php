@@ -94,10 +94,10 @@
       <section class="sidebar">
           <!-- sidebar menu: : style can be found in sidebar.less -->
           <ul class="sidebar-menu">
-            <li class="active"><a href="{{URL::to('admin')}}"><i class="fa fa-home"></i><span>Home</span></a></li>
-            <li><a href="{{URL::to('userform')}}"><i class="fa fa-edit"></i> <span>Create User</span></a></li>
-            <li><a href="{{URL::to('edituserform')}}"><i class="fa fa-search"></i> <span>Edit User</span></a></li>
-            <li><a href="{{URL::to('paramform')}}"><i class="fa fa-plus "></i> <span>Input Parameter</span></a></li>
+             <li class="active"><a href="{{URL::to('user')}}"><i class="fa fa-home"></i><span>Home</span></a></li>
+            <li><a href="{{URL::to('caseform')}}"><i class="fa fa-edit"></i><span>Input Case</span></a></li>
+            <li><a href="{{URL::to('search')}}"><i class="fa fa-search"></i> <span>Search Case</span></a></li>
+            <li><a href="{{URL::to('listprofile')}}"><i class="fa fa-list"></i> <span>List Profile</span></a></li>
           </ul>
           </ul>
         </section>
@@ -188,7 +188,7 @@
     <script src="{{URL::to ('plugins/flot/jquery.flot.categories.min.js')}}"></script>
     <!-- page script -->
 
-     <script>
+     <script type="text/javascript">
       $(function () {
        //DONUT CHART
         var donut = new Morris.Donut({
@@ -196,8 +196,8 @@
           resize: true,
           colors: ["#f56954", "#00a65a"],
           data: [
-            {label: "Unfinished Case", value: 30},
-            {label: "Finished Case", value: 20}
+            {label: "Unfinished Case", value: <?php echo $unfinish; ?>},
+            {label: "Finished Case", value: <?php echo $finish; ?>}
           ],
           hideHover: 'auto'
         });
@@ -207,18 +207,16 @@
           element: 'bar-chart',
           resize: true,
           data: [
-            {y: '2006', a: 100, b: 90},
-            {y: '2007', a: 75, b: 65},
-            {y: '2008', a: 50, b: 40},
-            {y: '2009', a: 75, b: 65},
-            {y: '2010', a: 50, b: 40},
-            {y: '2011', a: 75, b: 65},
-            {y: '2012', a: 100, b: 90}
+            {y: <?php echo $tahun1; ?> , a: <?php echo $closed1; ?>, b: <?php echo $open1; ?>},
+            {y: <?php echo $tahun2; ?> , a: <?php echo $closed2; ?>, b: <?php echo $open2; ?>},
+            {y: <?php echo $tahun3; ?> , a: <?php echo $closed3; ?>, b: <?php echo $open3; ?>},
+            {y: <?php echo $tahun4; ?> , a: <?php echo $closed4; ?>, b: <?php echo $open4; ?>},
+            {y: <?php echo $tahun5; ?> , a: <?php echo $closed5; ?>, b: <?php echo $open5; ?>}
           ],
           barColors: ['#00a65a', '#f56954'],
           xkey: 'y',
           ykeys: ['a', 'b'],
-          labels: ['CPU', 'DISK'],
+          labels: ['Closed Case', 'Open Case'],
           hideHover: 'auto'
         });
 
@@ -227,10 +225,17 @@
          * -----------
          */
 
+        // var donutData = [
+        // <?php foreach($parameter as $param){ ?>
+        //   {label: <?php echo $param->description; ?>, data: 60, color: getRandomColor()},
+        // <?php } ?>
+        //   {label: 'One', data: 60, color: getRandomColor()}
+        // ];
+
         var donutData = [
-          {label: "One to Many", data: 60, color: getRandomColor()},
-          {label: "Many to One", data: 40, color: getRandomColor()},
-          {label: "Many to Many", data: 100, color: getRandomColor()}
+          <?php foreach ($parameter as $param) {?>
+          {label: '<?php echo $param->description; ?>', data: <?php echo $param->total; ?>, color: getRandomColor()},
+          <?php } ?>
         ];
         $.plot("#donut-chart", donutData, {
           series: {
