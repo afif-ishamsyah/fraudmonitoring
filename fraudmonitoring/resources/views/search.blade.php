@@ -150,7 +150,7 @@
                     </form>
                   </div>
                   
-                  <div class="tab-pane" id="tab_3">
+                  <div class="tab-pane" id="tab_4">
                     <form action="{{URL::to('searchcustomer')}}" method="get">
                     <div class="form-group">
                     <label>Corporate Customer:</label>
@@ -184,7 +184,7 @@
                      </form>
                   </div> 
 
-                  <div class="tab-pane" id="tab_4">
+                  <div class="tab-pane" id="tab_5">
                   <form action="{{URL::to('searcham')}}" method="get">
                   <div class="form-group">
                     <label>Account Manager:</label>
