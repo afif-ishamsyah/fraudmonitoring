@@ -30,8 +30,9 @@
                 <ul class="nav nav-tabs">
                   <li class="active"><a href="#tab_1" data-toggle="tab">By Number</a></li>
                   <li><a href="#tab_2" data-toggle="tab">By Case Date</a></li>
-                  <li><a href="#tab_3" data-toggle="tab">By CC</a></li>
-                  <li><a href="#tab_4" data-toggle="tab">By AM</a></li>
+                  <li><a href="#tab_3" data-toggle="tab">By Input Date</a></li>
+                  <li><a href="#tab_4" data-toggle="tab">By CC</a></li>
+                  <li><a href="#tab_5" data-toggle="tab">By AM</a></li>
                 </ul>
 
                 <div class="tab-content">
@@ -72,6 +73,45 @@
                      </div>
 
                   <div class="tab-pane" id="tab_2">
+                  <form action="{{URL::to('searchdate')}}" method="get">
+                    <div class="form-group">
+                      <label>Date:</label>
+                      <div class="input-group">
+                        <div class="input-group-addon">
+                          <i class="fa fa-calendar"></i>
+                        </div>
+                        <input type="text" name="date" class="form-control" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask placeholder="dd/mm/yyyy">
+                      </div><!-- /.input group -->
+                    </div><!-- /.form group -->
+
+                    <div class="form-group">
+                      <label>Status:</label>
+                      <br>
+                      <div class="radio-inline">
+                        <label>
+                          <input type="radio" name="opsi1" id="opsi1" value="1" checked>
+                          All
+                        </label>
+                      </div>
+                      <div class="radio-inline">
+                        <label>
+                          <input type="radio" name="opsi1" id="opsi1" value="2">
+                          Open Case
+                        </label>
+                      </div>
+                      <div class="radio-inline">
+                        <label>
+                          <input type="radio" name="opsi1" id="opsi1" value="3">
+                          Closed Case
+                        </label>
+                      </div>
+                    </div><!-- /.form group -->
+
+                    <button type="submit" class="btn btn-danger">Search</button>
+                    </form>
+                  </div>
+
+                  <div class="tab-pane" id="tab_3">
                   <form action="{{URL::to('searchdate')}}" method="get">
                     <div class="form-group">
                       <label>Date:</label>
