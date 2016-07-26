@@ -47,7 +47,6 @@
                         <th>Installation Adress</th>
                         <th>Segment</th>
                         <th>Average Revenue (Last 3 Month)</th>
-                        <th>Action</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -60,7 +59,6 @@
                         <td>{{$number->installation}}</td>
                         <td>{{$number->segment}}</td>
                         <td>{{$number->revenue}}</td>
-                        <td><a href="{{URL::to('editingprofile')}}/{{$number->id_case}}" type="submit" class="btn btn-danger">Edit</a></td>
                       </tr>
                       @endforeach
                       </tbody>
@@ -73,7 +71,6 @@
                         <th>Installation Adress</th>
                         <th>Segment</th>
                         <th>Average Revenue (Last 3 Month)</th>
-                        <th>Action</th>
                       </tr>
                     </tfoot>
                     </table>
