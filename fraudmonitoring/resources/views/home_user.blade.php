@@ -188,8 +188,8 @@
     <script src="{{URL::to ('plugins/flot/jquery.flot.categories.min.js')}}"></script>
     <!-- page script -->
 
-     <script>
-      $(function () {
+     <script type="text/javascript">
+      $(function () { 
        //DONUT CHART
         var donut = new Morris.Donut({
           element: 'sales-chart',
