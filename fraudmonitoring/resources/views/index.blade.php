@@ -8,7 +8,7 @@
     margin-right: auto;
     height:30%; width: 30%;">
 
-    <div class="box box-danger" style="width: 30%; margin: 0 auto;">
+    <div class="box box-danger" style="width: 34%; margin: 0 auto;">
                 <div class="box-header with-border">
                   <h3 class="box-title">LOGIN</h3>
                 </div><!-- /.box-header -->
@@ -19,13 +19,13 @@
                   @endif
                     <div class="form-group">
                       <label for="inputuser" class="col-sm-3 control-label">Username:</label>
-                      <div class="col-sm-9">
+                      <div class="col-sm-8">
                         <input type="text" name="username" class="form-control" id="username" placeholder="Username">
                       </div>
                     </div>
                     <div class="form-group">
                       <label for="inputpass" class="col-sm-3 control-label">Password:</label>
-                      <div class="col-sm-9">
+                      <div class="col-sm-8">
                         <input type="password" name="password" class="form-control" id="password" placeholder="Password">
                       </div>
                     </div>
