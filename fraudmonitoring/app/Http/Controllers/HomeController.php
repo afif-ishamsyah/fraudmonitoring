@@ -181,7 +181,7 @@ class HomeController extends Controller
 	      else
 	      {
 	        Session::flash('message','Login anda gagal, silahkan cek kembali username dan password');
-	        return redirect('/');
+	        return view('index');
 	      }
 	    }
 	    elseif(Request::isMethod('get'))

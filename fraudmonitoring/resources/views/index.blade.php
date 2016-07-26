@@ -3,17 +3,20 @@
 @extends('layout/layoutlogin')
 @section('content')
   
+    <img src="{{URL::to ('assets/mantab.png')}}" style="display: block;
+    margin-left: auto;
+    margin-right: auto;
+    height:30%; width: 30%;">
 
-    @if (Session::has('message'))
-    <div class="alert alert-info">{{ Session::get('message') }}</div>
-    @endif
-
-    <div class="box box-danger" style="width: 40%; margin: 0 auto; margin-top: 8%;">
+    <div class="box box-danger" style="width: 40%; margin: 0 auto;">
                 <div class="box-header with-border">
                   <h3 class="box-title">Login</h3>
                 </div><!-- /.box-header -->
                 <form class="form-horizontal" method="POST" action="{{URL::to('login')}}" enctype="multipart/form-data">
                   <div class="box-body">
+                  @if (Session::has('message'))
+                  <div class="alert alert-danger">{{ Session::get('message') }}</div>
+                  @endif
                     <div class="form-group">
                       <label for="inputuser" class="col-sm-2 control-label">Username:</label>
                       <div class="col-sm-10">
