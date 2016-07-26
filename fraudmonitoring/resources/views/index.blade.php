@@ -8,9 +8,9 @@
     margin-right: auto;
     height:30%; width: 30%;">
 
-    <div class="box box-danger" style="width: 40%; margin: 0 auto;">
+    <div class="box box-danger" style="width: 30%; margin: 0 auto;">
                 <div class="box-header with-border">
-                  <h3 class="box-title">Login</h3>
+                  <h3 class="box-title">LOGIN</h3>
                 </div><!-- /.box-header -->
                 <form class="form-horizontal" method="POST" action="{{URL::to('login')}}" enctype="multipart/form-data">
                   <div class="box-body">
@@ -18,14 +18,14 @@
                   <div class="alert alert-danger">{{ Session::get('message') }}</div>
                   @endif
                     <div class="form-group">
-                      <label for="inputuser" class="col-sm-2 control-label">Username:</label>
-                      <div class="col-sm-10">
+                      <label for="inputuser" class="col-sm-3 control-label">Username:</label>
+                      <div class="col-sm-9">
                         <input type="text" name="username" class="form-control" id="username" placeholder="Username">
                       </div>
                     </div>
                     <div class="form-group">
-                      <label for="inputpass" class="col-sm-2 control-label">Password:</label>
-                      <div class="col-sm-10">
+                      <label for="inputpass" class="col-sm-3 control-label">Password:</label>
+                      <div class="col-sm-9">
                         <input type="password" name="password" class="form-control" id="password" placeholder="Password">
                       </div>
                     </div>
