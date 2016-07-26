@@ -201,8 +201,6 @@ class HomeController extends Controller
 
  	public function userform()
 	{
-
-		//return view('admin_inputuser');
 		if(Auth::check())
 		{
 			if(Auth::user()->previledge=='0')
@@ -222,7 +220,6 @@ class HomeController extends Controller
 
 	public function paramform()
 	{
-		//return view('admin_inputparam');
 		if(Auth::check())
 		{
 			if(Auth::user()->previledge=='0')
@@ -242,7 +239,6 @@ class HomeController extends Controller
 
 	public function edituserform()
 	{
-		//return view('admin_edituser');
 		if(Auth::check())
 		{
 			if(Auth::user()->previledge=='0')
@@ -269,7 +265,7 @@ class HomeController extends Controller
 	  		if($userexist)
 	      	{
 	        	Session::flash('fail','username sudah digunakan');
-	        	return redirect('userform');
+	        	return view('admin_inputuser');
 	      	}
 
 	      	elseif(!$userexist && $data['password']==$data['conpassword'])
@@ -281,12 +277,12 @@ class HomeController extends Controller
 	            	 'previledge'=>$data['previledge']
 	             	 ));
 	          	Session::flash('success','User berhasil ditambah');
-	           	return redirect('userform');
+	           	return view('admin_inputuser');
 	      	}
 	      	else
 	      	{
 	      		Session::flash('fail','konfirmasi password gagal');
-	  			return redirect('userform');
+	  			return view('admin_inputuser');
 	      	}
 	    }
 	    elseif(Request::isMethod('get'))
@@ -306,12 +302,11 @@ class HomeController extends Controller
 	     	if($true)
 	     	{
 	     		$passcheck = DB::table('profileuser')->where('profileuser.username','=',$data['username'])->value('password');
-	     		//$passcheck = DB::table('user')->select('user.password')->where('user.username','=',$data['username'])->first();
 	     	}
 	     	else
 	    	{
 	    		Session::flash('fail','Akun tidak ditemukan');
-	    		return redirect('edituserform');
+	    		return view('admin_edituser');
 	    	}
 
 	      	if(Hash::check($data['password'],$passcheck))
@@ -323,18 +318,18 @@ class HomeController extends Controller
 		              ->where('username', $data['username'])
 		              ->update(['password' => $pass, 'previledge' => $data['previledge']]);
 		            Session::flash('success','Berhasil edit akun');
-			         return redirect('edituserform');
+			        return view('admin_edituser');
 		      	}
 		      	else
 		      	{
 		        	Session::flash('fail','konfirmasi password gagal');
-		        	return redirect('edituserform');
+		        	return view('admin_edituser');
 		      	}
 	    	}
 	    	else
 	    	{
 	    		Session::flash('fail','Akun tidak ditemukan');
-	    		return redirect('edituserform');
+	    		return view('admin_edituser');
 	    	}
 	    }
 
@@ -354,13 +349,13 @@ class HomeController extends Controller
 	    	if($exist)
 	    	{
 	    		Session::flash('fail','Penambahan gagal. Case Parameter sudah ada sebelumnya');
-				//return Redirect::back()->with('fail','Penambahan gagal. Case Parameter sudah ada sebelumnya');
+				return view('admin_inputparam');
 	    	}
 	    	else
 	    	{
 		    	DB::table('case_parameter')->insert(['description' => $data['parameter']]);
 		    	Session::flash('success','Case Parameter berhasil ditambah');
-				//return Redirect::back()->with('success','Case Parameter berhasil ditambah');
+				return view('admin_inputparam');
 			}
 	    }
 	    elseif(Request::isMethod('get'))
@@ -378,14 +373,14 @@ class HomeController extends Controller
 
 	    	if($exist)
 	    	{
-	    		Session::flash('fail','Penambahan gagal. Case Parameter sudah ada sebelumnya');
-				return redirect('paramform');
+	    		Session::flash('fail','Penambahan gagal. Activity Parameter sudah ada sebelumnya');
+				return view('admin_inputparam');
 	    	}
 	    	else
 	    	{
 		    	DB::table('activity_parameter')->insert(['description' => $data['parameter'], 'status' => $data['status']]);
 		    	Session::flash('success','Activity Parameter berhasil ditambah');
-				return redirect('paramform');
+				return view('admin_inputparam');
 			}
 	    }
 	    elseif(Request::isMethod('get'))
@@ -450,7 +445,8 @@ class HomeController extends Controller
 	{
 		if(Auth::check())
 		{
-			if(Auth::user()->previledge=='0')
+			$status = DB::table('case')->where('id_case','=',$id1)->value('status');
+			if(Auth::user()->previledge=='0' && $status=='0')
 			{
 				$data = array();
       			$data['nomor'] = DB::table('case')->join('profile','case.id_case','=','profile.id_case')
@@ -458,6 +454,10 @@ class HomeController extends Controller
       												 ->where('case.id_case','=',$id1)->first();
 
 	  			return view('edit',$data);
+			}
+			elseif(Auth::user()->previledge=='0' && $status=='1')
+			{
+				return redirect('user');
 			}
 			elseif(Auth::user()->previledge=='1')
 			{
@@ -478,8 +478,15 @@ class HomeController extends Controller
 	     	DB::table('profile')
 		              ->where('id_case', $data['idcase'])
 		              ->update(['nipnas' => $data['nipnas'], 'customer' => $data['customer'], 'nikam' => $data['nikam'], 'am' => $data['am'], 'installation'=>$data['alamat'],'segment' => $data['segment'], 'revenue' => $data['revenue']]);
+
+		    $datas = array();
+      		$datas['nomor'] = DB::table('case')->join('profile','case.id_case','=','profile.id_case')
+      										  ->select('profile.id_case','profile.telephone_number','profile.main_number','profile.customer','profile.am','profile.segment','profile.revenue','profile.installation','case.status')
+      										  ->where('case.status','=','0')
+      										  ->get();
+
 		    Session::flash('success','Edit profile berhasil');
-			return redirect('listprofile');
+			return view('edit_profile',$datas);
 	    }
 	    elseif(Request::isMethod('get'))
 	    {
@@ -494,18 +501,11 @@ class HomeController extends Controller
 	    	$file = Request::file('fileupload');
 	    	$data=Input::all();
 	    	
-	      	//$profileexist = DB::table('profile')->select('profile.telephone_number')->where('profile.telephone_number','=',$data['telephonenumber'])->get();
-	  		// if(!$profileexist)
-	  		// {
-	          	
-	    //   	}
 	    	$caseexist = DB::table('case')->select('case.telephone_number')->where('case.status','=','0')->where('case.telephone_number','=',$data['telephonenumber'])->get();
 
 
 	      	if(!$caseexist)
 	  		{
-				
-
 	  			$id =  Uuid::uuid4();
 
 				$date = str_replace('/', '-', $data['casedate']);
@@ -516,13 +516,19 @@ class HomeController extends Controller
 
 	          	DB::table('case')->insert(['id_case'=>$id,'telephone_number'=>$data['telephonenumber'],'destination'=>$data['destcountry'],'destination_number'=>$data['destnumber'],'duration'=>$data['durasi'],'number_of_call'=>$data['frekuensi'],'case_parameter'=>$data['casetype'],'case_time'=>$dates,'description'=>$data['deskripsi'],'input_date'=>Carbon::now(),'mime'=>$file->getClientMimeType(),'original_filename'=>$file->getClientOriginalName(),'filename'=>$file->getFilename().'.'.$extension]);
 	           	DB::table('profile')->insert(['id_case'=>$id,'telephone_number' => $data['telephonenumber'],'main_number'=>$data['mainnumber']]);
-	           	Session::flash('success','Case berhasil ditambah');
-	           	return redirect('caseform');
+	           
+	           	$choose = array();
+			    $choose['case'] = DB::table('case_parameter')->select('description', 'id_parameter')->get();
+
+			    Session::flash('success','Case berhasil ditambah');
+				return view('input',$choose);
 	      	}
 	      	else
 	      	{
-	      		Session::flash('fail','Input gagal. Nomor sudah pernah diinput');
-        		return redirect('caseform');
+	      		$choose = array();
+			    $choose['case'] = DB::table('case_parameter')->select('description', 'id_parameter')->get();
+	      		Session::flash('fail','Input gagal. Nomor masih dalam proses');
+        		return view('input',$choose);
 	      	}
 	    }
 	    elseif(Request::isMethod('get'))
@@ -538,7 +544,6 @@ class HomeController extends Controller
 			if(Auth::user()->previledge=='0')
 			{
 				$data=array();
-			    //$data['nomor']=DB::table('case')->select('case.id_case','case.telephone_number')->where('case.status','=','0')->get();
 			    $data['nomor']=DB::table('case')->join('profile','case.id_case','=','profile.id_case')
 			    								->select('case.id_case','case.telephone_number','profile.customer','profile.am','case.case_time','case.status')
 			    								->orderBy('case.status', 'asc')
@@ -636,7 +641,6 @@ class HomeController extends Controller
 			    								->where('case.status','=','1')
 			    								->get();
 			    }
-			    //$data['nomor']=DB::table('case')->select('case.telephone_number','case.id_case')->where('case.case_time','<=',$date)->where('case.status','=','0')->get();
 			    return view('search',$data);
 			}
 			elseif(Auth::user()->previledge=='1')
@@ -683,7 +687,6 @@ class HomeController extends Controller
 			    								->where('case.status','=','1')
 			    								->get();
 			    }
-			    //$data['nomor']=DB::table('case')->select('case.telephone_number','case.id_case')->where('case.case_time','<=',$date)->where('case.status','=','0')->get();
 			    return view('search',$data);
 			}
 			elseif(Auth::user()->previledge=='1')
@@ -729,9 +732,6 @@ class HomeController extends Controller
 			    								->where('case.status','=','1')
 			    								->get();
 			    }
-	    		// $data['nomor']=DB::table('profile')->join('case','profile.telephone_number','=','case.telephone_number')
-	    		// 								   ->select('case.telephone_number','case.id_case')
-	    		// 							       ->where(strtolower('profile.am'),'LIKE','%'.strtolower($datas['am']).'%')->where('case.status','=','0')->get();
 	    		return view('search',$data);
 			}
 			elseif(Auth::user()->previledge=='1')
@@ -778,9 +778,6 @@ class HomeController extends Controller
 			    								->where('case.status','=','1')
 			    								->get();
 			    }
-			    // $data['nomor']=DB::table('profile')->join('case','profile.telephone_number','=','case.telephone_number')
-			    // 									->select('case.telephone_number','case.id_case')
-			    // 									->where(strtolower('profile.customer'),'LIKE','%'.strtolower($datas['customer']).'%')->where('case.status','=','0')->get();
 			    return view('search',$data);
 			}
 			elseif(Auth::user()->previledge=='1')
@@ -802,7 +799,6 @@ class HomeController extends Controller
 		{
 			if(Auth::user()->previledge=='0')
 			{
-				//$entry = Fileentry::where('filename', '=', $filename)->firstOrFail();
 				  $number = DB::table('case')->where('case.id_case','=',$id)->value('telephone_number');
 				  $tanggal = DB::table('case')->where('case.id_case','=',$id)->value('case_time');
 
@@ -907,7 +903,6 @@ class HomeController extends Controller
 		{
 			return redirect('loginform');
 		}
-
 	}
 
 	public function getcase($filename){
@@ -933,7 +928,5 @@ class HomeController extends Controller
 		{
 			return redirect('loginform');
 		}
-
 	}
-
 }

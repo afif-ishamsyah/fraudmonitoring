@@ -112,7 +112,7 @@
                   </div>
 
                   <div class="tab-pane" id="tab_3">
-                  <form action="{{URL::to('searchdate')}}" method="get">
+                  <form action="{{URL::to('searchinputdate')}}" method="get">
                     <div class="form-group">
                       <label>Date:</label>
                       <div class="input-group">
