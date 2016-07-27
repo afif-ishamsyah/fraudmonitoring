@@ -212,7 +212,7 @@
                               <i class="fa fa-calendar"></i>
                             </div>
                             <input class="form-control" type="hidden" name="idcase" id="idcase" value="{{$cases->id_case}}">
-                            <input type="text" name="actdate" class="form-control" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask placeholder="dd/mm/yyyy">
+                            <input type="text" name="actdate" class="form-control" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask placeholder="dd/mm/yyyy" required>
                           </div><!-- /.input group -->
                           </div>
                     </div>
@@ -220,7 +220,7 @@
                     <div class="form-group">
                       <label class="control-label col-sm-2" for="casetype">Activity Type:</label>
                       <div class="col-sm-10">
-                        <select class="form-control" name="acttype" id="casetype">
+                        <select class="form-control" name="acttype" id="casetype" required>
                           @foreach($actlist as $list)
                             <option value="{{$list->id_parameter}}">{{$list->description}}</option>
                             @endforeach
@@ -231,14 +231,14 @@
                     <div class="form-group">
                       <label class="control-label col-sm-2" for="deskripsi">Description:</label>
                       <div class="col-sm-10">
-                      <textarea class="form-control" rows="6" id="deskripsi" name="deskripsi"></textarea>
+                      <textarea class="form-control" rows="6" id="deskripsi" name="deskripsi" required></textarea>
                       </div>
                     </div>
 
                     <div class="form-group">
                       <label class="control-label col-sm-2" for="upload">Upload Evidence:</label>
                       <div class="col-sm-10">
-                        <input type="file" name="fileupload" id="fileToUpload">
+                        <input type="file" name="fileupload" id="fileToUpload" required>
                       </div>
                     </div>
 

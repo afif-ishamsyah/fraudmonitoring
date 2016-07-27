@@ -23,12 +23,12 @@
         <!-- Main content -->
         <section class="content">
         <div class="row">
-        @if (Session::has('fail'))
-        <div class="alert alert-danger">{{ Session::get('fail') }}</div>
+         @if (Session::has('fail'))
+        <div class="col-md-12"><div class="alert alert-danger">{{ Session::get('fail') }}</div></div>
         @endif
 
         @if (Session::has('success'))
-        <div class="alert alert-success">{{ Session::get('success') }}</div>
+        <div class="col-md-12"><div class="alert alert-success">{{ Session::get('success') }}</div></div>
         @endif
         <div class="col-md-12">
         <div class="box box-danger">
@@ -37,31 +37,31 @@
             <div class="form-group">
               <label class="control-label col-sm-2" for="no. telp">Username:</label>
               <div class="col-sm-9">
-                <input class="form-control" name="username" id="username" placeholder="Masukkan Username">
+                <input class="form-control" name="username" id="username" placeholder="Masukkan Username" required>
               </div>
               </div>
               <div class="form-group">
               <label class="control-label col-sm-2" for="no. telp">Password Sebelumnya:</label>
               <div class="col-sm-9">
-                <input class="form-control" name="password" id="pass" placeholder="Masukkan Password Anda yang Lama" type="password">
+                <input class="form-control" name="password" id="pass" placeholder="Masukkan Password Anda yang Lama" type="password" required>
               </div>
               </div>
               <div class="form-group">
               <label class="control-label col-sm-2" for="no. telp">Password Baru:</label>
               <div class="col-sm-9">
-                <input class="form-control" name="newpassword" id="passbaru" placeholder="Masukkan Password Baru" type="password">
+                <input class="form-control" name="newpassword" id="passbaru" placeholder="Masukkan Password Baru" type="password" required>
               </div>
               </div>
               <div class="form-group">
               <label class="control-label col-sm-2" for="no. telp">Re-type Password Baru:</label>
               <div class="col-sm-9">
-                <input class="form-control" name="connewpassword" id="repassbaru" placeholder="Masukkan Ulang Password Baru" type="password">
+                <input class="form-control" name="connewpassword" id="repassbaru" placeholder="Masukkan Ulang Password Baru" type="password" required>
               </div>
               </div>
               <div class="form-group">
                 <label  class="control-label col-sm-2" for="no. telp">User Type:</label>
                   <div class="col-sm-9">
-                    <select class="form-control" name="previledge" id="usertype">
+                    <select class="form-control" name="previledge" id="usertype" required>
                       <option value='0'>User</option>
                       <option value='1'>Admin</option>
                     </select>

@@ -23,11 +23,11 @@
         <!-- Main content -->
         <section class="content">
         <div class="row">
-        @if(Session::has('fail'))
+        @if (Session::has('fail'))
         <div class="col-md-12"><div class="alert alert-danger">{{ Session::get('fail') }}</div></div>
         @endif
 
-        @if(Session::has('success'))
+        @if (Session::has('success'))
         <div class="col-md-12"><div class="alert alert-success">{{ Session::get('success') }}</div></div>
         @endif
         <div class="col-sm-12">
@@ -37,49 +37,49 @@
             <div class="form-group">
               <label class="control-label col-sm-2" for="no. telp">No. Telp:</label>
               <div class="col-sm-10">
-                <input class="form-control" name="telephonenumber" id="notelepon" placeholder="Masukkan Nomor Telepon">
+                <input class="form-control" name="telephonenumber" id="notelepon" placeholder="Masukkan Nomor Telepon" required>
               </div>
             </div>
 
             <div class="form-group">
               <label class="control-label col-sm-2" for="no. telp">Nomor Induk:</label>
               <div class="col-sm-10">
-                <input class="form-control" name="mainnumber" id="notelepon" placeholder="Masukkan Nomor Induk">
+                <input class="form-control" name="mainnumber" id="notelepon" placeholder="Masukkan Nomor Induk" required>
               </div>
             </div>
 
             <div class="form-group">
               <label class="control-label col-sm-2" for="destnumber">Destination Number:</label>
               <div class="col-sm-10">
-                <input class="form-control" name="destnumber" id="destnumber" placeholder="Masukkan Nomor Telepon Tujuan">
+                <input class="form-control" name="destnumber" id="destnumber" placeholder="Masukkan Nomor Telepon Tujuan" required>
               </div>
             </div>
 
             <div class="form-group">
               <label class="control-label col-sm-2" for="no. telp">Destination Country:</label>
               <div class="col-sm-10">
-                <input class="form-control" name="destcountry" id="notelepon" placeholder="Masukkan Daerah Tujuan Menelpon">
+                <input class="form-control" name="destcountry" id="notelepon" placeholder="Masukkan Daerah Tujuan Menelpon" required>
               </div>
             </div>
 
             <div class="form-group">
               <label class="control-label col-sm-2" for="durasi">Duration:</label>
               <div class="col-sm-10">
-                <input class="form-control" name="durasi" id="durasi" placeholder="Masukkan Durasi Menelepon">
+                <input class="form-control" name="durasi" id="durasi" placeholder="Masukkan Durasi Menelepon" required>
               </div>
             </div>
 
             <div class="form-group">
               <label class="control-label col-sm-2" for="frekueni">Call Frequency:</label>
               <div class="col-sm-10">
-                <input class="form-control" name="frekuensi" id="frekunsi" placeholder="Masukkan Jumlah Menelpon">
+                <input class="form-control" name="frekuensi" id="frekunsi" placeholder="Masukkan Jumlah Menelpon" required>
               </div>
             </div>
 
             <div class="form-group">
               <label class="control-label col-sm-2" for="casetype">Case Type:</label>
               <div class="col-sm-10">
-                    <select class="form-control" name="casetype" id="casetype">
+                    <select class="form-control" name="casetype" id="casetype" required>
                       @foreach($case as $kasus)
                       <option value="{{$kasus->id_parameter}}">{{$kasus->description}}</option>
                       @endforeach
@@ -94,7 +94,7 @@
                     <div class="input-group-addon">
                       <i class="fa fa-calendar"></i>
                     </div>
-                    <input type="text" name="casedate" class="form-control" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask placeholder="dd/mm/yyyy">
+                    <input type="text" name="casedate" class="form-control" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask placeholder="dd/mm/yyyy" required>
                   </div><!-- /.input group -->
                   </div>
             </div><!-- /.form group -->
@@ -102,14 +102,14 @@
             <div class="form-group">
               <label class="control-label col-sm-2" for="deskripsi">Description:</label>
               <div class="col-sm-10">
-              <textarea class="form-control" rows="6" id="deskripsi" name="deskripsi"></textarea>
+              <textarea class="form-control" rows="6" id="deskripsi" name="deskripsi" required></textarea>
               </div>
             </div>
 
             <div class="form-group">
               <label class="control-label col-sm-2" for="upload">Upload Evidence:</label>
               <div class="col-sm-10">
-                <input type="file" name="fileupload" id="fileToUpload">
+                <input type="file" name="fileupload" id="fileToUpload" required>
               </div>
             </div>
             {{csrf_field()}}

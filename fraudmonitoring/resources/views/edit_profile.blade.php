@@ -24,7 +24,7 @@
         <!-- Main content -->
         <section class="content">
         <div class="row">
-        @if (Session::has('fail'))
+         @if (Session::has('fail'))
         <div class="col-md-12"><div class="alert alert-danger">{{ Session::get('fail') }}</div></div>
         @endif
 

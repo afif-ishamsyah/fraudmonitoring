@@ -23,12 +23,12 @@
         <!-- Main content -->
         <section class="content">
         <div class="row">
-        @if (session('fail'))
-        <div class="col-md-12"><div class="alert alert-danger">{{session('fail') }}</div></div>
+         @if (Session::has('fail'))
+        <div class="col-md-12"><div class="alert alert-danger">{{ Session::get('fail') }}</div></div>
         @endif
 
-        @if (session('success'))
-        <div class="col-md-12"><div class="alert alert-success">{{session('success') }}</div></div>
+        @if (Session::has('success'))
+        <div class="col-md-12"><div class="alert alert-success">{{ Session::get('success') }}</div></div>
         @endif
         <div class="col-md-12">
         <div class="box box-danger">
@@ -37,26 +37,26 @@
               <div class="form-group">
               <label class="control-label col-sm-2" for="no. telp">Username:</label>
               <div class="col-sm-9">
-                <input class="form-control" name="username" id="username" placeholder="Masukkan Username">
+                <input class="form-control" name="username" id="username" placeholder="Masukkan Username" required>
               </div>
               </div>
               <div class="form-group">
               <label class="control-label col-sm-2" for="no. telp">Password:</label>
               <div class="col-sm-9">
-                <input class="form-control" name="password" id="pass" placeholder="Masukkan Password" type="password">
+                <input class="form-control" name="password" id="pass" placeholder="Masukkan Password" type="password" required>
               </div>
               </div>
               <div class="form-group">
               <label class="control-label col-sm-2" for="no. telp">Re-type Password:</label>
               <div class="col-sm-9">
-                <input class="form-control" name="conpassword" id="repass" placeholder="Masukkan Ulang Password" type="password">
+                <input class="form-control" name="conpassword" id="repass" placeholder="Masukkan Ulang Password" type="password" required>
               </div>
               </div>
 
               <div class="form-group">
                 <label  class="control-label col-sm-2" for="no. telp">User Type:</label>
                   <div class="col-sm-9">
-                    <select class="form-control" name="previledge" id="usertype">
+                    <select class="form-control" name="previledge" id="usertype" required>
                       <option value='0'>User</option>
                       <option value='1'>Admin</option>
                     </select>

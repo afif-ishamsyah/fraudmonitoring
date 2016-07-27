@@ -43,7 +43,7 @@
             <div class="form-group">
               <label class="control-label col-sm-2" for="namaparameter">Parameter Name:</label>
               <div class="col-sm-9">
-                <input class="form-control" name="parameter" id="namaparameter" placeholder="Masukkan Nama Parameter">
+                <input class="form-control" name="parameter" id="namaparameter" placeholder="Masukkan Nama Parameter" required>
               </div>
               </div>
             </div>
@@ -70,14 +70,14 @@
             <div class="form-group">
               <label class="control-label col-sm-2" for="namaparameter">Parameter Name:</label>
               <div class="col-sm-9">
-                <input class="form-control" name="parameter" id="namaparameter" placeholder="Masukkan Nama Parameter">
+                <input class="form-control" name="parameter" id="namaparameter" placeholder="Masukkan Nama Parameter" required>
               </div>
               </div>
 
               <div class="form-group">
                 <label  class="control-label col-sm-2" for="tipe">Type:</label>
                   <div class="col-sm-9">
-                    <select class="form-control" name="status" id="tipeparam">
+                    <select class="form-control" name="status" id="tipeparam" required>
                       <option value='0'>Open</option>
                       <option value='1'>Close</option>
                     </select>
