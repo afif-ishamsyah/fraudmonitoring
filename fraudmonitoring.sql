@@ -82,7 +82,7 @@ CREATE TABLE `case` (
 
 /*Data for the table `case` */
 
-insert  into `case`(`id_case`,`telephone_number`,`case_parameter`,`case_time`,`description`,`evidence`,`status`,`destination`,`destination_number`,`duration`,`number_of_call`,`input_date`,`filename`,`mime`,`original_filename`) values ('35d9ff51-4c0e-49ce-a3fb-20f3201b916f','081383112806',2,'2016-07-20','lagi lagi',NULL,'0','Jepang','42342342342',3600,30,'2016-07-25','php43AD.tmp.jpg','image/jpeg','96.jpg'),('73c50273-25f4-4ae3-b132-e768687ba74d','08145678990',3,'2015-07-20','Kejadian Pertama',NULL,'0','SIngapura','0923565432',3600,20,'2016-07-26','php6B3C.tmp.jpg','image/jpeg','99.jpg'),('76034255-9401-4fb8-8457-b93174ed6928','08229987096',1,'2016-05-18','completed',NULL,'0','Albania Barat','5343534534',7200,30,'2016-07-25','php9201.tmp.jpg','image/jpeg','12.jpg'),('8ed14aea-fb89-4fc8-80ea-7f5400ec92ad','081383112806',2,'2016-06-20','Parah',NULL,'1','Indonesia','0314666789',3600,600,'2016-07-25','php9678.tmp.jpg','image/jpeg','4.jpg');
+insert  into `case`(`id_case`,`telephone_number`,`case_parameter`,`case_time`,`description`,`evidence`,`status`,`destination`,`destination_number`,`duration`,`number_of_call`,`input_date`,`filename`,`mime`,`original_filename`) values ('35d9ff51-4c0e-49ce-a3fb-20f3201b916f','081383112806',2,'2016-07-20','lagi lagi',NULL,'0','Jepang','42342342342',3600,30,'2016-07-25','php43AD.tmp.jpg','image/jpeg','96.jpg'),('73c50273-25f4-4ae3-b132-e768687ba74d','08145678990',3,'2015-07-20','Kejadian Pertama',NULL,'0','SIngapura','0923565432',3600,20,'2016-07-26','php6B3C.tmp.jpg','image/jpeg','99.jpg'),('76034255-9401-4fb8-8457-b93174ed6928','08229987096',1,'2016-05-18','completed',NULL,'0','Albania Barat','5343534534',7200,30,'2016-07-25','php9201.tmp.jpg','image/jpeg','12.jpg'),('8ed14aea-fb89-4fc8-80ea-7f5400ec92ad','081383112806',2,'2016-06-20','Parah',NULL,'1','Indonesia','0314666789',3600,600,'2016-07-25','php9678.tmp.jpg','image/jpeg','4.jpg'),('b0f05071-ee60-4570-b11d-f3aaba9fbb31','02182608704',2,'2016-05-20','coba coba',NULL,'0','China','0314666789',60000,600,'2016-07-27','php1C9F.tmp.jpg','image/jpeg','3.jpg');
 
 /*Table structure for table `case_parameter` */
 
@@ -106,20 +106,20 @@ CREATE TABLE `profile` (
   `id_case` varchar(100) DEFAULT NULL,
   `telephone_number` varchar(15) DEFAULT NULL,
   `main_number` varchar(15) DEFAULT NULL,
-  `nipnas` varchar(30) DEFAULT NULL,
-  `customer` varchar(100) DEFAULT NULL,
-  `nikam` varchar(30) DEFAULT NULL,
+  `nipnas` decimal(8,0) DEFAULT NULL,
+  `customer` varchar(150) DEFAULT NULL,
+  `nikam` decimal(6,0) DEFAULT NULL,
   `am` varchar(100) DEFAULT NULL,
   `installation` varchar(100) DEFAULT NULL,
-  `segment` char(3) DEFAULT NULL,
-  `revenue` int(11) DEFAULT NULL,
+  `segment` varchar(3) DEFAULT NULL,
+  `revenue` decimal(15,0) DEFAULT NULL,
   KEY `id_case` (`id_case`),
   CONSTRAINT `profile_ibfk_1` FOREIGN KEY (`id_case`) REFERENCES `case` (`id_case`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 /*Data for the table `profile` */
 
-insert  into `profile`(`id_case`,`telephone_number`,`main_number`,`nipnas`,`customer`,`nikam`,`am`,`installation`,`segment`,`revenue`) values ('8ed14aea-fb89-4fc8-80ea-7f5400ec92ad','081383112806','081383112899','51122115','PT Tunggangjaya','21155112','Yak','Surabaya','DBM',40000000),('76034255-9401-4fb8-8457-b93174ed6928','08229987096','08229987099','51133115','Bank BRI','31155113','Ampas','Semarang','DMS',300000),('35d9ff51-4c0e-49ce-a3fb-20f3201b916f','081383112806','081383112899','9119119','PT Indra Jaya Tbk','987789','Isis','Jakarta','FRS',3000000),('73c50273-25f4-4ae3-b132-e768687ba74d','08145678990','08145678999','8900098','Institut Lele','65544556','Surya ','Kejawan','BFS',50000);
+insert  into `profile`(`id_case`,`telephone_number`,`main_number`,`nipnas`,`customer`,`nikam`,`am`,`installation`,`segment`,`revenue`) values ('8ed14aea-fb89-4fc8-80ea-7f5400ec92ad','081383112806','081383112899',51122115,'PT Tunggangjaya',215512,'Yak','Surabaya','DBM',40000000),('76034255-9401-4fb8-8457-b93174ed6928','08229987096','08229987099',51133115,'Bank BRI',315513,'Ampas','Semarang','DMS',300000),('35d9ff51-4c0e-49ce-a3fb-20f3201b916f','081383112806','081383112899',9119119,'PT Indra Jaya Tbk',987789,'Isis','Jakarta','FRS',3000000),('73c50273-25f4-4ae3-b132-e768687ba74d','08145678990','08145678999',8900098,'Institut Lele',654456,'Surya ','Kejawan','BFS',50000),('b0f05071-ee60-4570-b11d-f3aaba9fbb31','02182608704','02182608708',43211234,'Asboen',123432,'Zig','Malaysia Barat','DSS',30);
 
 /*Table structure for table `profileuser` */
 
@@ -136,7 +136,7 @@ CREATE TABLE `profileuser` (
 
 /*Data for the table `profileuser` */
 
-insert  into `profileuser`(`id`,`username`,`password`,`previledge`,`remember_token`) values (1,'minyman','$2y$10$5nwGenxxxEu2Ggl5IKrIUur0diRxhKl8ROpvYEjYtKkmpZi7WTC9S','1','TiZ2yMykhBVfCNpZN1wPj6WacHIG1zZw93qEqaeW3DN6NqvXDh1wAFwzdH8e'),(2,'asbun','$2y$10$WlMPY6oqr9aV6A8.x/Ez6uZ6i7DlFC6yjQuPt3ClwEZSpPjv9EpBq','0','dEXe3tu2gOXrHDmj4ot2rImKYZmbr7pnRUycmOyQ74irfjYmfIA0VFd4CvfY');
+insert  into `profileuser`(`id`,`username`,`password`,`previledge`,`remember_token`) values (1,'minyman','$2y$10$5nwGenxxxEu2Ggl5IKrIUur0diRxhKl8ROpvYEjYtKkmpZi7WTC9S','1','AnVLc0WqEQTDJ2LgoSPqqLcz7ct4bq3MEZ8V2UBkjnCYZkO5E8rEDIHexJC7'),(2,'asbun','$2y$10$WlMPY6oqr9aV6A8.x/Ez6uZ6i7DlFC6yjQuPt3ClwEZSpPjv9EpBq','0','dEXe3tu2gOXrHDmj4ot2rImKYZmbr7pnRUycmOyQ74irfjYmfIA0VFd4CvfY');
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;

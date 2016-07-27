@@ -423,10 +423,13 @@ class HomeController extends Controller
 			if(Auth::user()->previledge=='0')
 			{
 				$data = array();
-      			$data['nomor'] = DB::table('case')->join('profile','case.id_case','=','profile.id_case')
-      											  ->select('profile.id_case','profile.telephone_number','profile.main_number','profile.customer','profile.am','profile.segment','profile.revenue','profile.installation','case.status')
-      											  ->where('case.status','=','0')
-      											  ->get();
+      			// $data['nomor'] = DB::table('case')->join('profile','case.id_case','=','profile.id_case')
+      			// 								  ->select('profile.id_case','profile.telephone_number','profile.main_number','profile.customer','profile.am','profile.segment','profile.revenue','profile.installation','case.status')
+      			// 								  ->where('case.status','=','0')
+      			// 								  ->get();
+      			$data['nomor'] = DB::connection('mysql2')->table('profile')->join('revenue','profile.notel','=','revenue.notel')
+	    														 ->select('profile.notel','profile.namacc','profile.alamat','profile.namaam','profile.segment','revenue.average')
+	    														 ->get();
 
 	  			return view('edit_profile',$data);
 			}
@@ -501,6 +504,12 @@ class HomeController extends Controller
 	    	$file = Request::file('fileupload');
 	    	$data=Input::all();
 	    	
+	    	$profile = array();
+	    	$profile = DB::connection('mysql2')->table('profile')->join('revenue','profile.notel','=','revenue.notel')
+	    														 ->select('profile.nipnas','profile.namacc','profile.alamat','profile.nikam','profile.namaam','profile.segment','revenue.average')
+	    														 ->where('profile.notel','=',$data['mainnumber'])
+	    														 ->first();
+
 	    	$caseexist = DB::table('case')->select('case.telephone_number')->where('case.status','=','0')->where('case.telephone_number','=',$data['telephonenumber'])->get();
 
 
@@ -515,8 +524,16 @@ class HomeController extends Controller
 				Storage::disk('local')->put($file->getFilename().'.'.$extension,  File::get($file));
 
 	          	DB::table('case')->insert(['id_case'=>$id,'telephone_number'=>$data['telephonenumber'],'destination'=>$data['destcountry'],'destination_number'=>$data['destnumber'],'duration'=>$data['durasi'],'number_of_call'=>$data['frekuensi'],'case_parameter'=>$data['casetype'],'case_time'=>$dates,'description'=>$data['deskripsi'],'input_date'=>Carbon::now(),'mime'=>$file->getClientMimeType(),'original_filename'=>$file->getClientOriginalName(),'filename'=>$file->getFilename().'.'.$extension]);
-	           	DB::table('profile')->insert(['id_case'=>$id,'telephone_number' => $data['telephonenumber'],'main_number'=>$data['mainnumber']]);
-	           
+	           	
+	          	if($profile)
+	          	{
+	           		DB::table('profile')->insert(['id_case'=>$id,'telephone_number' => $data['telephonenumber'],'main_number'=>$data['mainnumber'],'nipnas'=>$profile->nipnas,'customer'=>$profile->namacc,'installation'=>$profile->alamat,'nikam'=>$profile->nikam,'am'=>$profile->namaam,'segment'=>$profile->segment,'revenue'=>$profile->average]);
+	            }
+	            elseif(!$profile)
+	          	{
+	           		DB::table('profile')->insert(['id_case'=>$id,'telephone_number' => $data['telephonenumber'],'main_number'=>$data['mainnumber']]);
+	            }
+
 	           	$choose = array();
 			    $choose['case'] = DB::table('case_parameter')->select('description', 'id_parameter')->get();
 
