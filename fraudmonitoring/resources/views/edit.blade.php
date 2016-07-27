@@ -7,7 +7,7 @@
             <li><a href="{{URL::to('user')}}"><i class="fa fa-home"></i><span>Home</span></a></li>
             <li><a href="{{URL::to('caseform')}}"><i class="fa fa-edit"></i><span>Input Case</span></a></li>
             <li><a href="{{URL::to('search')}}"><i class="fa fa-search"></i> <span>Search Case</span></a></li>
-            <li class="active"><a href="{{URL::to('listprofile')}}"><i class="fa fa-list"></i> <span>List Profile</span></a></li>
+            <li><a href="{{URL::to('listprofile')}}"><i class="fa fa-list"></i> <span>List Profile</span></a></li>
           </ul>
         </section>
         <!-- /.sidebar -->
@@ -35,7 +35,7 @@
         <div class="box-body">
         <form class="form-horizontal" role="form" action="{{URL::to('editingprofileprocess')}}" method="post"> 
             <div class="form-group">
-              <label class="control-label col-sm-2" for="notelepon">Nomor Telepon:</label>
+              <label class="control-label col-sm-2" for="notelepon">Telephone Number:</label>
               <div class="col-sm-10">
                 <input class="form-control" name="telnumber" id="telnumber" placeholder="{{$nomor->telephone_number}}" disabled>
                 <input class="form-control" type="hidden" name="idcase" id="idcase" value="{{$nomor->id_case}}">
@@ -43,7 +43,7 @@
             </div>
 
              <div class="form-group">
-              <label class="control-label col-sm-2" for="destnumber">Nomor Induk:</label>
+              <label class="control-label col-sm-2" for="destnumber">Main Number:</label>
               <div class="col-sm-10">
                 <input class="form-control" name="main" id="destnumber" placeholder="{{$nomor->main_number}}" disabled>
               </div>
@@ -71,7 +71,7 @@
             </div>
 
              <div class="form-group">
-              <label class="control-label col-sm-2" for="durasi">Alamat Instalasi:</label>
+              <label class="control-label col-sm-2" for="durasi">Installation Address:</label>
               <div class="col-sm-10">
                 <input class="form-control" name="alamat" id="durasi" placeholder="{{$nomor->installation}}">
               </div>

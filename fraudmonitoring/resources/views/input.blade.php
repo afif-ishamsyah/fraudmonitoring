@@ -35,14 +35,14 @@
         <div class="box-body">
           <form class="form-horizontal" role="form" action="{{URL::to('insert')}}" method="post" enctype="multipart/form-data">
             <div class="form-group">
-              <label class="control-label col-sm-2" for="no. telp">No. Telp:</label>
+              <label class="control-label col-sm-2" for="no. telp">Telephone Number:</label>
               <div class="col-sm-10">
                 <input class="form-control" name="telephonenumber" id="notelepon" placeholder="Masukkan Nomor Telepon" required>
               </div>
             </div>
 
             <div class="form-group">
-              <label class="control-label col-sm-2" for="no. telp">Nomor Induk:</label>
+              <label class="control-label col-sm-2" for="no. telp">Main Number:</label>
               <div class="col-sm-10">
                 <input class="form-control" name="mainnumber" id="notelepon" placeholder="Masukkan Nomor Induk" required>
               </div>
@@ -63,7 +63,7 @@
             </div>
 
             <div class="form-group">
-              <label class="control-label col-sm-2" for="durasi">Duration:</label>
+              <label class="control-label col-sm-2" for="durasi">Duration (sec):</label>
               <div class="col-sm-10">
                 <input class="form-control" name="durasi" id="durasi" placeholder="Masukkan Durasi Menelepon" required>
               </div>
@@ -72,7 +72,7 @@
             <div class="form-group">
               <label class="control-label col-sm-2" for="frekueni">Call Frequency:</label>
               <div class="col-sm-10">
-                <input class="form-control" name="frekuensi" id="frekunsi" placeholder="Masukkan Jumlah Menelpon" required>
+                <input class="form-control" name="frekuensi" id="frekunsi" placeholder="Masukkan Jumlah Menelepon" required>
               </div>
             </div>
 
@@ -94,7 +94,7 @@
                     <div class="input-group-addon">
                       <i class="fa fa-calendar"></i>
                     </div>
-                    <input type="text" name="casedate" class="form-control" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask placeholder="dd/mm/yyyy" required>
+                    <input type="text" name="casedate" class="form-control" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask placeholder="dd-mm-yyyy" required>
                   </div><!-- /.input group -->
                   </div>
             </div><!-- /.form group -->
@@ -102,7 +102,7 @@
             <div class="form-group">
               <label class="control-label col-sm-2" for="deskripsi">Description:</label>
               <div class="col-sm-10">
-              <textarea class="form-control" rows="6" id="deskripsi" name="deskripsi" required></textarea>
+              <textarea class="form-control" rows="6" id="deskripsi" name="deskripsi" placeholder="Masukkan Deskripsi Kasus disini" required></textarea>
               </div>
             </div>
 
@@ -113,14 +113,17 @@
               </div>
             </div>
             {{csrf_field()}}
-            <div class="box-footer">
+        </div>
+
+          <div class="box-footer">
             <div class="form-group">
               <div class="pull-right">
                 <button type="submit" class="btn btn-danger">Submit</button>
               </div>
             </div>
-          </form>
+            </form>
           </div>
+
           </div>
          </div>  
          </div> 

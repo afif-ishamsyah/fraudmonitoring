@@ -71,8 +71,9 @@
                   <!-- User image -->
                   <li class="user-header">
                     <img src="{{URL::to('assets/telkom.jpg')}}" class="img-circle" alt="User Image">
-                    <p style="font-size:36px;">
+                    <p style="font-size:24px;">
                     {{Auth::user()->username}}
+                    <small>Admin</small>
                     </p>
                   </li>
                   <!-- Menu Footer-->

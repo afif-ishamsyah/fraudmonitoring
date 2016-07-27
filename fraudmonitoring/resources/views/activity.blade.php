@@ -62,7 +62,7 @@
                 </div>
 
                 <div class="form-group">
-                  <label class="control-label col-sm-5">Alamat Instalasi:</label>
+                  <label class="control-label col-sm-5">Installation Address:</label>
                     <label class="control-label col-sm-7">{{$nomor->installation}}<br></label>
                 </div>
 
@@ -82,27 +82,21 @@
                   <button class="btn btn-primary btn-xs col-md-4 pull-right" data-toggle="modal" data-target="#myModal3"><i class="fa fa-search"></i> <span>View Previous Case</span></button>
                 </div>
             </div>
+            @if($cases->status=='0')
             <div class="box-footer">
             <div class="form-group">
-
-                 @if($cases->status=='0')
                 <div class="col-md-4">
                 <a type="button" class="btn btn-danger center-block" data-toggle="modal" data-target="#myModal"><i class="fa fa-plus"></i> <span>Add Activity</span></a>
                 </div>
                 <div class="col-md-4">
                 <a type="button" class="btn btn-success center-block" data-toggle="modal" data-target="#myModal4"><i class="fa fa-envelope"></i> <span>Print Email</span></a>
                 </div>
-                @endif
-
-
-               @if($cases->status=='0')
                 <div class="col-md-4">
                 <a href="{{URL::to('editingprofile')}}/{{$cases->id_case}}" type="button" class="btn btn-danger center-block"><i class="fa fa-edit"></i> <span>Edit Profile</span></a>
               </div>
-               @endif
-
               </div>
             </div>
+            @endif
           </div>
           </div>
 
@@ -212,7 +206,7 @@
                               <i class="fa fa-calendar"></i>
                             </div>
                             <input class="form-control" type="hidden" name="idcase" id="idcase" value="{{$cases->id_case}}">
-                            <input type="text" name="actdate" class="form-control" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask placeholder="dd/mm/yyyy" required>
+                            <input type="text" name="actdate" class="form-control" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask placeholder="dd-mm-yyyy" required>
                           </div><!-- /.input group -->
                           </div>
                     </div>

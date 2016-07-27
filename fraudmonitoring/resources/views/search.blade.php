@@ -41,7 +41,7 @@
                 <div class="tab-pane active" id="tab_1">
                     <form action="{{URL::to('searchnumber')}}" method="get">
                     <div class="form-group">
-                    <label>Telp. Number:</label>
+                    <label>Telephone Number:</label>
                       <input class="form-control" name="telephone" placeholder="Masukkan Nomor Telepon">
                     </div>
 
@@ -75,12 +75,12 @@
                   <div class="tab-pane" id="tab_2">
                   <form action="{{URL::to('searchdate')}}" method="get">
                     <div class="form-group">
-                      <label>Date:</label>
+                      <label>Case Date:</label>
                       <div class="input-group">
                         <div class="input-group-addon">
                           <i class="fa fa-calendar"></i>
                         </div>
-                        <input type="text" name="date" class="form-control" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask placeholder="dd/mm/yyyy">
+                        <input type="text" name="date" class="form-control" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask placeholder="dd-mm-yyyy">
                       </div><!-- /.input group -->
                     </div><!-- /.form group -->
 
@@ -114,12 +114,12 @@
                   <div class="tab-pane" id="tab_3">
                   <form action="{{URL::to('searchinputdate')}}" method="get">
                     <div class="form-group">
-                      <label>Date:</label>
+                      <label>Input Date:</label>
                       <div class="input-group">
                         <div class="input-group-addon">
                           <i class="fa fa-calendar"></i>
                         </div>
-                        <input type="text" name="date" class="form-control" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask placeholder="dd/mm/yyyy">
+                        <input type="text" name="date" class="form-control" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask placeholder="dd-mm-yyyy">
                       </div><!-- /.input group -->
                     </div><!-- /.form group -->
 
