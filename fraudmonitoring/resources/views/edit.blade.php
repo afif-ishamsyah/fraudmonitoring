@@ -52,49 +52,49 @@
             <div class="form-group">
               <label class="control-label col-sm-2" for="destnumber">NIP NAS:</label>
               <div class="col-sm-10">
-                <input class="form-control" name="nipnas" id="destnumber" placeholder="{{$nomor->nipnas}}">
+                <input class="form-control" name="nipnas" id="destnumber" value="{{$nomor->nipnas}}" required>
               </div>
             </div>
 
             <div class="form-group">
               <label class="control-label col-sm-2" for="no. telp">Corporate Customer:</label>
               <div class="col-sm-10">
-                <input class="form-control" name="customer" id="notelepon" placeholder="{{$nomor->customer}}">
+                <input class="form-control" name="customer" id="notelepon" value="{{$nomor->customer}}" required>
               </div>
             </div>
 
             <div class="form-group">
               <label class="control-label col-sm-2" for="durasi">NIK AM:</label>
               <div class="col-sm-10">
-                <input class="form-control" name="nikam" id="durasi" placeholder="{{$nomor->nikam}}">
+                <input class="form-control" name="nikam" id="durasi" value="{{$nomor->nikam}}" required>
               </div>
             </div>
 
              <div class="form-group">
               <label class="control-label col-sm-2" for="durasi">Installation Address:</label>
               <div class="col-sm-10">
-                <input class="form-control" name="alamat" id="durasi" placeholder="{{$nomor->installation}}">
+                <input class="form-control" name="alamat" id="durasi" value="{{$nomor->installation}}" required>
               </div>
             </div>
 
             <div class="form-group">
               <label class="control-label col-sm-2" for="frekueni">Account Manager:</label>
               <div class="col-sm-10">
-                <input class="form-control" name="am" id="frekunsi" placeholder="{{$nomor->am}}">
+                <input class="form-control" name="am" id="frekunsi" value="{{$nomor->am}}" required>
               </div>
             </div>
 
             <div class="form-group">
               <label class="control-label col-sm-2" for="frekueni">Segment:</label>
               <div class="col-sm-10">
-                <input class="form-control" name="segment" id="frekunsi" placeholder="{{$nomor->segment}}">
+                <input class="form-control" name="segment" id="frekunsi" value="{{$nomor->segment}}" required>
               </div>
             </div>
 
             <div class="form-group">
               <label class="control-label col-sm-2" for="frekueni">Average Revenue:</label>
               <div class="col-sm-10">
-                <input class="form-control" name="revenue" id="frekunsi" placeholder="{{$nomor->revenue}}">
+                <input class="form-control" name="revenue" id="frekunsi" value="{{$nomor->revenue}}" required>
               </div>
             </div>
             </div>
@@ -103,6 +103,7 @@
             <div class="box-footer">
               <div class="form-group">
                 <div class="pull-right">
+                  <a href="{{URL::previous()}}" type="button" class="btn btn-danger" >Cancel</a>
                   <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModal">Update</button>
                 </div>
               </div>

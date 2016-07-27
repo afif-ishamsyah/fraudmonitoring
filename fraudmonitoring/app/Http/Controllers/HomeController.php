@@ -482,14 +482,7 @@ class HomeController extends Controller
 		              ->where('id_case', $data['idcase'])
 		              ->update(['nipnas' => $data['nipnas'], 'customer' => $data['customer'], 'nikam' => $data['nikam'], 'am' => $data['am'], 'installation'=>$data['alamat'],'segment' => $data['segment'], 'revenue' => $data['revenue']]);
 
-		    $datas = array();
-      		$datas['nomor'] = DB::table('case')->join('profile','case.id_case','=','profile.id_case')
-      										  ->select('profile.id_case','profile.telephone_number','profile.main_number','profile.customer','profile.am','profile.segment','profile.revenue','profile.installation','case.status')
-      										  ->where('case.status','=','0')
-      										  ->get();
-
-		    Session::flash('success','Edit profile berhasil');
-			return view('edit_profile',$datas);
+			return Redirect::route('closed',$data['idcase']);
 	    }
 	    elseif(Request::isMethod('get'))
 	    {

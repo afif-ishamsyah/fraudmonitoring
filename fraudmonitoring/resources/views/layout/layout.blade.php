@@ -72,7 +72,12 @@
                     <img src="{{URL::to('assets/telkom.jpg')}}" class="img-circle" alt="User Image">
                     <p style="font-size:24px;">
                     {{Auth::user()->username}}
+                    @if(Auth::user()->previledge=='0')
+                    <small>User</small>
+                    @endif
+                    @if(Auth::user()->previledge=='1')
                     <small>Admin</small>
+                    @endif
                     </p>
                   </li>
                   <!-- Menu Footer-->
