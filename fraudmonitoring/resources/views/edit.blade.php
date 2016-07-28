@@ -32,6 +32,9 @@
         @endif
         <div class="col-md-12">
         <div class="box box-danger">
+        <div class="box-header with-border">
+              <h3 class="box-title">Check Number</h3>
+        </div>
         <div class="box-body">
         <form class="form-horizontal" role="form" action="{{URL::to('checkprofile')}}" method="post"> 
             <div class="form-group">
@@ -49,17 +52,96 @@
               </div>
             </div>
             {{csrf_field()}}
+          </div>
 
             <div class="box-footer">
               <div class="form-group">
                 <div class="pull-right">
                   <a href="{{URL::to('cases')}}/{{$nomor->id_case}}" type="button" class="btn btn-danger" >Cancel</a>
-                  <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModal">Check</button>
+                  <button type="submit" class="btn btn-primary">Check</button>
                 </div>
               </div>
+              </form>
+            </div>
+
+
+            </div>
             </div>
 
         @if (Session::has('fail') || Session::has('success'))
+
+          <div class="col-md-12">
+            <div class="box box-danger">
+            <div class="box-header with-border">
+              <h3 class="box-title">Profile</h3>
+            </div>
+            <div class="box-body">
+            <form class="form-horizontal" role="form" action="{{URL::to('checkprofile')}}" method="post"> 
+                <div class="form-group">
+                  <label class="control-label col-sm-2" for="notelepon">NIK AM:</label>
+                  <div class="col-sm-10">
+                    <input class="form-control" name="telnumber" id="telnumber" placeholder="{{$nomor->telephone_number}}" disabled>
+                    <input class="form-control" type="hidden" name="idcase" id="idcase" value="{{$nomor->id_case}}">
+                  </div>
+                </div>
+
+                 <div class="form-group">
+                  <label class="control-label col-sm-2" for="destnumber">Account Manager:</label>
+                  <div class="col-sm-10">
+                    <input class="form-control" name="mainnumber" id="destnumber" placeholder="{{$nomor->main_number}}" required>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="control-label col-sm-2" for="destnumber">NIP NAS:</label>
+                  <div class="col-sm-10">
+                    <input class="form-control" name="mainnumber" id="destnumber" placeholder="{{$nomor->main_number}}" required>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="control-label col-sm-2" for="destnumber">Crportae Customer:</label>
+                  <div class="col-sm-10">
+                    <input class="form-control" name="mainnumber" id="destnumber" placeholder="{{$nomor->main_number}}" required>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="control-label col-sm-2" for="destnumber">Installation Address:</label>
+                  <div class="col-sm-10">
+                    <input class="form-control" name="mainnumber" id="destnumber" placeholder="{{$nomor->main_number}}" required>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="control-label col-sm-2" for="destnumber">Segment:</label>
+                  <div class="col-sm-10">
+                    <input class="form-control" name="mainnumber" id="destnumber" placeholder="{{$nomor->main_number}}" required>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="control-label col-sm-2" for="destnumber">Average Revenue:</label>
+                  <div class="col-sm-10">
+                    <input class="form-control" name="mainnumber" id="destnumber" placeholder="{{$nomor->main_number}}" required>
+                  </div>
+                </div>
+
+                {{csrf_field()}}
+              </div>
+
+                <div class="box-footer">
+                  <div class="form-group">
+                    <div class="pull-right">
+                      <a href="{{URL::to('cases')}}/{{$nomor->id_case}}" type="button" class="btn btn-danger" >Cancel</a>
+                      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Update</button>
+                    </div>
+                  </div>
+                  </form>
+                </div>
+                </div>
+                </div>
+
         @endif
           <!-- Modal -->
             <div class="modal fade" id="myModal" role="dialog">
@@ -78,11 +160,9 @@
                   </div>
                 </div>
               </div>
-              </form>
             </div>
-            </div>
-            </div>
-            </div>
+
+          </div>
         </section><!-- /.content -->
       </div><!-- /.content-wrapper -->
 @endsection

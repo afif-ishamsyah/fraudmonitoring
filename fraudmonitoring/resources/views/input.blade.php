@@ -118,7 +118,7 @@
           <div class="box-footer">
             <div class="form-group">
               <div class="pull-right">
-                <button type="submit" class="btn btn-danger">Submit</button>
+                <button type="submit" class="btn btn-primary">Submit</button>
               </div>
             </div>
             </form>

@@ -68,7 +68,7 @@
                       </div>
                     </div><!-- /.form group -->
 
-                     <button type="submit" class="btn btn-danger">Search</button>
+                     <button type="submit" class="btn btn-primary">Search</button>
                      </form>
                      </div>
 
@@ -107,7 +107,7 @@
                       </div>
                     </div><!-- /.form group -->
 
-                    <button type="submit" class="btn btn-danger">Search</button>
+                    <button type="submit" class="btn btn-primary">Search</button>
                     </form>
                   </div>
 
@@ -146,7 +146,7 @@
                       </div>
                     </div><!-- /.form group -->
 
-                    <button type="submit" class="btn btn-danger">Search</button>
+                    <button type="submit" class="btn btn-primary">Search</button>
                     </form>
                   </div>
                   
@@ -180,7 +180,7 @@
                       </div>
                     </div><!-- /.form group -->
 
-                     <button type="submit" class="btn btn-danger">Search</button>
+                     <button type="submit" class="btn btn-primary">Search</button>
                      </form>
                   </div> 
 
@@ -214,7 +214,7 @@
                       </div>
                     </div><!-- /.form group -->
 
-                  <button type="submit" class="btn btn-danger">Search</button>
+                  <button type="submit" class="btn btn-primary">Search</button>
                   </form>
                   </div>
                   

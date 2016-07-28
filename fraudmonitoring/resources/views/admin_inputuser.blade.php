@@ -67,7 +67,7 @@
             <div class="box-footer">
               <div class="form-group">
               <div class=" pull-right">
-                <button type="submit" class="btn btn-danger">Create User</button>
+                <button type="submit" class="btn btn-primary">Create User</button>
               </div>
             </div>
             </form>

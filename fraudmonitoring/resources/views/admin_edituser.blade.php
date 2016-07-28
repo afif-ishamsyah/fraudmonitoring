@@ -72,7 +72,7 @@
             <div class="box-footer">
               <div class="form-group">
               <div class=" pull-right">
-                <button type="submit" class="btn btn-danger">Update User</button>
+                <button type="submit" class="btn btn-primary">Update User</button>
               </div>
             </div>
             </form>

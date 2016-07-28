@@ -35,11 +35,11 @@
         <div class="col-md-12">
         <div class="box box-danger">
           <div class="box-header">
-            <form class="form-horizontal" role="form" action="addcaseparam" method="post">
             <div class="box-title">Case Parameter</div>
           </div>
           
           <div class="box-body">
+          <form class="form-horizontal" role="form" action="addcaseparam" method="post">
             <div class="form-group">
               <label class="control-label col-sm-2" for="namaparameter">Parameter Name:</label>
               <div class="col-sm-9">
@@ -51,22 +51,24 @@
             <div class="box-footer">
               <div class="form-group">
               <div class=" pull-right">
-                <button type="submit" class="btn btn-danger">Create Case Parameter</button>
+                <button type="submit" class="btn btn-primary">Create Case Parameter</button>
               </div>
             </div>
             </form>
             </div>
+
             </div>
           </div>
 
           <div class="col-md-12">
           <div class="box box-danger">
+          
           <div class="box-header">
-            <form class="form-horizontal" role="form" action="{{URL::to('addactparam')}}" method="post">
             <div class="box-title">Activity Parameter</div>
           </div>
           
           <div class="box-body">
+          <form class="form-horizontal" role="form" action="{{URL::to('addactparam')}}" method="post">
             <div class="form-group">
               <label class="control-label col-sm-2" for="namaparameter">Parameter Name:</label>
               <div class="col-sm-9">
@@ -88,15 +90,16 @@
             <div class="box-footer">
               <div class="form-group">
               <div class="pull-right">
-                <button type="submit" class="btn btn-danger">Create Activity Parameter</button>
+                <button type="submit" class="btn btn-primary">Create Activity Parameter</button>
               </div>
             </div>
             </form>
             </div>
 
           </div>
-          </div>
-          </div>
+        </div>
+
+        </div>
         </section><!-- /.content -->
       </div><!-- /.content-wrapper -->
 
