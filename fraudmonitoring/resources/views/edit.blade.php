@@ -52,7 +52,7 @@
             <div class="form-group">
               <label class="control-label col-sm-2" for="destnumber">NIP NAS:</label>
               <div class="col-sm-10">
-                <input class="form-control" name="nipnas" id="destnumber" value="{{$nomor->nipnas}}" required>
+                <input class="form-control" name="nipnas" id="destnumber" value="{{$nomor->nipnas}}" pattern=".{8,8}" required>
               </div>
             </div>
 
@@ -66,7 +66,7 @@
             <div class="form-group">
               <label class="control-label col-sm-2" for="durasi">NIK AM:</label>
               <div class="col-sm-10">
-                <input class="form-control" name="nikam" id="durasi" value="{{$nomor->nikam}}" required>
+                <input class="form-control" name="nikam" id="durasi" value="{{$nomor->nikam}}" pattern=".{6,6}" required>
               </div>
             </div>
 
@@ -87,7 +87,7 @@
             <div class="form-group">
               <label class="control-label col-sm-2" for="frekueni">Segment:</label>
               <div class="col-sm-10">
-                <input class="form-control" name="segment" id="frekunsi" value="{{$nomor->segment}}" required>
+                <input class="form-control" name="segment" id="frekunsi" value="{{$nomor->segment}}" pattern=".{3,3}" required>
               </div>
             </div>
 

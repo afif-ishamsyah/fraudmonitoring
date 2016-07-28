@@ -37,21 +37,21 @@
             <div class="form-group">
               <label class="control-label col-sm-2" for="no. telp">Telephone Number:</label>
               <div class="col-sm-10">
-                <input class="form-control" name="telephonenumber" id="notelepon" placeholder="Masukkan Nomor Telepon" required>
+                <input class="form-control" name="telephonenumber" id="notelepon" pattern=".{1,15}" placeholder="Masukkan Nomor Telepon" required>
               </div>
             </div>
 
             <div class="form-group">
               <label class="control-label col-sm-2" for="no. telp">Main Number:</label>
               <div class="col-sm-10">
-                <input class="form-control" name="mainnumber" id="notelepon" placeholder="Masukkan Nomor Induk" required>
+                <input class="form-control" name="mainnumber" id="notelepon" placeholder="Masukkan Nomor Induk" pattern=".{1,15}" required>
               </div>
             </div>
 
             <div class="form-group">
               <label class="control-label col-sm-2" for="destnumber">Destination Number:</label>
               <div class="col-sm-10">
-                <input class="form-control" name="destnumber" id="destnumber" placeholder="Masukkan Nomor Telepon Tujuan" required>
+                <input class="form-control" name="destnumber" id="destnumber" placeholder="Masukkan Nomor Telepon Tujuan" pattern=".{1,15}" required>
               </div>
             </div>
 
