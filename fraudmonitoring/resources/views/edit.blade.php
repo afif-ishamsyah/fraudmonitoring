@@ -28,7 +28,7 @@
         @endif
 
         @if (Session::has('success'))
-        <div class="col-md-12"><div class="alert alert-success">{{ Session::get('success') }}</div></div>
+        <div class="col-md-12"><div class="alert alert-warning">{{ Session::get('success') }}</div></div>
         @endif
         <div class="col-md-12">
         <div class="box box-danger">
@@ -45,7 +45,7 @@
              <div class="form-group">
               <label class="control-label col-sm-2" for="destnumber">Main Number:</label>
               <div class="col-sm-10">
-                <input class="form-control" name="mainnumber" id="destnumber" placeholder="{{$nomor->main_number}}">
+                <input class="form-control" name="mainnumber" id="destnumber" placeholder="{{$nomor->main_number}}" required>
               </div>
             </div>
             {{csrf_field()}}
@@ -58,6 +58,9 @@
                 </div>
               </div>
             </div>
+
+        @if (Session::has('fail') || Session::has('success'))
+        @endif
           <!-- Modal -->
             <div class="modal fade" id="myModal" role="dialog">
               <div class="modal-dialog modal-sm">

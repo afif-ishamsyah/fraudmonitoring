@@ -491,6 +491,7 @@ class HomeController extends Controller
 		if(Request::isMethod('post'))
 	    {
 	     	$data=Input::all();
+	     	$datas=array();
 	     	$profile = DB::connection('mysql2')->table('profile')->join('revenue','profile.notel','=','revenue.notel')
 	    														 ->select('profile.notel','profile.nipnas','profile.namacc','profile.alamat','profile.nikam','profile.namaam','profile.segment','revenue.average')
 	    														 ->where('profile.notel','=',$data['mainnumber'])
@@ -501,20 +502,26 @@ class HomeController extends Controller
 		              ->where('id_case', $data['idcase'])
 		              ->update(['main_number'=>$data['mainnumber']]);
 
-	    		$data['nomor'] = DB::table('case')->join('profile','case.id_case','=','profile.id_case')
-      											     ->select('case.id_case','profile.telephone_number','profile.main_number')
+	    		$datas['nomor'] = DB::table('case')->join('profile','case.id_case','=','profile.id_case')
+      											     ->select('case.id_case','profile.telephone_number','profile.main_number','profile.nipnas','profile.customer','profile.nikam','profile.am','profile.installation','profile.segment','profile.revenue')
       												 ->where('case.id_case','=',$data['idcase'])->first();
 
       			Session::flash('fail','Data kosong. Silahkan melakukan checking kembali, atau bisa mengisi form Profile');
-	  			return view('edit',$data);
+	  			return view('edit',$datas);
 	    	}
 	    	elseif($profile)
 	    	{
 	    		DB::table('profile')
 		              ->where('id_case', $data['idcase'])
 		              ->update(['main_number'=>$data['mainnumber'],'nipnas'=>$profile->nipnas,'customer'=>$profile->namacc,'installation'=>$profile->alamat,'nikam'=>$profile->nikam,'am'=>$profile->namaam,'segment'=>$profile->segment,'revenue'=>$profile->average]);
+	    	
+		       $datas['nomor'] = DB::table('case')->join('profile','case.id_case','=','profile.id_case')
+      											     ->select('case.id_case','profile.telephone_number','profile.main_number','profile.nipnas','profile.customer','profile.nikam','profile.am','profile.installation','profile.segment','profile.revenue')
+      												 ->where('case.id_case','=',$data['idcase'])->first();
+
+      			Session::flash('success','Data ditemukan. Silahkan mengecek form Profile, atau bisa kembali melakukan checking');
+	  			return view('edit',$datas);
 	    	}
-			return Redirect::route('closed',$data['idcase']);
 	    }
 	    elseif(Request::isMethod('get'))
 	    {

@@ -54,6 +54,7 @@ Route::get('cases/{id1}',[
 Route::get('getact/{filename}','HomeController@getact');
 Route::get('getcase/{filename}','HomeController@getcase');
 //anti-get di controller
+Route::get('checkprofile','HomeController@checkprofile');
 Route::get('editingprofileprocess','HomeController@editingprofileprocess');
 Route::get('addactivity','HomeController@addactivity');
 Route::get('insert','HomeController@insertcase');
