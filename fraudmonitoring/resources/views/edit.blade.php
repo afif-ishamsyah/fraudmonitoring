@@ -40,7 +40,7 @@
             <div class="form-group">
               <label class="control-label col-sm-2" for="notelepon">Telephone Number:</label>
               <div class="col-sm-10">
-                <input class="form-control" name="telnumber" id="telnumber" placeholder="{{$nomor->telephone_number}}" disabled>
+                <input class="form-control" name="telnumber" id="telnumber" value="{{$nomor->telephone_number}}" disabled>
                 <input class="form-control" type="hidden" name="idcase" id="idcase" value="{{$nomor->id_case}}">
               </div>
             </div>
@@ -48,7 +48,7 @@
              <div class="form-group">
               <label class="control-label col-sm-2" for="destnumber">Main Number:</label>
               <div class="col-sm-10">
-                <input class="form-control" name="mainnumber" id="destnumber" placeholder="{{$nomor->main_number}}" required>
+                <input type="number" class="form-control" name="mainnumber" id="destnumber" value="{{$nomor->main_number}}" required>
               </div>
             </div>
             {{csrf_field()}}
@@ -77,53 +77,69 @@
             </div>
             <div class="box-body">
             <form class="form-horizontal" role="form" action="{{URL::to('checkprofile')}}" method="post"> 
+                
                 <div class="form-group">
-                  <label class="control-label col-sm-2" for="notelepon">NIK AM:</label>
+                  <label class="control-label col-sm-2" for="notelepon">Telephone Number:</label>
                   <div class="col-sm-10">
-                    <input class="form-control" name="telnumber" id="telnumber" placeholder="{{$nomor->telephone_number}}" disabled>
+                    <input class="form-control" name="telnumber" id="telnumber" value="{{$nomor->telephone_number}}" disabled>
                     <input class="form-control" type="hidden" name="idcase" id="idcase" value="{{$nomor->id_case}}">
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="control-label col-sm-2" for="notelepon">Main Number:</label>
+                  <div class="col-sm-10">
+                    <input class="form-control" name="telnumber" id="telnumber" value="{{$nomor->telephone_number}}" disabled>
+                    <input class="form-control" type="hidden" name="idcase" id="idcase" value="{{$nomor->id_case}}">
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="control-label col-sm-2" for="destnumber">NIK AM:</label>
+                  <div class="col-sm-10">
+                    <input class="form-control" name="mainnumber" id="destnumber" value="{{$nomor->main_number}}" type="number" required>
                   </div>
                 </div>
 
                  <div class="form-group">
                   <label class="control-label col-sm-2" for="destnumber">Account Manager:</label>
                   <div class="col-sm-10">
-                    <input class="form-control" name="mainnumber" id="destnumber" placeholder="{{$nomor->main_number}}" required>
+                    <input class="form-control" name="mainnumber" id="destnumber" value="{{$nomor->main_number}}" required>
                   </div>
                 </div>
 
                 <div class="form-group">
                   <label class="control-label col-sm-2" for="destnumber">NIP NAS:</label>
                   <div class="col-sm-10">
-                    <input class="form-control" name="mainnumber" id="destnumber" placeholder="{{$nomor->main_number}}" required>
+                    <input type="number" class="form-control" name="mainnumber" id="destnumber" value="{{$nomor->main_number}}" required>
                   </div>
                 </div>
 
                 <div class="form-group">
-                  <label class="control-label col-sm-2" for="destnumber">Crportae Customer:</label>
+                  <label class="control-label col-sm-2" for="destnumber">Corportae Customer:</label>
                   <div class="col-sm-10">
-                    <input class="form-control" name="mainnumber" id="destnumber" placeholder="{{$nomor->main_number}}" required>
+                    <input class="form-control" name="mainnumber" id="destnumber" value="{{$nomor->main_number}}" required>
                   </div>
                 </div>
 
                 <div class="form-group">
                   <label class="control-label col-sm-2" for="destnumber">Installation Address:</label>
                   <div class="col-sm-10">
-                    <input class="form-control" name="mainnumber" id="destnumber" placeholder="{{$nomor->main_number}}" required>
+                    <input class="form-control" name="mainnumber" id="destnumber" value="{{$nomor->main_number}}" required>
                   </div>
                 </div>
 
                 <div class="form-group">
                   <label class="control-label col-sm-2" for="destnumber">Segment:</label>
                   <div class="col-sm-10">
-                    <input class="form-control" name="mainnumber" id="destnumber" placeholder="{{$nomor->main_number}}" required>
+                    <input pattern=".{3,3}" class="form-control" name="mainnumber" id="destnumber" value="{{$nomor->main_number}}" required>
                   </div>
                 </div>
 
                 <div class="form-group">
                   <label class="control-label col-sm-2" for="destnumber">Average Revenue:</label>
                   <div class="col-sm-10">
-                    <input class="form-control" name="mainnumber" id="destnumber" placeholder="{{$nomor->main_number}}" required>
+                    <input type="number" class="form-control" name="mainnumber" id="destnumber" value="{{$nomor->main_number}}" required>
                   </div>
                 </div>
 
@@ -137,7 +153,6 @@
                       <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Update</button>
                     </div>
                   </div>
-                  </form>
                 </div>
                 </div>
                 </div>
@@ -158,6 +173,7 @@
                     <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
                     <button type="submit" class="btn btn-primary">Yes</button>
                   </div>
+                  </form>
                 </div>
               </div>
             </div>

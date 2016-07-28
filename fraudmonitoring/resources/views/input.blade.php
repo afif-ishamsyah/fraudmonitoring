@@ -37,21 +37,21 @@
             <div class="form-group">
               <label class="control-label col-sm-2" for="no. telp">Telephone Number:</label>
               <div class="col-sm-10">
-                <input class="form-control" name="telephonenumber" id="notelepon" placeholder="Masukkan Nomor Telepon" required>
+                <input type="number" class="form-control" name="telephonenumber" id="notelepon" placeholder="Masukkan Nomor Telepon" required>
               </div>
             </div>
 
             <div class="form-group">
               <label class="control-label col-sm-2" for="no. telp">Main Number:</label>
               <div class="col-sm-10">
-                <input class="form-control" name="mainnumber" id="notelepon" placeholder="Masukkan Nomor Induk" required>
+                <input type="number" class="form-control" name="mainnumber" id="notelepon" placeholder="Masukkan Nomor Induk" required>
               </div>
             </div>
 
             <div class="form-group">
               <label class="control-label col-sm-2" for="destnumber">Destination Number:</label>
               <div class="col-sm-10">
-                <input class="form-control" name="destnumber" id="destnumber" placeholder="Masukkan Nomor Telepon Tujuan" required>
+                <input type="number" class="form-control" name="destnumber" id="destnumber" placeholder="Masukkan Nomor Telepon Tujuan" required>
               </div>
             </div>
 
@@ -65,14 +65,14 @@
             <div class="form-group">
               <label class="control-label col-sm-2" for="durasi">Duration (sec):</label>
               <div class="col-sm-10">
-                <input class="form-control" name="durasi" id="durasi" placeholder="Masukkan Durasi Menelepon" required>
+                <input type="number" class="form-control" name="durasi" id="durasi" placeholder="Masukkan Durasi Menelepon" required>
               </div>
             </div>
 
             <div class="form-group">
               <label class="control-label col-sm-2" for="frekueni">Call Frequency:</label>
               <div class="col-sm-10">
-                <input class="form-control" name="frekuensi" id="frekunsi" placeholder="Masukkan Jumlah Menelepon" required>
+                <input type="number" class="form-control" name="frekuensi" id="frekunsi" placeholder="Masukkan Jumlah Menelepon" required>
               </div>
             </div>
 
