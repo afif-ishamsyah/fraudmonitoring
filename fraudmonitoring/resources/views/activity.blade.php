@@ -341,7 +341,7 @@
                       <tr>
                         <td>1</td>
                         <td>{{$cases->case_time}}</td>
-                        <td>{{$cases->telephone_number}}</td>
+                        <td>{{$nomor->telephone_number}}</td>
                         <td>{{$cases->destination_number}}</td>
                         <td>{{$cases->duration}}</td>
                         <td>{{$cases->number_of_call}}</td>

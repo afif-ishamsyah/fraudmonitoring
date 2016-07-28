@@ -42,9 +42,10 @@ Route::get('searcham','HomeController@searcham');
 Route::get('searchcustomer','HomeController@searchcustomer');
 Route::post('insert','HomeController@insertcase');
 Route::get('caseform','HomeController@caseform');
-Route::get('listprofile','HomeController@editprofile');
+Route::get('listprofile','HomeController@listprofile');
 Route::get('editingprofile/{id1}','HomeController@editingprofile');
 Route::post('editingprofileprocess','HomeController@editingprofileprocess');
+Route::post('checkprofile','HomeController@checkprofile');
 Route::post('addactivity','HomeController@addactivity');
 Route::get('cases/{id1}',[
    'as' => 'closed',

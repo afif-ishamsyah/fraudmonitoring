@@ -416,17 +416,13 @@ class HomeController extends Controller
 	  
 	}
 
-	public function editprofile()
+	public function listprofile()
 	{
 		if(Auth::check())
 		{
 			if(Auth::user()->previledge=='0')
 			{
 				$data = array();
-      			// $data['nomor'] = DB::table('case')->join('profile','case.id_case','=','profile.id_case')
-      			// 								  ->select('profile.id_case','profile.telephone_number','profile.main_number','profile.customer','profile.am','profile.segment','profile.revenue','profile.installation','case.status')
-      			// 								  ->where('case.status','=','0')
-      			// 								  ->get();
       			$data['nomor'] = DB::connection('mysql2')->table('profile')->join('revenue','profile.notel','=','revenue.notel')
 	    														 ->select('profile.notel','profile.namacc','profile.alamat','profile.namaam','profile.segment','revenue.average')
 	    														 ->get();
@@ -490,6 +486,42 @@ class HomeController extends Controller
 	    }
 	}
 
+	public function checkprofile()
+	{
+		if(Request::isMethod('post'))
+	    {
+	     	$data=Input::all();
+	     	$profile = DB::connection('mysql2')->table('profile')->join('revenue','profile.notel','=','revenue.notel')
+	    														 ->select('profile.notel','profile.nipnas','profile.namacc','profile.alamat','profile.nikam','profile.namaam','profile.segment','revenue.average')
+	    														 ->where('profile.notel','=',$data['mainnumber'])
+	    														 ->first();
+	    	if(!$profile)
+	    	{
+	    		DB::table('profile')
+		              ->where('id_case', $data['idcase'])
+		              ->update(['main_number'=>$data['mainnumber']]);
+
+	    		$data['nomor'] = DB::table('case')->join('profile','case.id_case','=','profile.id_case')
+      											     ->select('case.id_case','profile.telephone_number','profile.main_number')
+      												 ->where('case.id_case','=',$data['idcase'])->first();
+
+      			Session::flash('fail','Data kosong. Silahkan melakukan checking kembali, atau bisa mengisi form Profile');
+	  			return view('edit',$data);
+	    	}
+	    	elseif($profile)
+	    	{
+	    		DB::table('profile')
+		              ->where('id_case', $data['idcase'])
+		              ->update(['main_number'=>$data['mainnumber'],'nipnas'=>$profile->nipnas,'customer'=>$profile->namacc,'installation'=>$profile->alamat,'nikam'=>$profile->nikam,'am'=>$profile->namaam,'segment'=>$profile->segment,'revenue'=>$profile->average]);
+	    	}
+			return Redirect::route('closed',$data['idcase']);
+	    }
+	    elseif(Request::isMethod('get'))
+	    {
+			return redirect('/');
+	    }
+	}
+
 	public function insertcase()
 	{
 		if(Request::isMethod('post'))
@@ -503,7 +535,9 @@ class HomeController extends Controller
 	    														 ->where('profile.notel','=',$data['mainnumber'])
 	    														 ->first();
 
-	    	$caseexist = DB::table('case')->select('case.telephone_number')->where('case.status','=','0')->where('case.telephone_number','=',$data['telephonenumber'])->get();
+	    	$caseexist = DB::table('case')->join('profile','case.id_case','=','profile.id_case')
+	    								  ->select('profile.telephone_number')->where('case.status','=','0')->where('profile.telephone_number','=',$data['telephonenumber'])
+	    								  ->get();
 
 
 	      	if(!$caseexist)
@@ -516,7 +550,7 @@ class HomeController extends Controller
 				$extension = $file->getClientOriginalExtension();
 				Storage::disk('local')->put($file->getFilename().'.'.$extension,  File::get($file));
 
-	          	DB::table('case')->insert(['id_case'=>$id,'telephone_number'=>$data['telephonenumber'],'destination'=>$data['destcountry'],'destination_number'=>$data['destnumber'],'duration'=>$data['durasi'],'number_of_call'=>$data['frekuensi'],'case_parameter'=>$data['casetype'],'case_time'=>$dates,'description'=>$data['deskripsi'],'input_date'=>Carbon::now(),'mime'=>$file->getClientMimeType(),'original_filename'=>$file->getClientOriginalName(),'filename'=>$file->getFilename().'.'.$extension]);
+	          	DB::table('case')->insert(['id_case'=>$id,'destination'=>$data['destcountry'],'destination_number'=>$data['destnumber'],'duration'=>$data['durasi'],'number_of_call'=>$data['frekuensi'],'case_parameter'=>$data['casetype'],'case_time'=>$dates,'description'=>$data['deskripsi'],'input_date'=>Carbon::now(),'mime'=>$file->getClientMimeType(),'original_filename'=>$file->getClientOriginalName(),'filename'=>$file->getFilename().'.'.$extension]);
 	           	
 	          	if($profile)
 	          	{
@@ -551,7 +585,7 @@ class HomeController extends Controller
 			{
 				$data=array();
 			    $data['nomor']=DB::table('case')->join('profile','case.id_case','=','profile.id_case')
-			    								->select('case.id_case','case.telephone_number','profile.customer','profile.am','case.case_time','case.status')
+			    								->select('case.id_case','profile.telephone_number','profile.customer','profile.am','case.case_time','case.status')
 			    								->orderBy('case.status', 'asc')
 			    								->get();
 			    return view('search',$data);
@@ -579,28 +613,27 @@ class HomeController extends Controller
 			    if($datas['opsi1']=='1')
 			    {
 			    	$data['nomor']=DB::table('case')->join('profile','case.id_case','=','profile.id_case')
-			    								->select('case.id_case','case.telephone_number','profile.customer','profile.am','case.case_time','case.status')
-			    								->where('case.telephone_number','LIKE','%'.$datas['telephone'].'%')
+			    								->select('case.id_case','profile.telephone_number','profile.customer','profile.am','case.case_time','case.status')
+			    								->where('profile.telephone_number','LIKE','%'.$datas['telephone'].'%')
 			    								->orderBy('case.status', 'asc')
 			    								->get();
 			    }
 			    elseif($datas['opsi1']=='2')
 			    {
 			    	$data['nomor']=DB::table('case')->join('profile','case.id_case','=','profile.id_case')
-			    								->select('case.id_case','case.telephone_number','profile.customer','profile.am','case.case_time','case.status')
-			    								->where('case.telephone_number','LIKE','%'.$datas['telephone'].'%')
+			    								->select('case.id_case','profile.telephone_number','profile.customer','profile.am','case.case_time','case.status')
+			    								->where('profile.telephone_number','LIKE','%'.$datas['telephone'].'%')
 			    								->where('case.status','=','0')
 			    								->get();
 			    }
 			    elseif($datas['opsi1']=='3')
 			    {
 			    	$data['nomor']=DB::table('case')->join('profile','case.id_case','=','profile.id_case')
-			    								->select('case.id_case','case.telephone_number','profile.customer','profile.am','case.case_time','case.status')
-			    								->where('case.telephone_number','LIKE','%'.$datas['telephone'].'%')
+			    								->select('case.id_case','profile.telephone_number','profile.customer','profile.am','case.case_time','case.status')
+			    								->where('profile.telephone_number','LIKE','%'.$datas['telephone'].'%')
 			    								->where('case.status','=','1')
 			    								->get();
 			    }
-			   	//$data['nomor']=DB::table('case')->select('case.telephone_number','case.id_case')->where('case.telephone_number','LIKE','%'.$datas['telephone'].'%')->where('case.status','=','0')->get();
 			    return view('search',$data);
 			}
 			elseif(Auth::user()->previledge=='1')
@@ -626,7 +659,7 @@ class HomeController extends Controller
 			    if($datas['opsi1']=='1')
 			    {
 			    	$data['nomor']=DB::table('case')->join('profile','case.id_case','=','profile.id_case')
-			    								->select('case.id_case','case.telephone_number','profile.customer','profile.am','case.case_time','case.status')
+			    								->select('case.id_case','profile.telephone_number','profile.customer','profile.am','case.case_time','case.status')
 			    								->where('case.case_time','<=',$date)
 			    								->orderBy('case.status', 'asc')
 			    								->get();
@@ -634,7 +667,7 @@ class HomeController extends Controller
 			    elseif($datas['opsi1']=='2')
 			    {
 			    	$data['nomor']=DB::table('case')->join('profile','case.id_case','=','profile.id_case')
-			    								->select('case.id_case','case.telephone_number','profile.customer','profile.am','case.case_time','case.status')
+			    								->select('case.id_case','profile.telephone_number','profile.customer','profile.am','case.case_time','case.status')
 			    								->where('case.case_time','<=',$date)
 			    								->where('case.status','=','0')
 			    								->get();
@@ -642,7 +675,7 @@ class HomeController extends Controller
 			    elseif($datas['opsi1']=='3')
 			    {
 			    	$data['nomor']=DB::table('case')->join('profile','case.id_case','=','profile.id_case')
-			    								->select('case.id_case','case.telephone_number','profile.customer','profile.am','case.case_time','case.status')
+			    								->select('case.id_case','profile.telephone_number','profile.customer','profile.am','case.case_time','case.status')
 			    								->where('case.case_time','<=',$date)
 			    								->where('case.status','=','1')
 			    								->get();
@@ -672,7 +705,7 @@ class HomeController extends Controller
 			    if($datas['opsi1']=='1')
 			    {
 			    	$data['nomor']=DB::table('case')->join('profile','case.id_case','=','profile.id_case')
-			    								->select('case.id_case','case.telephone_number','profile.customer','profile.am','case.case_time','case.status')
+			    								->select('case.id_case','profile.telephone_number','profile.customer','profile.am','case.case_time','case.status')
 			    								->where('case.input_date','<=',$date)
 			    								->orderBy('case.status', 'asc')
 			    								->get();
@@ -680,7 +713,7 @@ class HomeController extends Controller
 			    elseif($datas['opsi1']=='2')
 			    {
 			    	$data['nomor']=DB::table('case')->join('profile','case.id_case','=','profile.id_case')
-			    								->select('case.id_case','case.telephone_number','profile.customer','profile.am','case.case_time','case.status')
+			    								->select('case.id_case','profile.telephone_number','profile.customer','profile.am','case.case_time','case.status')
 			    								->where('case.input_date','<=',$date)
 			    								->where('case.status','=','0')
 			    								->get();
@@ -688,7 +721,7 @@ class HomeController extends Controller
 			    elseif($datas['opsi1']=='3')
 			    {
 			    	$data['nomor']=DB::table('case')->join('profile','case.id_case','=','profile.id_case')
-			    								->select('case.id_case','case.telephone_number','profile.customer','profile.am','case.case_time','case.status')
+			    								->select('case.id_case','profile.telephone_number','profile.customer','profile.am','case.case_time','case.status')
 			    								->where('case.input_date','<=',$date)
 			    								->where('case.status','=','1')
 			    								->get();
@@ -717,7 +750,7 @@ class HomeController extends Controller
 	    		if($datas['opsi1']=='1')
 			    {
 			    	$data['nomor']=DB::table('case')->join('profile','case.id_case','=','profile.id_case')
-			    								->select('case.id_case','case.telephone_number','profile.customer','profile.am','case.case_time','case.status')
+			    								->select('case.id_case','profile.telephone_number','profile.customer','profile.am','case.case_time','case.status')
 			    								->where(strtolower('profile.am'),'LIKE','%'.strtolower($datas['am']).'%')
 			    								->orderBy('case.status', 'asc')
 			    								->get();
@@ -725,7 +758,7 @@ class HomeController extends Controller
 			    elseif($datas['opsi1']=='2')
 			    {
 			    	$data['nomor']=DB::table('case')->join('profile','case.id_case','=','profile.id_case')
-			    								->select('case.id_case','case.telephone_number','profile.customer','profile.am','case.case_time','case.status')
+			    								->select('case.id_case','profile.telephone_number','profile.customer','profile.am','case.case_time','case.status')
 			    								->where(strtolower('profile.am'),'LIKE','%'.strtolower($datas['am']).'%')
 			    								->where('case.status','=','0')
 			    								->get();
@@ -733,7 +766,7 @@ class HomeController extends Controller
 			    elseif($datas['opsi1']=='3')
 			    {
 			    	$data['nomor']=DB::table('case')->join('profile','case.id_case','=','profile.id_case')
-			    								->select('case.id_case','case.telephone_number','profile.customer','profile.am','case.case_time','case.status')
+			    								->select('case.id_case','profile.telephone_number','profile.customer','profile.am','case.case_time','case.status')
 			    								->where(strtolower('profile.am'),'LIKE','%'.strtolower($datas['am']).'%')
 			    								->where('case.status','=','1')
 			    								->get();
@@ -763,7 +796,7 @@ class HomeController extends Controller
 			    if($datas['opsi1']=='1')
 			    {
 			    	$data['nomor']=DB::table('case')->join('profile','case.id_case','=','profile.id_case')
-			    								->select('case.id_case','case.telephone_number','profile.customer','profile.am','case.case_time','case.status')
+			    								->select('case.id_case','profile.telephone_number','profile.customer','profile.am','case.case_time','case.status')
 			    								->where(strtolower('profile.customer'),'LIKE','%'.strtolower($datas['customer']).'%')
 			    								->orderBy('case.status', 'asc')
 			    								->get();
@@ -771,7 +804,7 @@ class HomeController extends Controller
 			    elseif($datas['opsi1']=='2')
 			    {
 			    	$data['nomor']=DB::table('case')->join('profile','case.id_case','=','profile.id_case')
-			    								->select('case.id_case','case.telephone_number','profile.customer','profile.am','case.case_time','case.status')
+			    								->select('case.id_case','profile.telephone_number','profile.customer','profile.am','case.case_time','case.status')
 			    								->where(strtolower('profile.customer'),'LIKE','%'.strtolower($datas['customer']).'%')
 			    								->where('case.status','=','0')
 			    								->get();
@@ -779,7 +812,7 @@ class HomeController extends Controller
 			    elseif($datas['opsi1']=='3')
 			    {
 			    	$data['nomor']=DB::table('case')->join('profile','case.id_case','=','profile.id_case')
-			    								->select('case.id_case','case.telephone_number','profile.customer','profile.am','case.case_time','case.status')
+			    								->select('case.id_case','profile.telephone_number','profile.customer','profile.am','case.case_time','case.status')
 			    								->where(strtolower('profile.customer'),'LIKE','%'.strtolower($datas['customer']).'%')
 			    								->where('case.status','=','1')
 			    								->get();
@@ -805,7 +838,9 @@ class HomeController extends Controller
 		{
 			if(Auth::user()->previledge=='0')
 			{
-				  $number = DB::table('case')->where('case.id_case','=',$id)->value('telephone_number');
+				  $number = DB::table('case')->join('profile','case.id_case','=','profile.id_case')
+				  						     ->where('case.id_case','=',$id)
+				  						     ->value('telephone_number');
 				  $tanggal = DB::table('case')->where('case.id_case','=',$id)->value('case_time');
 
 				  $data = array();
@@ -818,21 +853,23 @@ class HomeController extends Controller
 			      										    ->get();
 
 			      $data['cases'] = DB::table('case')->join('case_parameter','case.case_parameter','=','case_parameter.id_parameter')
-			      									->select('case.id_case','case.telephone_number','case.destination','case.status','case.destination_number','case.duration','case.number_of_call','case_parameter.description as des1','case.case_time','case.description as des2','case.filename')
+			      									->select('case.id_case','case.destination','case.status','case.destination_number','case.duration','case.number_of_call','case_parameter.description as des1','case.case_time','case.description as des2','case.filename')
 			      									->where('case.id_case','=',$id)
 			      									->first();
 
 			      $data['actlist'] = DB::table('activity_parameter')->select('description','id_parameter')->get();
 
-			      $data['jumlah'] = DB::table('case')->where('case.telephone_number','=',$number)
+			      $data['jumlah'] = DB::table('case')->join('profile','case.id_case','=','profile.id_case')
+			      									 ->where('profile.telephone_number','=',$number)
 			      									 ->where('case.case_time','<',$tanggal)
 			      									 ->count('case.id_case');
 
 			      $data['history'] = DB::table('case')->join('case_parameter','case.case_parameter','=','case_parameter.id_parameter')
-			      								->select('case.case_time','case.destination_number','case.destination','case.duration','case.number_of_call','case_parameter.description')
-			      								->where('case.telephone_number','=',$number)
-			      								->where('case.case_time','<',$tanggal)
-			      								->get();
+				      								->join('profile','case.id_case','=','profile.id_case')
+				      								->select('case.case_time','case.destination_number','case.destination','case.duration','case.number_of_call','case_parameter.description')
+				      								->where('profile.telephone_number','=',$number)
+				      								->where('case.case_time','<',$tanggal)
+				      								->get();
 				  return view('activity',$data);
 			}
 			elseif(Auth::user()->previledge=='1')

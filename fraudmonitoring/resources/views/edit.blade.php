@@ -33,7 +33,7 @@
         <div class="col-md-12">
         <div class="box box-danger">
         <div class="box-body">
-        <form class="form-horizontal" role="form" action="{{URL::to('editingprofileprocess')}}" method="post"> 
+        <form class="form-horizontal" role="form" action="{{URL::to('checkprofile')}}" method="post"> 
             <div class="form-group">
               <label class="control-label col-sm-2" for="notelepon">Telephone Number:</label>
               <div class="col-sm-10">
@@ -45,66 +45,16 @@
              <div class="form-group">
               <label class="control-label col-sm-2" for="destnumber">Main Number:</label>
               <div class="col-sm-10">
-                <input class="form-control" name="main" id="destnumber" placeholder="{{$nomor->main_number}}" disabled>
+                <input class="form-control" name="mainnumber" id="destnumber" placeholder="{{$nomor->main_number}}">
               </div>
-            </div>
-
-            <div class="form-group">
-              <label class="control-label col-sm-2" for="destnumber">NIP NAS:</label>
-              <div class="col-sm-10">
-                <input class="form-control" name="nipnas" id="destnumber" value="{{$nomor->nipnas}}" pattern=".{8,8}" required>
-              </div>
-            </div>
-
-            <div class="form-group">
-              <label class="control-label col-sm-2" for="no. telp">Corporate Customer:</label>
-              <div class="col-sm-10">
-                <input class="form-control" name="customer" id="notelepon" value="{{$nomor->customer}}" required>
-              </div>
-            </div>
-
-            <div class="form-group">
-              <label class="control-label col-sm-2" for="durasi">NIK AM:</label>
-              <div class="col-sm-10">
-                <input class="form-control" name="nikam" id="durasi" value="{{$nomor->nikam}}" pattern=".{6,6}" required>
-              </div>
-            </div>
-
-             <div class="form-group">
-              <label class="control-label col-sm-2" for="durasi">Installation Address:</label>
-              <div class="col-sm-10">
-                <input class="form-control" name="alamat" id="durasi" value="{{$nomor->installation}}" required>
-              </div>
-            </div>
-
-            <div class="form-group">
-              <label class="control-label col-sm-2" for="frekueni">Account Manager:</label>
-              <div class="col-sm-10">
-                <input class="form-control" name="am" id="frekunsi" value="{{$nomor->am}}" required>
-              </div>
-            </div>
-
-            <div class="form-group">
-              <label class="control-label col-sm-2" for="frekueni">Segment:</label>
-              <div class="col-sm-10">
-                <input class="form-control" name="segment" id="frekunsi" value="{{$nomor->segment}}" pattern=".{3,3}" required>
-              </div>
-            </div>
-
-            <div class="form-group">
-              <label class="control-label col-sm-2" for="frekueni">Average Revenue:</label>
-              <div class="col-sm-10">
-                <input class="form-control" name="revenue" id="frekunsi" value="{{$nomor->revenue}}" required>
-              </div>
-            </div>
             </div>
             {{csrf_field()}}
 
             <div class="box-footer">
               <div class="form-group">
                 <div class="pull-right">
-                  <a href="{{URL::previous()}}" type="button" class="btn btn-danger" >Cancel</a>
-                  <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModal">Update</button>
+                  <a href="{{URL::to('cases')}}/{{$nomor->id_case}}" type="button" class="btn btn-danger" >Cancel</a>
+                  <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModal">Check</button>
                 </div>
               </div>
             </div>
