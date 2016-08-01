@@ -48,7 +48,7 @@
              <div class="form-group">
               <label class="control-label col-sm-2" for="destnumber">Main Number:</label>
               <div class="col-sm-10">
-                <input type="number" class="form-control" name="mainnumber" id="destnumber" value="{{$nomor->main_number}}" required>
+                <input type="number" class="form-control" name="mainnumber" id="destnumber" value="{{$nomor->main_number}}" pattern=".{1,15}" required>
               </div>
             </div>
             {{csrf_field()}}
@@ -97,7 +97,7 @@
                 <div class="form-group">
                   <label class="control-label col-sm-2" for="destnumber">NIK AM:</label>
                   <div class="col-sm-10">
-                    <input class="form-control" name="mainnumber" id="destnumber" value="{{$nomor->main_number}}" type="number" required>
+                    <input class="form-control" name="mainnumber" id="destnumber" value="{{$nomor->main_number}}" type="number" pattern=".{6,6}" required>
                   </div>
                 </div>
 
@@ -111,21 +111,21 @@
                 <div class="form-group">
                   <label class="control-label col-sm-2" for="destnumber">NIP NAS:</label>
                   <div class="col-sm-10">
-                    <input type="number" class="form-control" name="mainnumber" id="destnumber" value="{{$nomor->main_number}}" required>
+                    <input type="number" class="form-control" name="mainnumber" id="destnumber" value="{{$nomor->main_number}}" pattern=".{1,15}" required>
                   </div>
                 </div>
 
                 <div class="form-group">
                   <label class="control-label col-sm-2" for="destnumber">Corportae Customer:</label>
                   <div class="col-sm-10">
-                    <input class="form-control" name="mainnumber" id="destnumber" value="{{$nomor->main_number}}" required>
+                    <input class="form-control" name="mainnumber" id="destnumber" value="{{$nomor->main_number}}" pattern=".{1,15}" required>
                   </div>
                 </div>
 
                 <div class="form-group">
                   <label class="control-label col-sm-2" for="destnumber">Installation Address:</label>
                   <div class="col-sm-10">
-                    <input class="form-control" name="mainnumber" id="destnumber" value="{{$nomor->main_number}}" required>
+                    <input class="form-control" name="mainnumber" id="destnumber" value="{{$nomor->main_number}}" pattern=".{1,50}" required>
                   </div>
                 </div>
 

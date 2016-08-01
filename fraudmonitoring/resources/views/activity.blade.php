@@ -225,7 +225,7 @@
                     <div class="form-group">
                       <label class="control-label col-sm-2" for="deskripsi">Description:</label>
                       <div class="col-sm-10">
-                      <textarea class="form-control" rows="6" id="deskripsi" name="deskripsi" required></textarea>
+                      <textarea class="form-control" rows="6" id="deskripsi" name="deskripsi" maxlength="500" required></textarea>
                       </div>
                     </div>
 

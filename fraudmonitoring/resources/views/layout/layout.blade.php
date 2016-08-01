@@ -158,6 +158,22 @@
           "info": false,
           "autoWidth": false
         });
+        $('#example4').DataTable({
+          "paging": true,
+          "lengthChange": false,
+          "searching": true,
+          "ordering": true,
+          "info": true,
+          "autoWidth": false
+        });
+        $('#example5').DataTable({
+          "paging": true,
+          "lengthChange": false,
+          "searching": true,
+          "ordering": true,
+          "info": true,
+          "autoWidth": true
+        });
 
 
         //Datemask dd/mm/yyyy
@@ -218,5 +234,7 @@
 
       });
      </script>
+
+
 </body>
 </html>

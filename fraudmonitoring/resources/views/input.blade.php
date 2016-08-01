@@ -37,28 +37,28 @@
             <div class="form-group">
               <label class="control-label col-sm-2" for="no. telp">Telephone Number:</label>
               <div class="col-sm-10">
-                <input type="number" class="form-control" name="telephonenumber" id="notelepon" placeholder="Masukkan Nomor Telepon" required>
+                <input type="text" class="form-control" name="telephonenumber" id="notelepon" placeholder="Masukkan Nomor Telepon" pattern=".{1,15}" required>
               </div>
             </div>
 
             <div class="form-group">
               <label class="control-label col-sm-2" for="no. telp">Main Number:</label>
               <div class="col-sm-10">
-                <input type="number" class="form-control" name="mainnumber" id="notelepon" placeholder="Masukkan Nomor Induk" required>
+                <input type="text" class="form-control" name="mainnumber" id="notelepon" placeholder="Masukkan Nomor Induk" pattern=".{1,15}" required>
               </div>
             </div>
 
             <div class="form-group">
               <label class="control-label col-sm-2" for="destnumber">Destination Number:</label>
               <div class="col-sm-10">
-                <input type="number" class="form-control" name="destnumber" id="destnumber" placeholder="Masukkan Nomor Telepon Tujuan" required>
+                <input type="text" class="form-control" name="destnumber" id="destnumber" placeholder="Masukkan Nomor Telepon Tujuan" pattern=".{1,15}" required>
               </div>
             </div>
 
             <div class="form-group">
               <label class="control-label col-sm-2" for="no. telp">Destination Country:</label>
               <div class="col-sm-10">
-                <input class="form-control" name="destcountry" id="notelepon" placeholder="Masukkan Daerah Tujuan Menelpon" required>
+                <input class="form-control" name="destcountry" id="notelepon" placeholder="Masukkan Daerah Tujuan Menelpon" pattern=".{1,15}" required>
               </div>
             </div>
 
@@ -102,7 +102,7 @@
             <div class="form-group">
               <label class="control-label col-sm-2" for="deskripsi">Description:</label>
               <div class="col-sm-10">
-              <textarea class="form-control" rows="6" id="deskripsi" name="deskripsi" placeholder="Masukkan Deskripsi Kasus disini" required></textarea>
+              <textarea type="text" class="form-control" rows="6" id="deskripsi" name="deskripsi" placeholder="Masukkan Deskripsi Kasus disini (Max. 500 karakter)" maxlength="500" required></textarea>
               </div>
             </div>
 
