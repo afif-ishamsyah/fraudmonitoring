@@ -49,8 +49,8 @@ class HomeController extends Controller
 			if(Auth::user()->previledge=='0')
 			{
 				$data = array();
-				$data['finish'] = DB::table('case')->where('status','=','1')->count('id_case');
-				$data['unfinish'] = DB::table('case')->where('status','=','0')->count('id_case');
+				$data['finish'] = DB::table('kasus')->where('status','=','1')->count('id_case');
+				$data['unfinish'] = DB::table('kasus')->where('status','=','0')->count('id_case');
 
 				$data['tahun1'] = Carbon::now()->year;
 				$data['tahun2'] = Carbon::now()->year-1;
@@ -58,25 +58,25 @@ class HomeController extends Controller
 				$data['tahun4'] = Carbon::now()->year-3;
 				$data['tahun5'] = Carbon::now()->year-4;
 
-				$data['closed1'] = DB::table('case')->whereYear('case_time','=',$data['tahun1'])->where('status','=','1')->count('id_case');
-				$data['open1'] = DB::table('case')->whereYear('case_time','=',$data['tahun1'])->where('status','=','0')->count('id_case');
+				$data['closed1'] = DB::table('kasus')->whereYear('case_time','=',$data['tahun1'])->where('status','=','1')->count('id_case');
+				$data['open1'] = DB::table('kasus')->whereYear('case_time','=',$data['tahun1'])->where('status','=','0')->count('id_case');
 
-				$data['closed2'] = DB::table('case')->whereYear('case_time','=',$data['tahun2'])->where('status','=','1')->count('id_case');
-				$data['open2'] = DB::table('case')->whereYear('case_time','=',$data['tahun2'])->where('status','=','0')->count('id_case');
+				$data['closed2'] = DB::table('kasus')->whereYear('case_time','=',$data['tahun2'])->where('status','=','1')->count('id_case');
+				$data['open2'] = DB::table('kasus')->whereYear('case_time','=',$data['tahun2'])->where('status','=','0')->count('id_case');
 
-				$data['closed3'] = DB::table('case')->whereYear('case_time','=',$data['tahun3'])->where('status','=','1')->count('id_case');
-				$data['open3'] = DB::table('case')->whereYear('case_time','=',$data['tahun3'])->where('status','=','0')->count('id_case');
+				$data['closed3'] = DB::table('kasus')->whereYear('case_time','=',$data['tahun3'])->where('status','=','1')->count('id_case');
+				$data['open3'] = DB::table('kasus')->whereYear('case_time','=',$data['tahun3'])->where('status','=','0')->count('id_case');
 
-				$data['closed4'] = DB::table('case')->whereYear('case_time','=',$data['tahun4'])->where('status','=','1')->count('id_case');
-				$data['open4'] = DB::table('case')->whereYear('case_time','=',$data['tahun4'])->where('status','=','0')->count('id_case');
+				$data['closed4'] = DB::table('kasus')->whereYear('case_time','=',$data['tahun4'])->where('status','=','1')->count('id_case');
+				$data['open4'] = DB::table('kasus')->whereYear('case_time','=',$data['tahun4'])->where('status','=','0')->count('id_case');
 				
-				$data['closed5'] = DB::table('case')->whereYear('case_time','=',$data['tahun5'])->where('status','=','1')->count('id_case');
-				$data['open5'] = DB::table('case')->whereYear('case_time','=',$data['tahun5'])->where('status','=','0')->count('id_case');
+				$data['closed5'] = DB::table('kasus')->whereYear('case_time','=',$data['tahun5'])->where('status','=','1')->count('id_case');
+				$data['open5'] = DB::table('kasus')->whereYear('case_time','=',$data['tahun5'])->where('status','=','0')->count('id_case');
 
-				$data['parameter'] = DB::table('case_parameter')->join('case','case_parameter.id_parameter','=','case.case_parameter')
-																->select('case_parameter.description',DB::raw('count(case.id_case) as total'))
-																->groupBy('case.case_parameter')
-    	             											->orderBy('case.case_parameter','asc')
+				$data['parameter'] = DB::table('case_parameter')->join('kasus','case_parameter.id_parameter','=','kasus.case_parameter')
+																->select('case_parameter.id_parameter','case_parameter.description',DB::raw('count(kasus.id_case) as total'))
+																->groupBy('case_parameter.id_parameter','case_parameter.description')
+																->orderBy('case_parameter.id_parameter','asc')
     	             											->get();
 				return view('home_user',$data);
 			}
@@ -103,8 +103,8 @@ class HomeController extends Controller
 			{
 				
 				$data = array();
-				$data['finish'] = DB::table('case')->where('status','=','1')->count('id_case');
-				$data['unfinish'] = DB::table('case')->where('status','=','0')->count('id_case');
+				$data['finish'] = DB::table('kasus')->where('status','=','1')->count('id_case');
+				$data['unfinish'] = DB::table('kasus')->where('status','=','0')->count('id_case');
 
 				$data['tahun1'] = Carbon::now()->year;
 				$data['tahun2'] = Carbon::now()->year-1;
@@ -112,25 +112,25 @@ class HomeController extends Controller
 				$data['tahun4'] = Carbon::now()->year-3;
 				$data['tahun5'] = Carbon::now()->year-4;
 
-				$data['closed1'] = DB::table('case')->whereYear('case_time','=',$data['tahun1'])->where('status','=','1')->count('id_case');
-				$data['open1'] = DB::table('case')->whereYear('case_time','=',$data['tahun1'])->where('status','=','0')->count('id_case');
+				$data['closed1'] = DB::table('kasus')->whereYear('case_time','=',$data['tahun1'])->where('status','=','1')->count('id_case');
+				$data['open1'] = DB::table('kasus')->whereYear('case_time','=',$data['tahun1'])->where('status','=','0')->count('id_case');
 
-				$data['closed2'] = DB::table('case')->whereYear('case_time','=',$data['tahun2'])->where('status','=','1')->count('id_case');
-				$data['open2'] = DB::table('case')->whereYear('case_time','=',$data['tahun2'])->where('status','=','0')->count('id_case');
+				$data['closed2'] = DB::table('kasus')->whereYear('case_time','=',$data['tahun2'])->where('status','=','1')->count('id_case');
+				$data['open2'] = DB::table('kasus')->whereYear('case_time','=',$data['tahun2'])->where('status','=','0')->count('id_case');
 
-				$data['closed3'] = DB::table('case')->whereYear('case_time','=',$data['tahun3'])->where('status','=','1')->count('id_case');
-				$data['open3'] = DB::table('case')->whereYear('case_time','=',$data['tahun3'])->where('status','=','0')->count('id_case');
+				$data['closed3'] = DB::table('kasus')->whereYear('case_time','=',$data['tahun3'])->where('status','=','1')->count('id_case');
+				$data['open3'] = DB::table('kasus')->whereYear('case_time','=',$data['tahun3'])->where('status','=','0')->count('id_case');
 
-				$data['closed4'] = DB::table('case')->whereYear('case_time','=',$data['tahun4'])->where('status','=','1')->count('id_case');
-				$data['open4'] = DB::table('case')->whereYear('case_time','=',$data['tahun4'])->where('status','=','0')->count('id_case');
+				$data['closed4'] = DB::table('kasus')->whereYear('case_time','=',$data['tahun4'])->where('status','=','1')->count('id_case');
+				$data['open4'] = DB::table('kasus')->whereYear('case_time','=',$data['tahun4'])->where('status','=','0')->count('id_case');
 				
-				$data['closed5'] = DB::table('case')->whereYear('case_time','=',$data['tahun5'])->where('status','=','1')->count('id_case');
-				$data['open5'] = DB::table('case')->whereYear('case_time','=',$data['tahun5'])->where('status','=','0')->count('id_case');
+				$data['closed5'] = DB::table('kasus')->whereYear('case_time','=',$data['tahun5'])->where('status','=','1')->count('id_case');
+				$data['open5'] = DB::table('kasus')->whereYear('case_time','=',$data['tahun5'])->where('status','=','0')->count('id_case');
 
-				$data['parameter'] = DB::table('case_parameter')->join('case','case_parameter.id_parameter','=','case.case_parameter')
-																->select('case_parameter.description',DB::raw('count(case.id_case) as total'))
-																->groupBy('case.case_parameter')
-    	             											->orderBy('case.case_parameter','asc')
+				$data['parameter'] = DB::table('case_parameter')->join('kasus','case_parameter.id_parameter','=','kasus.case_parameter')
+																->select('case_parameter.id_parameter','case_parameter.description',DB::raw('count(kasus.id_case) as total'))
+																->groupBy('case_parameter.id_parameter','case_parameter.description')
+																->orderBy('case_parameter.id_parameter','asc')
     	             											->get();
 
 				return view('home_admin',$data);
@@ -228,7 +228,10 @@ class HomeController extends Controller
 			}
 			elseif(Auth::user()->previledge=='1')
 			{
-				return view('admin_inputparam');
+				$data = array();
+				$data['caseparam'] = DB::table('case_parameter')->select('*')->get();
+				$data['actparam'] = DB::table('activity_parameter')->select('*')->get();
+				return view('admin_inputparam',$data);
 			}
 		}
 		else
@@ -261,7 +264,7 @@ class HomeController extends Controller
 	    if(Request::isMethod('post'))
 	    {
 	    	$data=Input::all();
-	      	$userexist = DB::table('profileuser')->select('profileuser.username')->where(strtolower('profileuser.username'),'=',strtolower($data['username']))->get();
+	      	$userexist = DB::table('profileuser')->select('profileuser.id')->whereRaw('UPPER("USERNAME")=?',[strtoupper($data['username'])])->get();
 	  		if($userexist)
 	      	{
 	        	Session::flash('fail','username sudah digunakan');
@@ -271,11 +274,11 @@ class HomeController extends Controller
 	      	elseif(!$userexist && $data['password']==$data['conpassword'])
 	  		{
 	          	$pass=bcrypt( $data['password']);
-	          	DB::table('profileuser')->insertGetId(array(
+	          	DB::table('profileuser')->insert([
 	             	 'username'=> $data['username'],
-	             	 'password'=> $pass,
+	             	 'passwd'=> $pass,
 	            	 'previledge'=>$data['previledge']
-	             	 ));
+	             	 ]);
 	          	Session::flash('success','User berhasil ditambah');
 	           	return view('admin_inputuser');
 	      	}
@@ -297,11 +300,11 @@ class HomeController extends Controller
 	    if(Request::isMethod('post'))
 	    {
 	     	$data=Input::all();
-	     	$true = DB::table('profileuser')->select('profileuser.username')->where('profileuser.username','=',$data['username'])->get();
+	      	$true = DB::table('profileuser')->select('profileuser.id')->whereRaw('UPPER("USERNAME")=?',[strtoupper($data['username'])])->get();
 
 	     	if($true)
 	     	{
-	     		$passcheck = DB::table('profileuser')->where('profileuser.username','=',$data['username'])->value('password');
+	     		$passcheck = DB::table('profileuser')->where('profileuser.username','=',$data['username'])->value('passwd');
 	     	}
 	     	else
 	    	{
@@ -316,7 +319,7 @@ class HomeController extends Controller
 		            $pass=bcrypt( $data['newpassword']);
 		            DB::table('profileuser')
 		              ->where('username', $data['username'])
-		              ->update(['password' => $pass, 'previledge' => $data['previledge']]);
+		              ->update(['passwd' => $pass, 'previledge' => $data['previledge']]);
 		            Session::flash('success','Berhasil edit akun');
 			        return view('admin_edituser');
 		      	}
@@ -328,7 +331,7 @@ class HomeController extends Controller
 	    	}
 	    	else
 	    	{
-	    		Session::flash('fail','Akun tidak ditemukan');
+	    		Session::flash('fail','Salah Password');
 	    		return view('admin_edituser');
 	    	}
 	    }
@@ -344,18 +347,26 @@ class HomeController extends Controller
 	    if(Request::isMethod('post'))
 	    {
 	    	$data=Input::all();
-	    	$exist = DB::table('case_parameter')->select('description')->where(strtolower('description'),'=',strtolower($data['parameter']))->get();
+	    	$exist = DB::table('case_parameter')->select('id_parameter')
+	    										->where('description','=',strtoupper($data['parameter']))
+	    										->get();
 
 	    	if($exist)
 	    	{
+	    		$datas = array();
+				$datas['caseparam'] = DB::table('case_parameter')->select('*')->get();
+				$datas['actparam'] = DB::table('activity_parameter')->select('*')->get();
 	    		Session::flash('fail','Penambahan gagal. Case Parameter sudah ada sebelumnya');
-				return view('admin_inputparam');
+				return view('admin_inputparam',$datas);
 	    	}
 	    	else
 	    	{
-		    	DB::table('case_parameter')->insert(['description' => $data['parameter']]);
+		    	DB::table('case_parameter')->insert(['description' => strtoupper($data['parameter'])]);
+		    	$datas = array();
+				$datas['caseparam'] = DB::table('case_parameter')->select('*')->get();
+				$datas['actparam'] = DB::table('activity_parameter')->select('*')->get();
 		    	Session::flash('success','Case Parameter berhasil ditambah');
-				return view('admin_inputparam');
+				return view('admin_inputparam',$datas);
 			}
 	    }
 	    elseif(Request::isMethod('get'))
@@ -369,24 +380,106 @@ class HomeController extends Controller
 	    if(Request::isMethod('post'))
 	    {
 	    	$data=Input::all();
-	    	$exist = DB::table('activity_parameter')->select('description')->where(strtolower('description'),'=',strtolower($data['parameter']))->get();
+	    	$exist = DB::table('activity_parameter')->select('id_parameter')->where('description','=',strtoupper($data['parameter']))->get();
 
 	    	if($exist)
 	    	{
+	    		$datas = array();
+				$datas['caseparam'] = DB::table('case_parameter')->select('*')->get();
+				$datas['actparam'] = DB::table('activity_parameter')->select('*')->get();
 	    		Session::flash('fail','Penambahan gagal. Activity Parameter sudah ada sebelumnya');
-				return view('admin_inputparam');
+				return view('admin_inputparam',$datas);
 	    	}
 	    	else
 	    	{
-		    	DB::table('activity_parameter')->insert(['description' => $data['parameter'], 'status' => $data['status']]);
+		    	DB::table('activity_parameter')->insert(['description' => strtoupper($data['parameter']),'akronim'=>strtoupper($data['akronim']), 'status' => $data['status']]);
+		    	$datas = array();
+				$datas['caseparam'] = DB::table('case_parameter')->select('*')->get();
+				$datas['actparam'] = DB::table('activity_parameter')->select('*')->get();
 		    	Session::flash('success','Activity Parameter berhasil ditambah');
-				return view('admin_inputparam');
+				return view('admin_inputparam',$datas);
 			}
 	    }
 	    elseif(Request::isMethod('get'))
 	    {
 	    	return redirect('/');
 	    }
+	}
+
+	public function deletecaseparam($id)
+	{
+		if(Auth::check())
+		{
+			if(Auth::user()->previledge=='0')
+			{
+				return redirect('user');
+			}
+			elseif(Auth::user()->previledge=='1')
+			{
+				$used = DB::table('kasus')->select('id_case')->where('case_parameter','=',$id)->first();
+
+				if($used)
+				{
+					$data = array();
+					$data['caseparam'] = DB::table('case_parameter')->select('*')->get();
+					$data['actparam'] = DB::table('activity_parameter')->select('*')->get();
+					Session::flash('fail','Maaf. Parameter sudah digunakan dan tidak bisa dihapus');
+					return view('admin_inputparam',$data);
+				}
+				elseif(!$used)
+				{
+					DB::table('case_parameter')->where('id_parameter','=',$id)->delete();
+					$data = array();
+					$data['caseparam'] = DB::table('case_parameter')->select('*')->get();
+					$data['actparam'] = DB::table('activity_parameter')->select('*')->get();
+					Session::flash('success','Parameter telah dihapus');
+					return view('admin_inputparam',$data);
+				}
+				
+			}
+		}
+		else
+		{
+			return redirect('loginform');
+		}
+	}
+
+	public function deleteactparam($id)
+	{
+		if(Auth::check())
+		{
+			if(Auth::user()->previledge=='0')
+			{
+				return redirect('user');
+			}
+			elseif(Auth::user()->previledge=='1')
+			{
+				$used = DB::table('activity')->select('id_case')->where('activity_number','=',$id)->first();
+
+				if($used)
+				{
+					$data = array();
+					$data['caseparam'] = DB::table('case_parameter')->select('*')->get();
+					$data['actparam'] = DB::table('activity_parameter')->select('*')->get();
+					Session::flash('fail','Maaf. Parameter sudah digunakan dan tidak bisa dihapus');
+					return view('admin_inputparam',$data);
+				}
+				elseif(!$used)
+				{
+					DB::table('activity_parameter')->where('id_parameter','=',$id)->delete();
+					$data = array();
+					$data['caseparam'] = DB::table('case_parameter')->select('*')->get();
+					$data['actparam'] = DB::table('activity_parameter')->select('*')->get();
+					Session::flash('success','Parameter telah dihapus');
+					return view('admin_inputparam',$data);
+				}
+				
+			}
+		}
+		else
+		{
+			return redirect('loginform');
+		}
 	}
 	
 
@@ -423,8 +516,8 @@ class HomeController extends Controller
 			if(Auth::user()->previledge=='0')
 			{
 				$data = array();
-      			$data['nomor'] = DB::connection('mysql2')->table('profile')->join('revenue','profile.notel','=','revenue.notel')
-	    														 ->select('profile.notel','profile.namacc','profile.alamat','profile.namaam','profile.segment','revenue.average')
+      			$data['nomor'] = DB::connection('oracle2')->table('profil')->join('revenue','profil.notel','=','revenue.notel')
+	    														 ->select('profil.notel','profil.namacc','profil.alamat','profil.namaam','profil.segmen','revenue.average')
 	    														 ->get();
 
 	  			return view('edit_profile',$data);
@@ -444,13 +537,13 @@ class HomeController extends Controller
 	{
 		if(Auth::check())
 		{
-			$status = DB::table('case')->where('id_case','=',$id1)->value('status');
+			$status = DB::table('kasus')->where('id_case','=',$id1)->value('status');
 			if(Auth::user()->previledge=='0' && $status=='0')
 			{
 				$data = array();
-      			$data['nomor'] = DB::table('case')->join('profile','case.id_case','=','profile.id_case')
-      											     ->select('case.id_case','profile.telephone_number','profile.main_number','profile.nipnas','profile.customer','profile.nikam','profile.am','profile.installation','profile.segment','profile.revenue','case.status')
-      												 ->where('case.id_case','=',$id1)->first();
+      			$data['nomor'] = DB::table('kasus')->join('profil','kasus.id_case','=','profil.id_case')
+      											     ->select('kasus.id_case','profil.telephone_number','profil.main_number')
+      												 ->where('kasus.id_case','=',$id1)->first();
 
 	  			return view('edit',$data);
 			}
@@ -474,9 +567,9 @@ class HomeController extends Controller
 	    if(Request::isMethod('post'))
 	    {
 	     	$data=Input::all();
-	     	DB::table('profile')
+	     	DB::table('profil')
 		              ->where('id_case', $data['idcase'])
-		              ->update(['nipnas' => $data['nipnas'], 'customer' => $data['customer'], 'nikam' => $data['nikam'], 'am' => $data['am'], 'installation'=>$data['alamat'],'segment' => $data['segment'], 'revenue' => $data['revenue']]);
+		              ->update(['nipnas' => $data['nipnas'], 'customer' => $data['customer'], 'nikam' => $data['nikam'], 'am' => $data['am'], 'installation'=>$data['alamat'],'segmen' => $data['segmen'], 'revenue' => $data['revenue']]);
 
 			return Redirect::route('closed',$data['idcase']);
 	    }
@@ -492,34 +585,34 @@ class HomeController extends Controller
 	    {
 	     	$data=Input::all();
 	     	$datas=array();
-	     	$profile = DB::connection('mysql2')->table('profile')->join('revenue','profile.notel','=','revenue.notel')
-	    														 ->select('profile.notel','profile.nipnas','profile.namacc','profile.alamat','profile.nikam','profile.namaam','profile.segment','revenue.average')
-	    														 ->where('profile.notel','=',$data['mainnumber'])
+	     	$profile = DB::connection('oracle2')->table('profil')->join('revenue','profil.notel','=','revenue.notel')
+	    														 ->select('profil.notel','profil.nipnas','profil.namacc','profil.alamat','profil.nikam','profil.namaam','profil.segmen','revenue.average')
+	    														 ->where('profil.notel','=',$data['mainnumber'])
 	    														 ->first();
 	    	if(!$profile)
 	    	{
-	    		DB::table('profile')
+	    		DB::table('profil')
 		              ->where('id_case', $data['idcase'])
-		              ->update(['main_number'=>$data['mainnumber']]);
+		              ->update(['main_number'=>$data['mainnumber'],'nipnas'=>'','customer'=>'','installation'=>'','nikam'=>'','am'=>'','segmen'=>'','revenue'=>'']);
 
-	    		$datas['nomor'] = DB::table('case')->join('profile','case.id_case','=','profile.id_case')
-      											     ->select('case.id_case','profile.telephone_number','profile.main_number','profile.nipnas','profile.customer','profile.nikam','profile.am','profile.installation','profile.segment','profile.revenue')
-      												 ->where('case.id_case','=',$data['idcase'])->first();
+	    		$datas['nomor'] = DB::table('kasus')->join('profil','kasus.id_case','=','profil.id_case')
+      											     ->select('kasus.id_case','profil.telephone_number','profil.main_number','profil.nipnas','profil.customer','profil.nikam','profil.am','profil.installation','profil.segmen','profil.revenue')
+      												 ->where('kasus.id_case','=',$data['idcase'])->first();
 
-      			Session::flash('fail','Data kosong. Silahkan melakukan checking kembali, atau bisa mengisi form Profile');
+      			Session::flash('fail','Data kosong. Silahkan melakukan checking kembali, atau bisa mengisi form profile');
 	  			return view('edit',$datas);
 	    	}
 	    	elseif($profile)
 	    	{
-	    		DB::table('profile')
+	    		DB::table('profil')
 		              ->where('id_case', $data['idcase'])
-		              ->update(['main_number'=>$data['mainnumber'],'nipnas'=>$profile->nipnas,'customer'=>$profile->namacc,'installation'=>$profile->alamat,'nikam'=>$profile->nikam,'am'=>$profile->namaam,'segment'=>$profile->segment,'revenue'=>$profile->average]);
+		              ->update(['main_number'=>$data['mainnumber'],'nipnas'=>$profile->nipnas,'customer'=>$profile->namacc,'installation'=>$profile->alamat,'nikam'=>$profile->nikam,'am'=>$profile->namaam,'segmen'=>$profile->segmen,'revenue'=>$profile->average]);
 	    	
-		       $datas['nomor'] = DB::table('case')->join('profile','case.id_case','=','profile.id_case')
-      											     ->select('case.id_case','profile.telephone_number','profile.main_number','profile.nipnas','profile.customer','profile.nikam','profile.am','profile.installation','profile.segment','profile.revenue')
-      												 ->where('case.id_case','=',$data['idcase'])->first();
+		       $datas['nomor'] = DB::table('kasus')->join('profil','kasus.id_case','=','profil.id_case')
+      											     ->select('kasus.id_case','profil.telephone_number','profil.main_number','profil.nipnas','profil.customer','profil.nikam','profil.am','profil.installation','profil.segmen','profil.revenue')
+      												 ->where('kasus.id_case','=',$data['idcase'])->first();
 
-      			Session::flash('success','Data ditemukan. Silahkan mengecek form Profile, atau bisa kembali melakukan checking');
+      			Session::flash('success','Data ditemukan. Silahkan mengecek form profile, atau bisa kembali melakukan checking');
 	  			return view('edit',$datas);
 	    	}
 	    }
@@ -537,19 +630,19 @@ class HomeController extends Controller
 	    	$data=Input::all();
 	    	
 	    	$profile = array();
-	    	$profile = DB::connection('mysql2')->table('profile')->join('revenue','profile.notel','=','revenue.notel')
-	    														 ->select('profile.nipnas','profile.namacc','profile.alamat','profile.nikam','profile.namaam','profile.segment','revenue.average')
-	    														 ->where('profile.notel','=',$data['mainnumber'])
+	    	$profile = DB::connection('oracle2')->table('profil')->join('revenue','profil.notel','=','revenue.notel')
+	    														 ->select('profil.nipnas','profil.namacc','profil.alamat','profil.nikam','profil.namaam','profil.segmen','revenue.average')
+	    														 ->where('profil.notel','=',$data['mainnumber'])
 	    														 ->first();
 
-	    	$caseexist = DB::table('case')->join('profile','case.id_case','=','profile.id_case')
-	    								  ->select('profile.telephone_number')->where('case.status','=','0')->where('profile.telephone_number','=',$data['telephonenumber'])
+	    	$caseexist = DB::table('kasus')->join('profil','kasus.id_case','=','profil.id_case')
+	    								  ->select('profil.telephone_number')->where('kasus.status','=','0')->where('profil.telephone_number','=',$data['telephonenumber'])
 	    								  ->get();
 
 
 	      	if(!$caseexist)
 	  		{
-	  			$id =  Uuid::uuid4();
+	  			$id =  Uuid::uuid4();	
 
 				$date = str_replace('/', '-', $data['casedate']);
 				$dates = date('Y-m-d', strtotime($date));
@@ -557,15 +650,27 @@ class HomeController extends Controller
 				$extension = $file->getClientOriginalExtension();
 				Storage::disk('local')->put($file->getFilename().'.'.$extension,  File::get($file));
 
-	          	DB::table('case')->insert(['id_case'=>$id,'destination'=>$data['destcountry'],'destination_number'=>$data['destnumber'],'duration'=>$data['durasi'],'number_of_call'=>$data['frekuensi'],'case_parameter'=>$data['casetype'],'case_time'=>$dates,'description'=>$data['deskripsi'],'input_date'=>Carbon::now(),'mime'=>$file->getClientMimeType(),'original_filename'=>$file->getClientOriginalName(),'filename'=>$file->getFilename().'.'.$extension]);
+	          	DB::table('kasus')->insert(['id_case'=>(string)$id,
+	          								'case_parameter'=>$data['casetype'],
+	          								'case_time'=>$dates,
+	          								'description'=>$data['deskripsi'],
+	          								'status'=>'0',
+	          								'destination'=>$data['destcountry'],
+	          								'destination_number'=>$data['destnumber'],
+	          								'durasi'=>$data['durasi'],
+	          								'number_of_call'=>$data['frekuensi'],
+	          								'input_date'=>Carbon::now(),
+	          								'filename'=>$file->getFilename().'.'.$extension,
+	          								'mime'=>$file->getClientMimeType(),
+	          								'original_filename'=>$file->getClientOriginalName()]);
 	           	
 	          	if($profile)
 	          	{
-	           		DB::table('profile')->insert(['id_case'=>$id,'telephone_number' => $data['telephonenumber'],'main_number'=>$data['mainnumber'],'nipnas'=>$profile->nipnas,'customer'=>$profile->namacc,'installation'=>$profile->alamat,'nikam'=>$profile->nikam,'am'=>$profile->namaam,'segment'=>$profile->segment,'revenue'=>$profile->average]);
+	           		DB::table('profil')->insert(['id_case'=>(string)$id,'telephone_number' => $data['telephonenumber'],'main_number'=>$data['mainnumber'],'nipnas'=>$profile->nipnas,'customer'=>$profile->namacc,'installation'=>$profile->alamat,'nikam'=>$profile->nikam,'am'=>$profile->namaam,'segmen'=>$profile->segmen,'revenue'=>$profile->average]);
 	            }
 	            elseif(!$profile)
 	          	{
-	           		DB::table('profile')->insert(['id_case'=>$id,'telephone_number' => $data['telephonenumber'],'main_number'=>$data['mainnumber']]);
+	           		DB::table('profil')->insert(['id_case'=>(string)$id,'telephone_number' => $data['telephonenumber'],'main_number'=>$data['mainnumber']]);
 	            }
 
 			    return Redirect::route('closed',$id);
@@ -591,10 +696,20 @@ class HomeController extends Controller
 			if(Auth::user()->previledge=='0')
 			{
 				$data=array();
-			    $data['nomor']=DB::table('case')->join('profile','case.id_case','=','profile.id_case')
-			    								->select('case.id_case','profile.telephone_number','profile.customer','profile.am','case.case_time','case.status')
-			    								->orderBy('case.status', 'asc')
+			    $data['nomor']=DB::table('kasus')->join('profil','kasus.id_case','=','profil.id_case')
+			    								->leftJoin('activity_parameter','kasus.last_activity','=','activity_parameter.id_parameter')
+			    								->select('kasus.id_case','profil.telephone_number','profil.customer','profil.am','kasus.case_time','kasus.status','activity_parameter.akronim')
+			    								->orderBy('kasus.status', 'asc')
 			    								->get();
+
+			    // $data['nomor']=DB::table('kasus')->join('profil','kasus.id_case','=','profil.id_case')
+       //                                          ->leftJoin('activity','kasus.id_case','=','activity.id_case')
+       //                                          ->leftJoin('activity_parameter','activity.activity_number','=','activity_parameter.id_parameter')
+       //                                          ->select(DB::raw('kasus.id_case , profil.telephone_number , profil.customer , profil.am , kasus.case_time , kasus.status , activity_parameter.akronim'))
+       //                                          ->groupBy('kasus.id_case','profil.telephone_number','profil.customer','profil.am','kasus.case_time','kasus.status','activity_parameter.akronim')
+       //                                          ->orderBy('kasus.status', 'asc')
+       //                                          ->get();
+
 			    return view('search',$data);
 			}
 			elseif(Auth::user()->previledge=='1')
@@ -619,26 +734,29 @@ class HomeController extends Controller
 
 			    if($datas['opsi1']=='1')
 			    {
-			    	$data['nomor']=DB::table('case')->join('profile','case.id_case','=','profile.id_case')
-			    								->select('case.id_case','profile.telephone_number','profile.customer','profile.am','case.case_time','case.status')
-			    								->where('profile.telephone_number','LIKE','%'.$datas['telephone'].'%')
-			    								->orderBy('case.status', 'asc')
+			    	$data['nomor']=DB::table('kasus')->join('profil','kasus.id_case','=','profil.id_case')
+			    								->leftJoin('activity_parameter','kasus.last_activity','=','activity_parameter.id_parameter')
+			    								->select('kasus.id_case','profil.telephone_number','profil.customer','profil.am','kasus.case_time','kasus.status','activity_parameter.akronim')
+			    								->where('profil.telephone_number','LIKE','%'.$datas['telephone'].'%')
+			    								->orderBy('kasus.status', 'asc')
 			    								->get();
 			    }
 			    elseif($datas['opsi1']=='2')
 			    {
-			    	$data['nomor']=DB::table('case')->join('profile','case.id_case','=','profile.id_case')
-			    								->select('case.id_case','profile.telephone_number','profile.customer','profile.am','case.case_time','case.status')
-			    								->where('profile.telephone_number','LIKE','%'.$datas['telephone'].'%')
-			    								->where('case.status','=','0')
+			    	$data['nomor']=DB::table('kasus')->join('profil','kasus.id_case','=','profil.id_case')
+			    								->leftJoin('activity_parameter','kasus.last_activity','=','activity_parameter.id_parameter')
+			    								->select('kasus.id_case','profil.telephone_number','profil.customer','profil.am','kasus.case_time','kasus.status','activity_parameter.akronim')
+			    								->where('profil.telephone_number','LIKE','%'.$datas['telephone'].'%')
+			    								->where('kasus.status','=','0')
 			    								->get();
 			    }
 			    elseif($datas['opsi1']=='3')
 			    {
-			    	$data['nomor']=DB::table('case')->join('profile','case.id_case','=','profile.id_case')
-			    								->select('case.id_case','profile.telephone_number','profile.customer','profile.am','case.case_time','case.status')
-			    								->where('profile.telephone_number','LIKE','%'.$datas['telephone'].'%')
-			    								->where('case.status','=','1')
+			    	$data['nomor']=DB::table('kasus')->join('profil','kasus.id_case','=','profil.id_case')
+			    								->leftJoin('activity_parameter','kasus.last_activity','=','activity_parameter.id_parameter')
+			    								->select('kasus.id_case','profil.telephone_number','profil.customer','profil.am','kasus.case_time','kasus.status','activity_parameter.akronim')
+			    								->where('profil.telephone_number','LIKE','%'.$datas['telephone'].'%')
+			    								->where('kasus.status','=','1')
 			    								->get();
 			    }
 			    return view('search',$data);
@@ -665,26 +783,29 @@ class HomeController extends Controller
 			    $data=array();
 			    if($datas['opsi1']=='1')
 			    {
-			    	$data['nomor']=DB::table('case')->join('profile','case.id_case','=','profile.id_case')
-			    								->select('case.id_case','profile.telephone_number','profile.customer','profile.am','case.case_time','case.status')
-			    								->where('case.case_time','<=',$date)
-			    								->orderBy('case.status', 'asc')
+			    	$data['nomor']=DB::table('kasus')->join('profil','kasus.id_case','=','profil.id_case')
+			    								->leftJoin('activity_parameter','kasus.last_activity','=','activity_parameter.id_parameter')
+			    								->select('kasus.id_case','profil.telephone_number','profil.customer','profil.am','kasus.case_time','kasus.status','activity_parameter.akronim')
+			    								->where('kasus.case_time','<=',$date)
+			    								->orderBy('kasus.status', 'asc')
 			    								->get();
 			    }
 			    elseif($datas['opsi1']=='2')
 			    {
-			    	$data['nomor']=DB::table('case')->join('profile','case.id_case','=','profile.id_case')
-			    								->select('case.id_case','profile.telephone_number','profile.customer','profile.am','case.case_time','case.status')
-			    								->where('case.case_time','<=',$date)
-			    								->where('case.status','=','0')
+			    	$data['nomor']=DB::table('kasus')->join('profil','kasus.id_case','=','profil.id_case')
+			    								->leftJoin('activity_parameter','kasus.last_activity','=','activity_parameter.id_parameter')
+			    								->select('kasus.id_case','profil.telephone_number','profil.customer','profil.am','kasus.case_time','kasus.status','activity_parameter.akronim')
+			    								->where('kasus.case_time','<=',$date)
+			    								->where('kasus.status','=','0')
 			    								->get();
 			    }
 			    elseif($datas['opsi1']=='3')
 			    {
-			    	$data['nomor']=DB::table('case')->join('profile','case.id_case','=','profile.id_case')
-			    								->select('case.id_case','profile.telephone_number','profile.customer','profile.am','case.case_time','case.status')
-			    								->where('case.case_time','<=',$date)
-			    								->where('case.status','=','1')
+			    	$data['nomor']=DB::table('kasus')->join('profil','kasus.id_case','=','profil.id_case')
+			    								->leftJoin('activity_parameter','kasus.last_activity','=','activity_parameter.id_parameter')
+			    								->select('kasus.id_case','profil.telephone_number','profil.customer','profil.am','kasus.case_time','kasus.status','activity_parameter.akronim')
+			    								->where('kasus.case_time','<=',$date)
+			    								->where('kasus.status','=','1')
 			    								->get();
 			    }
 			    return view('search',$data);
@@ -711,26 +832,29 @@ class HomeController extends Controller
 			    $data=array();
 			    if($datas['opsi1']=='1')
 			    {
-			    	$data['nomor']=DB::table('case')->join('profile','case.id_case','=','profile.id_case')
-			    								->select('case.id_case','profile.telephone_number','profile.customer','profile.am','case.case_time','case.status')
-			    								->where('case.input_date','<=',$date)
-			    								->orderBy('case.status', 'asc')
+			    	$data['nomor']=DB::table('kasus')->join('profil','kasus.id_case','=','profil.id_case')
+			    								->leftJoin('activity_parameter','kasus.last_activity','=','activity_parameter.id_parameter')
+			    								->select('kasus.id_case','profil.telephone_number','profil.customer','profil.am','kasus.case_time','kasus.status','activity_parameter.akronim')
+			    								->where('kasus.input_date','<=',$date)
+			    								->orderBy('kasus.status', 'asc')
 			    								->get();
 			    }
 			    elseif($datas['opsi1']=='2')
 			    {
-			    	$data['nomor']=DB::table('case')->join('profile','case.id_case','=','profile.id_case')
-			    								->select('case.id_case','profile.telephone_number','profile.customer','profile.am','case.case_time','case.status')
-			    								->where('case.input_date','<=',$date)
-			    								->where('case.status','=','0')
+			    	$data['nomor']=DB::table('kasus')->join('profil','kasus.id_case','=','profil.id_case')
+			    								->leftJoin('activity_parameter','kasus.last_activity','=','activity_parameter.id_parameter')
+			    								->select('kasus.id_case','profil.telephone_number','profil.customer','profil.am','kasus.case_time','kasus.status','activity_parameter.akronim')
+			    								->where('kasus.input_date','<=',$date)
+			    								->where('kasus.status','=','0')
 			    								->get();
 			    }
 			    elseif($datas['opsi1']=='3')
 			    {
-			    	$data['nomor']=DB::table('case')->join('profile','case.id_case','=','profile.id_case')
-			    								->select('case.id_case','profile.telephone_number','profile.customer','profile.am','case.case_time','case.status')
-			    								->where('case.input_date','<=',$date)
-			    								->where('case.status','=','1')
+			    	$data['nomor']=DB::table('kasus')->join('profil','kasus.id_case','=','profil.id_case')
+			    								->leftJoin('activity_parameter','kasus.last_activity','=','activity_parameter.id_parameter')
+			    								->select('kasus.id_case','profil.telephone_number','profil.customer','profil.am','kasus.case_time','kasus.status','activity_parameter.akronim')
+			    								->where('kasus.input_date','<=',$date)
+			    								->where('kasus.status','=','1')
 			    								->get();
 			    }
 			    return view('search',$data);
@@ -754,28 +878,32 @@ class HomeController extends Controller
 			{
 				$datas=Input::all();
 	    		$data=array();
+	    		$nama = strtolower($datas['am']);
 	    		if($datas['opsi1']=='1')
 			    {
-			    	$data['nomor']=DB::table('case')->join('profile','case.id_case','=','profile.id_case')
-			    								->select('case.id_case','profile.telephone_number','profile.customer','profile.am','case.case_time','case.status')
-			    								->where(strtolower('profile.am'),'LIKE','%'.strtolower($datas['am']).'%')
-			    								->orderBy('case.status', 'asc')
+			    	$data['nomor']=DB::table('kasus')->join('profil','kasus.id_case','=','profil.id_case')
+			    								->leftJoin('activity_parameter','kasus.last_activity','=','activity_parameter.id_parameter')
+			    								->select('kasus.id_case','profil.telephone_number','profil.customer','profil.am','kasus.case_time','kasus.status','activity_parameter.akronim')
+			    								->whereRaw('LOWER("AM") like ?',['%'.$nama.'%'])
+			    								->orderBy('kasus.status', 'asc')
 			    								->get();
 			    }
 			    elseif($datas['opsi1']=='2')
 			    {
-			    	$data['nomor']=DB::table('case')->join('profile','case.id_case','=','profile.id_case')
-			    								->select('case.id_case','profile.telephone_number','profile.customer','profile.am','case.case_time','case.status')
-			    								->where(strtolower('profile.am'),'LIKE','%'.strtolower($datas['am']).'%')
-			    								->where('case.status','=','0')
+			    	$data['nomor']=DB::table('kasus')->join('profil','kasus.id_case','=','profil.id_case')
+			    								->leftJoin('activity_parameter','kasus.last_activity','=','activity_parameter.id_parameter')
+			    								->select('kasus.id_case','profil.telephone_number','profil.customer','profil.am','kasus.case_time','kasus.status','activity_parameter.akronim')
+			    								->whereRaw('LOWER("AM") like ?',['%'.$nama.'%'])
+			    								->where('kasus.status','=','0')
 			    								->get();
 			    }
 			    elseif($datas['opsi1']=='3')
 			    {
-			    	$data['nomor']=DB::table('case')->join('profile','case.id_case','=','profile.id_case')
-			    								->select('case.id_case','profile.telephone_number','profile.customer','profile.am','case.case_time','case.status')
-			    								->where(strtolower('profile.am'),'LIKE','%'.strtolower($datas['am']).'%')
-			    								->where('case.status','=','1')
+			    	$data['nomor']=DB::table('kasus')->join('profil','kasus.id_case','=','profil.id_case')
+			    								->leftJoin('activity_parameter','kasus.last_activity','=','activity_parameter.id_parameter')
+			    								->select('kasus.id_case','profil.telephone_number','profil.customer','profil.am','kasus.case_time','kasus.status','activity_parameter.akronim')
+			    								->whereRaw('LOWER("AM") like ?',['%'.$nama.'%'])
+			    								->where('kasus.status','=','1')
 			    								->get();
 			    }
 	    		return view('search',$data);
@@ -800,28 +928,32 @@ class HomeController extends Controller
 			{
 				$datas=Input::all();
 			    $data=array();
+			    $nama = strtolower($datas['customer']);
 			    if($datas['opsi1']=='1')
 			    {
-			    	$data['nomor']=DB::table('case')->join('profile','case.id_case','=','profile.id_case')
-			    								->select('case.id_case','profile.telephone_number','profile.customer','profile.am','case.case_time','case.status')
-			    								->where(strtolower('profile.customer'),'LIKE','%'.strtolower($datas['customer']).'%')
-			    								->orderBy('case.status', 'asc')
+			    	$data['nomor']=DB::table('kasus')->join('profil','kasus.id_case','=','profil.id_case')
+			    								->leftJoin('activity_parameter','kasus.last_activity','=','activity_parameter.id_parameter')
+			    								->select('kasus.id_case','profil.telephone_number','profil.customer','profil.am','kasus.case_time','kasus.status','activity_parameter.akronim')
+			    								->whereRaw('LOWER("CUSTOMER") like ?',['%'.$nama.'%'])
+			    								->orderBy('kasus.status', 'asc')
 			    								->get();
 			    }
 			    elseif($datas['opsi1']=='2')
 			    {
-			    	$data['nomor']=DB::table('case')->join('profile','case.id_case','=','profile.id_case')
-			    								->select('case.id_case','profile.telephone_number','profile.customer','profile.am','case.case_time','case.status')
-			    								->where(strtolower('profile.customer'),'LIKE','%'.strtolower($datas['customer']).'%')
-			    								->where('case.status','=','0')
+			    	$data['nomor']=DB::table('kasus')->join('profil','kasus.id_case','=','profil.id_case')
+			    								->leftJoin('activity_parameter','kasus.last_activity','=','activity_parameter.id_parameter')
+			    								->select('kasus.id_case','profil.telephone_number','profil.customer','profil.am','kasus.case_time','kasus.status','activity_parameter.akronim')
+			    								->whereRaw('LOWER("CUSTOMER") like ?',['%'.$nama.'%'])
+			    								->where('kasus.status','=','0')
 			    								->get();
 			    }
 			    elseif($datas['opsi1']=='3')
 			    {
-			    	$data['nomor']=DB::table('case')->join('profile','case.id_case','=','profile.id_case')
-			    								->select('case.id_case','profile.telephone_number','profile.customer','profile.am','case.case_time','case.status')
-			    								->where(strtolower('profile.customer'),'LIKE','%'.strtolower($datas['customer']).'%')
-			    								->where('case.status','=','1')
+			    	$data['nomor']=DB::table('kasus')->join('profil','kasus.id_case','=','profil.id_case')
+			    								->leftJoin('activity_parameter','kasus.last_activity','=','activity_parameter.id_parameter')
+			    								->select('kasus.id_case','profil.telephone_number','profil.customer','profil.am','kasus.case_time','kasus.status','activity_parameter.akronim')
+			    								->whereRaw('LOWER("CUSTOMER") like ?',['%'.$nama.'%'])
+			    								->where('kasus.status','=','1')
 			    								->get();
 			    }
 			    return view('search',$data);
@@ -845,37 +977,38 @@ class HomeController extends Controller
 		{
 			if(Auth::user()->previledge=='0')
 			{
-				  $number = DB::table('case')->join('profile','case.id_case','=','profile.id_case')
-				  						     ->where('case.id_case','=',$id)
+				  $number = DB::table('kasus')->join('profil','kasus.id_case','=','profil.id_case')
+				  						     ->where('kasus.id_case','=',$id)
 				  						     ->value('telephone_number');
-				  $tanggal = DB::table('case')->where('case.id_case','=',$id)->value('case_time');
+				  $tanggal = DB::table('kasus')->where('kasus.id_case','=',$id)->value('case_time');
 
 				  $data = array();
-			      $data['nomor'] = DB::table('profile')->select('telephone_number','main_number','nipnas','customer','nikam','am','installation','segment','revenue')->where('profile.id_case','=',$id)->first();
+			      $data['nomor'] = DB::table('profil')->select('telephone_number','main_number','nipnas','customer','nikam','am','installation','segmen','revenue')->where('profil.id_case','=',$id)->first();
 
 			      
 			      $data['aktivitas'] = DB::table('activity')->join('activity_parameter','activity.activity_number','=','activity_parameter.id_parameter')
 			      										    ->select('activity.activity_date as tanggal','activity_parameter.description as type','activity.description as descr','activity.filename')
 			      										    ->where('activity.id_case','=',$id)
+			      										    ->orderBy('activity.input_date','asc')
 			      										    ->get();
 
-			      $data['cases'] = DB::table('case')->join('case_parameter','case.case_parameter','=','case_parameter.id_parameter')
-			      									->select('case.id_case','case.destination','case.status','case.destination_number','case.duration','case.number_of_call','case_parameter.description as des1','case.case_time','case.description as des2','case.filename')
-			      									->where('case.id_case','=',$id)
+			      $data['cases'] = DB::table('kasus')->join('case_parameter','kasus.case_parameter','=','case_parameter.id_parameter')
+			      									->select('kasus.id_case','kasus.destination','kasus.status','kasus.destination_number','kasus.durasi','kasus.number_of_call','case_parameter.description as des1','kasus.case_time','kasus.description as des2','kasus.filename')
+			      									->where('kasus.id_case','=',$id)
 			      									->first();
 
 			      $data['actlist'] = DB::table('activity_parameter')->select('description','id_parameter')->get();
 
-			      $data['jumlah'] = DB::table('case')->join('profile','case.id_case','=','profile.id_case')
-			      									 ->where('profile.telephone_number','=',$number)
-			      									 ->where('case.case_time','<',$tanggal)
-			      									 ->count('case.id_case');
+			      $data['jumlah'] = DB::table('kasus')->join('profil','kasus.id_case','=','profil.id_case')
+			      									 ->where('profil.telephone_number','=',$number)
+			      									 ->where('kasus.case_time','<',$tanggal)
+			      									 ->count('kasus.id_case');
 
-			      $data['history'] = DB::table('case')->join('case_parameter','case.case_parameter','=','case_parameter.id_parameter')
-				      								->join('profile','case.id_case','=','profile.id_case')
-				      								->select('case.case_time','case.destination_number','case.destination','case.duration','case.number_of_call','case_parameter.description')
-				      								->where('profile.telephone_number','=',$number)
-				      								->where('case.case_time','<',$tanggal)
+			      $data['history'] = DB::table('kasus')->join('case_parameter','kasus.case_parameter','=','case_parameter.id_parameter')
+				      								->join('profil','kasus.id_case','=','profil.id_case')
+				      								->select('kasus.case_time','kasus.destination_number','kasus.destination','kasus.durasi','kasus.number_of_call','case_parameter.description')
+				      								->where('profil.telephone_number','=',$number)
+				      								->where('kasus.case_time','<',$tanggal)
 				      								->get();
 				  return view('activity',$data);
 			}
@@ -904,14 +1037,21 @@ class HomeController extends Controller
 				$extension = $file->getClientOriginalExtension();
 				Storage::disk('local')->put($file->getFilename().'.'.$extension,  File::get($file));
 
-	          	DB::table('activity')->insert(['id_case'=>$data['idcase'],'activity_date'=>$dates,'activity_number'=>$data['acttype'],'description'=>$data['deskripsi'],'input_date'=>Carbon::now(),'mime'=>$file->getClientMimeType(),'original_filename'=>$file->getClientOriginalName(),'filename'=>$file->getFilename().'.'.$extension]);
+	          	DB::table('activity')->insert(['id_case'=>$data['idcase'],
+	          									'activity_date'=>$dates,
+	          									'activity_number'=>$data['acttype'],
+	          									'description'=>$data['deskripsi'],
+	          									'input_date'=>Carbon::now(),
+	          									'mime'=>$file->getClientMimeType(),
+	          									'original_filename'=>$file->getClientOriginalName(),
+	          									'filename'=>$file->getFilename().'.'.$extension]);
 	           
 
 	          	$status = DB::table('activity_parameter')->where('id_parameter','=',$data['acttype'])->value('status');
 
-	          	DB::table('case')
+	          	DB::table('kasus')
 		              ->where('id_case', $data['idcase'])
-		              ->update(['status' => $status]);
+		              ->update(['status' => $status,'last_activity'=>$data['acttype']]);
 
 		        if($status=='0')
 		        {
@@ -963,7 +1103,7 @@ class HomeController extends Controller
 			{
 				//$entry = Fileentry::where('filename', '=', $filename)->firstOrFail();
 				$entry = array();
-				$entry = DB::table('case')->select('filename','mime')->where('filename','=',$filename)->first();
+				$entry = DB::table('kasus')->select('filename','mime')->where('filename','=',$filename)->first();
 				$file = Storage::disk('local')->get($entry->filename);
 		 
 				return (new Response($file, 200))

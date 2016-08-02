@@ -48,7 +48,7 @@
              <div class="form-group">
               <label class="control-label col-sm-2" for="destnumber">Main Number:</label>
               <div class="col-sm-10">
-                <input type="number" class="form-control" name="mainnumber" id="destnumber" value="{{$nomor->main_number}}" pattern=".{1,15}" required>
+                <input type="number" class="form-control" name="mainnumber" id="destnumber" value="{{$nomor->main_number}}" required>
               </div>
             </div>
             {{csrf_field()}}
@@ -76,7 +76,7 @@
               <h3 class="box-title">Profile</h3>
             </div>
             <div class="box-body">
-            <form class="form-horizontal" role="form" action="{{URL::to('checkprofile')}}" method="post"> 
+            <form class="form-horizontal" role="form" action="{{URL::to('editingprofileprocess')}}" method="post"> 
                 
                 <div class="form-group">
                   <label class="control-label col-sm-2" for="notelepon">Telephone Number:</label>
@@ -89,57 +89,56 @@
                 <div class="form-group">
                   <label class="control-label col-sm-2" for="notelepon">Main Number:</label>
                   <div class="col-sm-10">
-                    <input class="form-control" name="telnumber" id="telnumber" value="{{$nomor->telephone_number}}" disabled>
-                    <input class="form-control" type="hidden" name="idcase" id="idcase" value="{{$nomor->id_case}}">
+                    <input class="form-control" name="mainnumber" id="telnumber" value="{{$nomor->main_number}}" disabled>
                   </div>
                 </div>
 
                 <div class="form-group">
                   <label class="control-label col-sm-2" for="destnumber">NIK AM:</label>
                   <div class="col-sm-10">
-                    <input class="form-control" name="mainnumber" id="destnumber" value="{{$nomor->main_number}}" type="number" pattern=".{6,6}" required>
+                    <input class="form-control" name="nikam" id="destnumber" value="{{$nomor->nikam}}" type="number" required>
                   </div>
                 </div>
 
                  <div class="form-group">
                   <label class="control-label col-sm-2" for="destnumber">Account Manager:</label>
                   <div class="col-sm-10">
-                    <input class="form-control" name="mainnumber" id="destnumber" value="{{$nomor->main_number}}" required>
+                    <input class="form-control" name="am" id="destnumber" value="{{$nomor->am}}" required>
                   </div>
                 </div>
 
                 <div class="form-group">
                   <label class="control-label col-sm-2" for="destnumber">NIP NAS:</label>
                   <div class="col-sm-10">
-                    <input type="number" class="form-control" name="mainnumber" id="destnumber" value="{{$nomor->main_number}}" pattern=".{1,15}" required>
+                    <input type="number" class="form-control" name="nipnas" id="destnumber" value="{{$nomor->nipnas}}" required>
                   </div>
                 </div>
 
                 <div class="form-group">
-                  <label class="control-label col-sm-2" for="destnumber">Corportae Customer:</label>
+                  <label class="control-label col-sm-2" for="destnumber">Corporate Customer:</label>
                   <div class="col-sm-10">
-                    <input class="form-control" name="mainnumber" id="destnumber" value="{{$nomor->main_number}}" pattern=".{1,15}" required>
+                    <input class="form-control" name="customer" id="destnumber" value="{{$nomor->customer}}" required>
                   </div>
                 </div>
 
                 <div class="form-group">
                   <label class="control-label col-sm-2" for="destnumber">Installation Address:</label>
                   <div class="col-sm-10">
-                    <input class="form-control" name="mainnumber" id="destnumber" value="{{$nomor->main_number}}" pattern=".{1,50}" required>
+                    <input class="form-control" name="alamat" id="destnumber" value="{{$nomor->installation}}" required>
                   </div>
                 </div>
 
                 <div class="form-group">
                   <label class="control-label col-sm-2" for="destnumber">Segment:</label>
                   <div class="col-sm-10">
-                    <input pattern=".{3,3}" class="form-control" name="mainnumber" id="destnumber" value="{{$nomor->main_number}}" required>
+                    <input pattern=".{3,3}" class="form-control" name="segmen" id="destnumber" value="{{$nomor->segmen}}" required>
                   </div>
                 </div>
 
                 <div class="form-group">
                   <label class="control-label col-sm-2" for="destnumber">Average Revenue:</label>
                   <div class="col-sm-10">
-                    <input type="number" class="form-control" name="mainnumber" id="destnumber" value="{{$nomor->main_number}}" required>
+                    <input type="number" class="form-control" name="revenue" id="destnumber" value="{{$nomor->revenue}}" required>
                   </div>
                 </div>
 
@@ -149,7 +148,7 @@
                 <div class="box-footer">
                   <div class="form-group">
                     <div class="pull-right">
-                      <a href="{{URL::to('cases')}}/{{$nomor->id_case}}" type="button" class="btn btn-danger" >Cancel</a>
+                      <a href="{{URL::to('cases')}}/{{$nomor->id_case}}" type="button" class="btn btn-danger" >Back</a>
                       <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Update</button>
                     </div>
                   </div>

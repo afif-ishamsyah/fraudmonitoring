@@ -2,7 +2,8 @@
 SQLyog Ultimate v11.11 (64 bit)
 MySQL - 5.5.5-10.1.9-MariaDB : Database - fastel
 *********************************************************************
-*/
+*/
+
 
 /*!40101 SET NAMES utf8 */;
 
@@ -33,7 +34,7 @@ CREATE TABLE `profile` (
 
 /*Data for the table `profile` */
 
-insert  into `profile`(`notel`,`nipnas`,`namacc`,`alamat`,`nikam`,`namaam`,`segment`) values ('02182608708',43211234,'Asboen','Malaysia Barat',123432,'Zig','DSS');
+insert  into `profile`(`notel`,`nipnas`,`namacc`,`alamat`,`nikam`,`namaam`,`segment`) values ('02182608708',43211234,'Asboen','Malaysia Barat',123432,'Zig','DSS'),('081383112888',76661667,'Santoso','Sukolilo',986789,'Jones','FSS');
 
 /*Table structure for table `revenue` */
 
@@ -51,7 +52,7 @@ CREATE TABLE `revenue` (
 
 /*Data for the table `revenue` */
 
-insert  into `revenue`(`notel`,`rev1`,`rev2`,`rev3`,`average`) values ('02182608708',30,30,30,30);
+insert  into `revenue`(`notel`,`rev1`,`rev2`,`rev3`,`average`) values ('02182608708',30,30,30,30),('081383112888',40,700,80,273);
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;

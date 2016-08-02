@@ -30,7 +30,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
    protected $fillable = array(
     'id',
     'username',
-    'password',
+    'passwd',
     'previledge'
         );
 
@@ -39,7 +39,13 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      *
      * @var array
      */
-    protected $hidden = ['password', 'remember_token'];
+    protected $hidden = ['passwd', 'remember_token'];
     public $timestamps = false;
+
+    public function getAuthPassword() {
+        return $this->passwd;
+    }
 }
+
+
 

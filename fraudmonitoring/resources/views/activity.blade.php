@@ -68,7 +68,7 @@
 
                 <div class="form-group">
                   <label class="control-label col-sm-5">Segment:</label>
-                    <label class="control-label col-sm-7">{{$nomor->segment}}<br></label>
+                    <label class="control-label col-sm-7">{{$nomor->segmen}}<br></label>
                 </div>
 
                 <div class="form-group">
@@ -118,7 +118,7 @@
 
                 <div class="form-group">
                   <label class="control-label col-sm-5">Duration (sec):</label>
-                    <label class="control-label col-sm-7">{{$cases->duration}}<br></label>
+                    <label class="control-label col-sm-7">{{$cases->durasi}}<br></label>
                 </div>
 
                 <div class="form-group">
@@ -133,7 +133,7 @@
 
                 <div class="form-group">
                   <label class="control-label col-sm-5">Case Date:</label>
-                    <label class="control-label col-sm-7">{{$cases->case_time}}<br></label>
+                    <label class="control-label col-sm-7"><?php echo date('d-m-Y',strtotime($cases->case_time)); ?><br></label>
                 </div>
 
                 <div class="form-group">
@@ -169,7 +169,7 @@
                     <tbody>
                       @foreach($aktivitas as $act)
                       <tr>
-                        <td>{{$act->tanggal}}</td>
+                        <td><?php echo date('d-m-Y',strtotime($act->tanggal)); ?></td>
                         <td>{{$act->type}}</td>
                         <td>{{$act->descr}}</td>
                         <td><a href="{{URL::to('getact')}}/{{$act->filename}}" type="get" class="btn btn-danger">View</a></td>
@@ -287,7 +287,7 @@
                     <tbody>
                       @foreach($history as $past)
                       <tr>
-                        <td>{{$past->case_time}}</td>
+                        <td><?php echo date('d-m-Y',strtotime($past->case_time)); ?></td>
                         <td>{{$past->destination_number}}</td>
                         <td>{{$past->destination}}</td>
                         <td>{{$past->duration}}</td>
@@ -323,8 +323,8 @@
                     <h4 class="modal-title">Email</h4>
                   </div>
                   <div id="post-shortlink" class="modal-body">
-                    <p>Rekan rekan AM CC – {{$nomor->am}}/{{$nomor->customer}} (NIPNAS {{$nomor->nipnas}})  dan Support ({{$nomor->segment}})<br><span></span><br>Selamat Siang,</p><br>
-                    <p>Mohon bantuannya untuk menginformasikan ke pelanggan terkait adanya indikasi traffic Toll fraud (SLI) / anomaly call yang tergenerate dari nomor {{$nomor->telephone_number}}  atas nama {{$nomor->am}}/{{$nomor->customer}} (NIPNAS {{$nomor->nipnas}}) pada tanggal  {{$cases->case_time}} untuk destinasi {{$cases->destination}} seperti berikut ini:</p>
+                    <p>Rekan rekan AM CC – {{$nomor->am}}/{{$nomor->customer}} (NIPNAS {{$nomor->nipnas}})  dan Support ({{$nomor->segmen}})<br><span></span><br>Selamat Siang,</p><br>
+                    <p>Mohon bantuannya untuk menginformasikan ke pelanggan terkait adanya indikasi traffic Toll fraud (SLI) / anomaly call yang tergenerate dari nomor {{$nomor->telephone_number}}  atas nama {{$nomor->am}}/{{$nomor->customer}} (NIPNAS {{$nomor->nipnas}}) pada tanggal  <?php echo date('d-m-Y',strtotime($cases->case_time)); ?> untuk destinasi {{$cases->destination}} seperti berikut ini:</p>
                     <table id="example3" class="table table-bordered table-striped">
                     <thead>
                       <tr>
@@ -340,10 +340,10 @@
                     <tbody>
                       <tr>
                         <td>1</td>
-                        <td>{{$cases->case_time}}</td>
+                        <td><?php echo date('d-m-Y',strtotime($cases->case_time)); ?></td>
                         <td>{{$nomor->telephone_number}}</td>
                         <td>{{$cases->destination_number}}</td>
-                        <td>{{$cases->duration}}</td>
+                        <td>{{$cases->durasi}}</td>
                         <td>{{$cases->number_of_call}}</td>
                         <td>{{$cases->destination}}</td>
                       </tr>

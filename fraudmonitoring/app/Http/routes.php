@@ -32,6 +32,8 @@ Route::get('register','HomeController@register');
 Route::get('edituser','HomeController@edituser');
 Route::get('addcaseparam','HomeController@addcaseparam');
 Route::get('addactparam','HomeController@addactparam');
+Route::get('deletecaseparam/{id}','HomeController@deletecaseparam');
+Route::get('deleteactparam/{id}','HomeController@deleteactparam');
 //fungsi user
 Route::get('user','HomeController@user');
 Route::get('search','HomeController@search');

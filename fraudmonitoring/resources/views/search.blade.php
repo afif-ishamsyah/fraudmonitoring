@@ -235,6 +235,7 @@
                         <th>Case Date</th>
                         <th>CC Name</th>
                         <th>AM Name</th>
+                        <th>Last Activity</th>
                         <th>Action</th>
                       </tr>
                     </thead>
@@ -242,9 +243,10 @@
                       @foreach($nomor as $number)
                       <tr>
                         <td>{{$number->telephone_number}}</td>
-                        <td>{{$number->case_time}}</td>
+                        <td><?php echo date('d-m-Y',strtotime($number->case_time)); ?></td>
                         <td>{{$number->customer}}</td>
                         <td>{{$number->am}}</td>
+                        <td>{{$number->akronim}}</td>
                         @if($number->status=='0')
                         <td><a href="{{URL::to('cases')}}/{{$number->id_case}}"type="get" class="btn btn-danger">Update</a></td>
                         @endif
@@ -260,6 +262,7 @@
                         <th>Case Date</th>
                         <th>CC Name</th>
                         <th>AM Name</th>
+                        <th>Last Activity</th>
                         <th>Action</th>
                       </tr>
                     </tfoot>

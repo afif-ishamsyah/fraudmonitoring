@@ -39,7 +39,7 @@
           </div>
           
           <div class="box-body">
-          <form class="form-horizontal" role="form" action="addcaseparam" method="post">
+          <form class="form-horizontal" role="form" action="{{URL::to('addcaseparam')}}" method="post">
             <div class="form-group" style="margin-bottom:113px;">
               <label class="control-label col-sm-2" for="namaparameter">Name:</label>
               <div class="col-sm-9">
@@ -80,7 +80,7 @@
             <div class="form-group">
               <label class="control-label col-sm-2" for="namaparameter">Code:</label>
               <div class="col-sm-9">
-                <input class="form-control" name="parameter" id="namaparameter" placeholder="Masukkan Kode Parameter" required>
+                <input class="form-control" name="akronim" id="namaparameter" placeholder="Masukkan Kode Parameter (3 Karakter Kapital)" pattern=".{3,3}" required>
               </div>
             </div>
 
@@ -103,7 +103,6 @@
             </div>
             </form>
             </div>
-
           </div>
         </div>
 
@@ -122,14 +121,16 @@
                       </tr>
                     </thead>
                     <tbody>
+                      @foreach($caseparam as $casepar)
                       <tr>
-                        <td>One to Many</td>
+                        <td>{{$casepar->description}}</td>
                         <td>
                         <div class="col-md-12">
-                            <a type="submit" class="btn btn-danger btn-sm pull-right" data-toggle="modal" data-target="#myModal2" ><i class="fa fa-times"></i> <span>Delete</span></a>
+                            <a href="{{URL::to('deletecaseparam')}}/{{$casepar->id_parameter}}" type="submit" class="btn btn-danger btn-sm"><i class="fa fa-times"></i> <span>Delete</span></a>
                         </div>
                         </td>
                       </tr>
+                      @endforeach
                       </tbody>
                   </table>
                   </div>
@@ -152,16 +153,23 @@
                       </tr>
                     </thead>
                     <tbody>
+                      @foreach($actparam as $actpar)
                       <tr>
-                        <td>Tiketting</td>
-                        <td>TIK</td>
+                        <td>{{$actpar->description}}</td>
+                        <td>{{$actpar->akronim}}</td>
+                        @if($actpar->status=='0')
                         <td>Open</td>
+                        @endif
+                        @if($actpar->status=='1')
+                        <td>Close</td>
+                        @endif
                         <td>
                         <div class="col-md-12">
-                            <a type="submit" class="btn btn-danger btn-sm pull-right" data-toggle="modal" data-target="#myModal2" ><i class="fa fa-times"></i> <span>Delete</span></a>
+                            <a href="{{URL::to('deleteactparam')}}/{{$actpar->id_parameter}}" type="submit" class="btn btn-danger btn-sm"><i class="fa fa-times"></i> <span>Delete</span></a>
                         </div> 
                         </td>
                       </tr>
+                      @endforeach
                       </tbody>
                   </table>
           </div>
@@ -180,7 +188,7 @@
                   </div>
                   <div class="modal-footer">
                     <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-success">Yes</button>
+                    <a type="submit" class="btn btn-success">Yes</a>
                   </div>
                 </div>
               </div>

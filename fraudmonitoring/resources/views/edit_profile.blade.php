@@ -55,7 +55,7 @@
                         <td>{{$number->namacc}}</td>
                         <td>{{$number->namaam}}</td>
                         <td>{{$number->alamat}}</td>
-                        <td>{{$number->segment}}</td>
+                        <td>{{$number->segmen}}</td>
                         <td>{{$number->average}}</td>
                       </tr>
                       @endforeach
