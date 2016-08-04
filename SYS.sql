@@ -13,7 +13,7 @@ grant select, insert on case to fraud;
 grant select, insert on case_parameter to fraud;
 grant select, insert on activity_parameter to fraud;
 grant select, insert on activity to fraud;
-grant select, insert on profile to fraud;
+grant select, insert on profil to fraud;
 grant select, insert on profileuser to fraud;
 
 grant select, insert on case to fastel;
@@ -36,9 +36,9 @@ GRANT ALL PRIVILEGE TO fastel;
 
 GRANT UNLIMITED TABLESPACE TO fastel;
 
-grant select, insert on profile to fastel;
+grant select, insert on profil to fastel;
 grant select, insert on revenue to fastel;
-grant select, insert on profile to fraud;
+grant select, insert on profil to fraud;
 grant select, insert on revenue to fraud;
 
 alter session set current_schema = fastel; 
