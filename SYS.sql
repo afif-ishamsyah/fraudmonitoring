@@ -23,6 +23,8 @@ grant select, insert on activity to fastel;
 grant select, insert on profil to fastel;
 grant select, insert on profileuser to fastel;
 alter session set current_schema = fraud; 
+
+
 --setelah selesai bikin fraud
 
 CREATE USER fastel IDENTIFIED BY fastel;
