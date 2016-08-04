@@ -463,4 +463,111 @@ public function user()
 		$this->load->view('search',$data);
 		$this->load->view('footer'); 
 	}
+
+	public function listprofile()
+	{
+		$this->load->model('user');
+		$data = array();
+		$data['nomor'] = $this->user->getlistprofile();
+
+		$this->load->view('header'); 
+		$this->load->view('listprofile',$data);
+		$this->load->view('footer'); 
+	}
+
+	public function cases($id)
+	{
+		$this->load->model('user');
+		$number = $this->user->getnumber($id);
+		$tanggals = $this->user->getdate($id);
+		$tanggal = date('d-m-Y',strtotime($tanggals));
+
+		$data = array();
+
+		$data['nomor'] = $this->user->getprofile($id);
+		$data['aktivitas'] = $this->user->getactivity($id);
+		$data['cases'] = $this->user->getcasedetail($id);
+		$data['actlist'] = $this->user->getactparam();
+		$data['jumlah'] = $this->user->getcounthistory($number, $tanggal);
+		$data['history'] = $this->user->gethistory($number, $tanggal);
+
+		$this->load->view('header'); 
+		$this->load->view('case',$data);
+		$this->load->view('footer'); 
+	}
+
+	public function insertcase()
+	{
+		if ($_SERVER['REQUEST_METHOD'] === 'POST') 
+		{
+		 	 $this->load->model('user');
+		 	 $this->load->model('uuid');
+
+			
+		}
+		elseif ($_SERVER['REQUEST_METHOD'] === 'GET')
+		{
+			redirect('user');
+		}
+	}
+
+
+	 // $data=Input::all();
+	    	
+	 //    	$profile = array();
+	 //    	$profile = DB::connection('oracle2')->table('profil')->join('revenue','profil.notel','=','revenue.notel')
+	 //    														 ->select('profil.nipnas','profil.namacc','profil.alamat','profil.nikam','profil.namaam','profil.segmen','revenue.average')
+	 //    														 ->where('profil.notel','=',$data['mainnumber'])
+	 //    														 ->first();
+
+	 //    	$caseexist = DB::table('kasus')->join('profil','kasus.id_case','=','profil.id_case')
+	 //    								  ->select('profil.telephone_number')->where('kasus.status','=','0')->where('profil.telephone_number','=',$data['telephonenumber'])
+	 //    								  ->get();
+
+
+	 //      	if(!$caseexist)
+	 //  		{
+	 //  			$id =  Uuid::uuid4();	
+
+		// 		$date = str_replace('/', '-', $data['casedate']);
+		// 		$dates = date('Y-m-d', strtotime($date));
+				
+		// 		$extension = $file->getClientOriginalExtension();
+		// 		Storage::disk('local')->put($file->getFilename().'.'.$extension,  File::get($file));
+
+	 //          	DB::table('kasus')->insert(['id_case'=>(string)$id,
+	 //          								'case_parameter'=>$data['casetype'],
+	 //          								'case_time'=>$dates,
+	 //          								'description'=>$data['deskripsi'],
+	 //          								'status'=>'0',
+	 //          								'destination'=>$data['destcountry'],
+	 //          								'destination_number'=>$data['destnumber'],
+	 //          								'durasi'=>$data['durasi'],
+	 //          								'number_of_call'=>$data['frekuensi'],
+	 //          								'input_date'=>Carbon::now(),
+	 //          								'filename'=>$file->getFilename().'.'.$extension,
+	 //          								'mime'=>$file->getClientMimeType(),
+	 //          								'original_filename'=>$file->getClientOriginalName()]);
+	           	
+	 //          	if($profile)
+	 //          	{
+	 //           		DB::table('profil')->insert(['id_case'=>(string)$id,'telephone_number' => $data['telephonenumber'],'main_number'=>$data['mainnumber'],'nipnas'=>$profile->nipnas,'customer'=>$profile->namacc,'installation'=>$profile->alamat,'nikam'=>$profile->nikam,'am'=>$profile->namaam,'segmen'=>$profile->segmen,'revenue'=>$profile->average]);
+	 //            }
+	 //            elseif(!$profile)
+	 //          	{
+	 //           		DB::table('profil')->insert(['id_case'=>(string)$id,'telephone_number' => $data['telephonenumber'],'main_number'=>$data['mainnumber']]);
+	 //            }
+
+		// 	    return Redirect::route('closed',$id);
+	 //      	}
+	 //      	else
+	 //      	{
+	 //      		$choose = array();
+		// 	    $choose['case'] = DB::table('case_parameter')->select('description', 'id_parameter')->get();
+	 //      		Session::flash('fail','Input gagal. Nomor masih dalam proses');
+  //       		return view('input',$choose);
+	 //      	}
+	
 }
+
+?>

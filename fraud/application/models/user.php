@@ -179,6 +179,92 @@
 	  	return $query->result();
 	  }
 
+	  function getlistprofile()
+	  {
+	  	$this->db2->select('PROFIL.NOTEL, PROFIL.NAMACC, PROFIL.ALAMAT, PROFIL.NAMAAM, PROFIL.SEGMEN, REVENUE.AVERAGE')
+	  			->from('PROFIL')
+	  			->join('REVENUE','PROFIL.NOTEL = REVENUE.NOTEL');
+	  	$query = $this->db2->get();
+	  	return $query->result();
+	  }
+
+	  function getnumber($id)
+	  {
+	  	$this->db->select('TELEPHONE_NUMBER')
+	  			->from('PROFIL')
+	  			->where('ID_CASE',$id);
+	  	$query = $this->db->get();
+	  	return $query->row()->TELEPHONE_NUMBER;
+	  }
+
+	  function getdate($id)
+	  {
+	  	$this->db->select('CASE_TIME')
+	  			->from('KASUS')
+	  			->where('ID_CASE',$id);
+	  	$query = $this->db->get();
+	  	return $query->row()->CASE_TIME;
+	  }
+
+	  function getprofile($id)
+	  {
+	  	$this->db->select('TELEPHONE_NUMBER, MAIN_NUMBER, NIPNAS, CUSTOMER, NIKAM, AM, INSTALLATION, SEGMEN, REVENUE')
+	  			->from('PROFIL')
+	  			->where('ID_CASE',$id);
+	  	$query = $this->db->get();
+	  	return $query->row();
+	  }
+
+	  function getactivity($id)
+	  {
+	  	$this->db->select('ACTIVITY.ACTIVITY_DATE AS TANGGAL, ACTIVITY_PARAMETER.DESCRIPTION AS TYPE, ACTIVITY.DESCRIPTION AS DESCR, ACTIVITY.FILENAME')
+	  			->from('ACTIVITY')
+	  			->join('ACTIVITY_PARAMETER', 'ACTIVITY.ACTIVITY_NUMBER = ACTIVITY_PARAMETER.ID_PARAMETER')
+	  			->where('ACTIVITY.ID_CASE',$id)
+	  			->order_by('ACTIVITY.INPUT_DATE','ASC');
+	  	$query = $this->db->get();
+	  	return $query->result();
+	  }
+
+	  function getcasedetail($id)
+	  {
+	  	$this->db->select('KASUS.ID_CASE, KASUS.DESTINATION, KASUS.STATUS, KASUS.DESTINATION_NUMBER, KASUS.DURASI, KASUS.NUMBER_OF_CALL, CASE_PARAMETER.DESCRIPTION AS DES1, KASUS.CASE_TIME, KASUS.DESCRIPTION AS DES2, KASUS.FILENAME')
+	  			->from('KASUS')
+	  			->join('CASE_PARAMETER', 'KASUS.CASE_PARAMETER = CASE_PARAMETER.ID_PARAMETER')
+	  			->where('KASUS.ID_CASE',$id);
+	  	$query = $this->db->get();
+	  	return $query->row();
+	  }
+
+	  function getactparam()
+	  {
+	  	$this->db->select('ID_PARAMETER, DESCRIPTION, AKRONIM, STATUS')->from('ACTIVITY_PARAMETER');
+	  	$query = $this->db->get();
+	  	return $query->result();
+	  }
+
+	  function getcounthistory($number, $tanggal)
+	  {
+	  	$this->db->select('KASUS.ID_CASE')
+	  			 ->from('KASUS')
+	  			 ->join('PROFIL','KASUS.ID_CASE = PROFIL.ID_CASE')
+	  			 ->where('PROFIL.TELEPHONE_NUMBER', $number)
+	  			 ->where('KASUS.CASE_TIME <',"TO_DATE('$tanggal','DD/MM/YYYY')", FALSE);
+	  	$query = $this->db->get();
+	  	return $query->num_rows();
+	  }
+
+	  function gethistory($number, $tanggal)
+	  {
+	  	$this->db->select('KASUS.CASE_TIME, KASUS.DESTINATION_NUMBER, KASUS.DESTINATION, KASUS.DURASI, KASUS.NUMBER_OF_CALL, CASE_PARAMETER.DESCRIPTION')
+	  			 ->from('KASUS')
+	  			 ->join('PROFIL','KASUS.ID_CASE = PROFIL.ID_CASE')
+	  			 ->join('CASE_PARAMETER','KASUS.CASE_PARAMETER = CASE_PARAMETER.ID_PARAMETER')
+	  			 ->where('PROFIL.TELEPHONE_NUMBER', $number)
+	  			 ->where('KASUS.CASE_TIME <',"TO_DATE('$tanggal','DD/MM/YYYY')", FALSE);
+	  	$query = $this->db->get();
+	  	return $query->result();
+	  }
 	
 } 
 

@@ -76,3 +76,4 @@ $route['searchinputdate'] = 'fraud/searchinputdate';
 $route['searcham'] = 'fraud/searcham';
 $route['searchcustomer'] = 'fraud/searchcustomer';
 $route['listprofile'] = 'fraud/listprofile';
+$route['cases/(:any)'] = 'fraud/cases/$1';

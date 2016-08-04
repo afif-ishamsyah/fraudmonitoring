@@ -3,10 +3,10 @@
       <section class="sidebar">
           <!-- sidebar menu: : style can be found in sidebar.less -->
           <ul class="sidebar-menu">
-            <li class="active"><a href="admin"><i class="fa fa-home"></i><span>Home</span></a></li>
-            <li><a href="userform"><i class="fa fa-edit"></i> <span>Create User</span></a></li>
-            <li><a href="edituserform"><i class="fa fa-search"></i> <span>Edit User</span></a></li>
-            <li><a href="paramform"><i class="fa fa-plus "></i> <span>Input Parameter</span></a></li>
+            <li  class="active"><a href="<?php echo site_url("admin"); ?>"><i class="fa fa-home"></i><span>Home</span></a></li>
+            <li><a href="<?php echo site_url("userform"); ?>"><i class="fa fa-edit"></i> <span>Create User</span></a></li>
+            <li><a href="<?php echo site_url("edituserform"); ?>"><i class="fa fa-search"></i> <span>Edit User</span></a></li>
+            <li><a href="<?php echo site_url("paramform"); ?>"><i class="fa fa-plus "></i> <span>Input Parameter</span></a></li>
           </ul>
           </ul>
         </section>

@@ -2,10 +2,10 @@
       <section class="sidebar">
           <!-- sidebar menu: : style can be found in sidebar.less -->
           <ul class="sidebar-menu">
-            <li><a href="admin"><i class="fa fa-home"></i><span>Home</span></a></li>
-            <li><a href="userform"><i class="fa fa-edit"></i> <span>Create User</span></a></li>
-            <li><a href="edituserform"><i class="fa fa-search"></i> <span>Edit User</span></a></li>
-            <li class="active"><a href="paramform"><i class="fa fa-plus "></i> <span>Input Parameter</span></a></li>
+            <li><a href="<?php echo site_url("admin"); ?>"><i class="fa fa-home"></i><span>Home</span></a></li>
+            <li><a href="<?php echo site_url("userform"); ?>"><i class="fa fa-edit"></i> <span>Create User</span></a></li>
+            <li><a href="<?php echo site_url("edituserform"); ?>"><i class="fa fa-search"></i> <span>Edit User</span></a></li>
+            <li class="active"><a href="<?php echo site_url("paramform"); ?>"><i class="fa fa-plus "></i> <span>Input Parameter</span></a></li>
           </ul>
         </section>
         <!-- /.sidebar -->
@@ -126,7 +126,7 @@
                         <td><?php echo $casepar->DESCRIPTION; ?></td>
                         <td>
                         <div class="col-md-12">
-                            <a href="deletecaseparam/<?php echo $casepar->ID_PARAMETER; ?>" type="submit" class="btn btn-danger btn-sm"><i class="fa fa-times"></i> <span>Delete</span></a>
+                            <a href="<?php echo site_url("deletecaseparam/$casepar->ID_PARAMETER"); ?>" type="submit" class="btn btn-danger btn-sm"><i class="fa fa-times"></i> <span>Delete</span></a>
                         </div>
                         </td>
                       </tr>
@@ -165,7 +165,7 @@
                         <?php endif; ?>
                         <td>
                         <div class="col-md-12">
-                            <a href="deleteactparam/<?php echo $actpar->ID_PARAMETER; ?>" type="submit" class="btn btn-danger btn-sm"><i class="fa fa-times"></i> <span>Delete</span></a>
+                            <a href="<?php echo site_url("deleteactparam/$actpar->ID_PARAMETER"); ?>" type="submit" class="btn btn-danger btn-sm"><i class="fa fa-times"></i> <span>Delete</span></a>
                         </div> 
                         </td>
                       </tr>
