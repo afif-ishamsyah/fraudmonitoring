@@ -1,7 +1,7 @@
 <?php 
    
 Class uuid extends CI_Model {
-{
+
     
 	function v3($name, $namespace = null) 
 	{    	

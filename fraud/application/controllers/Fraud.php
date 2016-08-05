@@ -478,6 +478,12 @@ public function user()
 	public function cases($id)
 	{
 		$this->load->model('user');
+
+		if($this->user->checkidcaseexist($id)==0)
+		{
+			show_404();
+		}
+
 		$number = $this->user->getnumber($id);
 		$tanggals = $this->user->getdate($id);
 		$tanggal = date('d-m-Y',strtotime($tanggals));
@@ -503,6 +509,76 @@ public function user()
 		 	 $this->load->model('user');
 		 	 $this->load->model('uuid');
 
+		 	 $mainnumber =  $this->input->post('mainnumber');
+		 	 $telephonenumber =  $this->input->post('telephonenumber');
+
+		 	 $date = str_replace('/', '-', $this->input->post('casedate'));
+			 $dates = date('d-M-Y', strtotime($date));
+
+		 	 $profile = array();
+		 	 $profile = $this->user->getprofile2($mainnumber);
+
+		 	 $caseexist = $this->user->getcaseexist($telephonenumber);
+
+		 	 if($caseexist==0)
+		 	 {
+		 	 	$id = (string)$this->uuid->v4();
+
+		 	 	$insertdata = array(
+		                'ID_CASE' => $id,
+		                'CASE_PARAMETER' =>  $this->input->post('casetype'),
+		                'CASE_TIME' => $dates,
+		                'DESCRIPTION' => $this->input->post('deskripsi'),
+		                'STATUS' => '0',
+		                'DESTINATION' => $this->input->post('destcountry'),
+		                'DESTINATION_NUMBER' => $this->input->post('destnumber'),
+		                'DURASI' => $this->input->post('durasi'),
+		                'NUMBER_OF_CALL' => $this->input->post('frekuensi'),
+		                'INPUT_DATE' => date('d-M-Y')
+		        );
+
+		 	 	$this->user->insertcases($insertdata);
+
+		 	 	if(empty($profile))
+		 	 	{
+		 	 		$profiledata = array(
+		                'ID_CASE' => $id,
+		                'TELEPHONE_NUMBER' =>  $telephonenumber,
+		                'MAIN_NUMBER' =>  $mainnumber,
+		                'NIPNAS' => '',
+		                'CUSTOMER' => '',
+		                'INSTALLATION' => '',
+		                'NIKAM' => '',
+		                'AM' => '',
+		                'SEGMEN' => '',
+		                'REVENUE' =>''
+		                );
+		 	 		$this->user->insertprofiles($profiledata);
+		 	 	}
+		 	 	else
+		 	 	{
+		 	 		$profiledata = array(
+		                'ID_CASE' => $id,
+		                'TELEPHONE_NUMBER' =>  $telephonenumber,
+		                'MAIN_NUMBER' =>  $mainnumber,
+		                'NIPNAS' => $profile->NIPNAS,
+		                'CUSTOMER' => $profile->NAMACC,
+		                'INSTALLATION' => $profile->ALAMAT,
+		                'NIKAM' => $profile->NIKAM,
+		                'AM' => $profile->NAMAAM,
+		                'SEGMEN' =>  $profile->SEGMEN,
+		                'REVENUE' => $profile->AVERAGE
+		                );
+		 	 		$this->user->insertprofiles($profiledata);
+		 	 	}
+
+		 	 	redirect('cases/'.$id);
+		 	 }
+		 	 else
+		 	 {
+		 	 	$this->session->set_flashdata('fail', 'Parameter sudah digunakan dan tidak bisa dihapus');
+		 	 	redirect('caseform');
+		 	 }
 			
 		}
 		elseif ($_SERVER['REQUEST_METHOD'] === 'GET')
@@ -511,63 +587,89 @@ public function user()
 		}
 	}
 
+	public function addactivity()
+	{
+		if ($_SERVER['REQUEST_METHOD'] === 'POST') 
+		{
+			$this->load->model('user');
 
-	 // $data=Input::all();
-	    	
-	 //    	$profile = array();
-	 //    	$profile = DB::connection('oracle2')->table('profil')->join('revenue','profil.notel','=','revenue.notel')
-	 //    														 ->select('profil.nipnas','profil.namacc','profil.alamat','profil.nikam','profil.namaam','profil.segmen','revenue.average')
-	 //    														 ->where('profil.notel','=',$data['mainnumber'])
-	 //    														 ->first();
+			$id = $this->input->post('idcase');
 
-	 //    	$caseexist = DB::table('kasus')->join('profil','kasus.id_case','=','profil.id_case')
-	 //    								  ->select('profil.telephone_number')->where('kasus.status','=','0')->where('profil.telephone_number','=',$data['telephonenumber'])
-	 //    								  ->get();
+		 	 $date = str_replace('/', '-', $this->input->post('actdate'));
+			 $dates = date('d-M-Y', strtotime($date));
 
+			 $data = array(
+		                'ID_CASE' => $id,
+		                'ACTIVITY_DATE' => $dates,
+		                'ACTIVITY_NUMBER' => $this->input->post('acttype'),
+		                'DESCRIPTION' =>  $this->input->post('deskripsi'),
+		                'INPUT_DATE' => date('d-M-Y')
+		                );
 
-	 //      	if(!$caseexist)
-	 //  		{
-	 //  			$id =  Uuid::uuid4();	
+			 $this->user->inseractivity($data);
 
-		// 		$date = str_replace('/', '-', $data['casedate']);
-		// 		$dates = date('Y-m-d', strtotime($date));
-				
-		// 		$extension = $file->getClientOriginalExtension();
-		// 		Storage::disk('local')->put($file->getFilename().'.'.$extension,  File::get($file));
+			 $status = $this->user->getstatus($this->input->post('acttype'));
 
-	 //          	DB::table('kasus')->insert(['id_case'=>(string)$id,
-	 //          								'case_parameter'=>$data['casetype'],
-	 //          								'case_time'=>$dates,
-	 //          								'description'=>$data['deskripsi'],
-	 //          								'status'=>'0',
-	 //          								'destination'=>$data['destcountry'],
-	 //          								'destination_number'=>$data['destnumber'],
-	 //          								'durasi'=>$data['durasi'],
-	 //          								'number_of_call'=>$data['frekuensi'],
-	 //          								'input_date'=>Carbon::now(),
-	 //          								'filename'=>$file->getFilename().'.'.$extension,
-	 //          								'mime'=>$file->getClientMimeType(),
-	 //          								'original_filename'=>$file->getClientOriginalName()]);
-	           	
-	 //          	if($profile)
-	 //          	{
-	 //           		DB::table('profil')->insert(['id_case'=>(string)$id,'telephone_number' => $data['telephonenumber'],'main_number'=>$data['mainnumber'],'nipnas'=>$profile->nipnas,'customer'=>$profile->namacc,'installation'=>$profile->alamat,'nikam'=>$profile->nikam,'am'=>$profile->namaam,'segmen'=>$profile->segmen,'revenue'=>$profile->average]);
-	 //            }
-	 //            elseif(!$profile)
-	 //          	{
-	 //           		DB::table('profil')->insert(['id_case'=>(string)$id,'telephone_number' => $data['telephonenumber'],'main_number'=>$data['mainnumber']]);
-	 //            }
+			 $casedata = array(
+		                'STATUS' =>  $status,
+		                'LAST_ACTIVITY' =>   $this->input->post('acttype')
+		                );
 
-		// 	    return Redirect::route('closed',$id);
-	 //      	}
-	 //      	else
-	 //      	{
-	 //      		$choose = array();
-		// 	    $choose['case'] = DB::table('case_parameter')->select('description', 'id_parameter')->get();
-	 //      		Session::flash('fail','Input gagal. Nomor masih dalam proses');
-  //       		return view('input',$choose);
-	 //      	}
-	
+			 $this->user->insertlastactivity($id ,$casedata);
+
+			 redirect('cases/'.$id);
+		}
+		elseif ($_SERVER['REQUEST_METHOD'] === 'GET')
+		{
+			redirect('user');
+		}
+	}
+
+	public function editingprofile($id)
+	{
+		$this->load->model('user');
+
+		if($this->user->checkidcaseexist($id)==0)
+		{
+			show_404();
+		}
+
+		$status = $this->user->getstatusbyid($id);
+
+		if($status=='0')
+		{
+			$data = array();
+			$data['nomor'] = $this->user->getcasenumbers($id);
+
+			$this->load->view('header'); 
+			$this->load->view('edit',$data);
+			$this->load->view('footer'); 
+		}
+		elseif($status=='1')
+		{
+			redirect('user');
+		}
+
+	}
+	// $status = DB::table('kasus')->where('id_case','=',$id1)->value('status');
+	// 		if(Auth::user()->previledge=='0' && $status=='0')
+	// 		{
+	// 			$data = array();
+ //      			$data['nomor'] = DB::table('kasus')->join('profil','kasus.id_case','=','profil.id_case')
+ //      											     ->select('kasus.id_case','profil.telephone_number','profil.main_number')
+ //      												 ->where('kasus.id_case','=',$id1)->first();
+
+	//   			return view('edit',$data);
+	// 		}
+	// 		elseif(Auth::user()->previledge=='0' && $status=='1')
+	// 		{
+	// 			return redirect('user');
+	// 		}
+	// 		elseif(Auth::user()->previledge=='1')
+	// 		{
+	// 			return redirect('admin');
+	// 		}
+
 }
 
 ?>

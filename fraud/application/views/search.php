@@ -37,7 +37,7 @@
 
 
                 <div class="tab-pane active" id="tab_1">
-                    <form action="searchnumber" method="get">
+                    <form action="<?php echo site_url("searchnumber"); ?>" method="get">
                     <div class="form-group">
                     <label>Telephone Number:</label>
                       <input class="form-control" name="telephone" placeholder="Masukkan Nomor Telepon">
@@ -71,7 +71,7 @@
                      </div>
 
                   <div class="tab-pane" id="tab_2">
-                  <form action="searchdate" method="get">
+                  <form action="<?php echo site_url("searchdate"); ?>" method="get">
                     <div class="form-group">
                       <label>Case Date:</label>
                       <div class="input-group">
@@ -110,7 +110,7 @@
                   </div>
 
                   <div class="tab-pane" id="tab_3">
-                  <form action="searchinputdate" method="get">
+                  <form action="<?php echo site_url("searchinputdate"); ?>" method="get">
                     <div class="form-group">
                       <label>Input Date:</label>
                       <div class="input-group">
@@ -149,7 +149,7 @@
                   </div>
                   
                   <div class="tab-pane" id="tab_4">
-                    <form action="searchcustomer" method="get">
+                    <form action="<?php echo site_url("searchcustomer"); ?>" method="get">
                     <div class="form-group">
                     <label>Corporate Customer:</label>
                       <input class="form-control" name="customer" placeholder="Masukkan Nama Corporate Cutomer">
@@ -183,7 +183,7 @@
                   </div> 
 
                   <div class="tab-pane" id="tab_5">
-                  <form action="searcham" method="get">
+                  <form action="<?php echo site_url("searcham"); ?>" method="get">
                   <div class="form-group">
                     <label>Account Manager:</label>
                     <input class="form-control" name="am" placeholder="Masukkan Nama Account Manager">

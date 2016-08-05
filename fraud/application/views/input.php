@@ -32,7 +32,7 @@
         <div class="col-sm-12">
         <div class="box box-danger">
         <div class="box-body">
-          <form class="form-horizontal" role="form" action="{{URL::to('insert')}}" method="post" enctype="multipart/form-data">
+          <form class="form-horizontal" role="form" action="<?php echo site_url("insertcase"); ?>" method="post" enctype="multipart/form-data">
             <div class="form-group">
               <label class="control-label col-sm-2" for="no. telp">Telephone Number:</label>
               <div class="col-sm-10">
@@ -80,7 +80,7 @@
               <div class="col-sm-10">
                     <select class="form-control" name="casetype" id="casetype" required>
                       <?php foreach($case as $kasus): ?>
-                      <option value="<?php echo $kasus->ID_PARAMETER;?>"><?php echo $kasus->DESCRIPTION;?></option>
+                      <option value="<?php echo $kasus->ID_PARAMETER; ?>"><?php echo $kasus->DESCRIPTION ;?></option>
                       <?php endforeach; ?>
                     </select>
                   </div>

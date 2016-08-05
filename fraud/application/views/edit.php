@@ -1,13 +1,12 @@
-@extends('layout/layout')
-@section('content')
+
     <aside class="main-sidebar">
       <section class="sidebar">
           <!-- sidebar menu: : style can be found in sidebar.less -->
           <ul class="sidebar-menu">
-            <li><a href="user"><i class="fa fa-home"></i><span>Home</span></a></li>
-            <li><a href="caseform"><i class="fa fa-edit"></i><span>Input Case</span></a></li>
-            <li><a href="search"><i class="fa fa-search"></i> <span>Search Case</span></a></li>
-            <li><a href="listprofile"><i class="fa fa-list"></i> <span>List Profile</span></a></li>
+            <li><a href="<?php echo site_url("user"); ?>"><i class="fa fa-home"></i><span>Home</span></a></li>
+            <li><a href="<?php echo site_url("caseform"); ?>"><i class="fa fa-edit"></i><span>Input Case</span></a></li>
+            <li><a href="<?php echo site_url("search"); ?>"><i class="fa fa-search"></i> <span>Search Case</span></a></li>
+            <li><a href="<?php echo site_url("listprofile"); ?>"><i class="fa fa-list"></i> <span>List Profile</span></a></li>  
           </ul>
         </section>
         <!-- /.sidebar -->
@@ -36,7 +35,7 @@
               <h3 class="box-title">Check Number</h3>
         </div>
         <div class="box-body">
-        <form class="form-horizontal" role="form" action="checkprofile" method="post"> 
+        <form class="form-horizontal" role="form" action="<?php echo site_url("checkprofile"); ?>" method="post"> 
             <div class="form-group">
               <label class="control-label col-sm-2" for="notelepon">Telephone Number:</label>
               <div class="col-sm-10">
@@ -59,7 +58,7 @@
             <div class="box-footer">
               <div class="form-group">
                 <div class="pull-right">
-                  <a href="cases/<?php echo $nomor->ID_CASE;?>" type="button" class="btn btn-danger" >Cancel</a>
+                  <a href="<?php echo site_url("cases/$nomor->ID_CASE"); ?>" type="button" class="btn btn-danger" >Cancel</a>
                   <button type="submit" class="btn btn-primary">Check</button>
                 </div>
               </div>
@@ -78,7 +77,7 @@
               <h3 class="box-title">Profile</h3>
             </div>
             <div class="box-body">
-            <form class="form-horizontal" role="form" action="{{URL::to('editingprofileprocess')}}" method="post"> 
+            <form class="form-horizontal" role="form" action="<?php echo site_url("editingprofileprocess"); ?>" method="post"> 
                 
                 <div class="form-group">
                   <label class="control-label col-sm-2" for="notelepon">Telephone Number:</label>
@@ -150,7 +149,7 @@
                 <div class="box-footer">
                   <div class="form-group">
                     <div class="pull-right">
-                      <a href="cases/<?php echo $nomor->ID_CASE;?>" type="button" class="btn btn-danger" >Back</a>
+                      <a href="<?php echo site_url("cases/$nomor->ID_CASE"); ?>" type="button" class="btn btn-danger" >Back</a>
                       <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Update</button>
                     </div>
                   </div>
@@ -159,6 +158,7 @@
                 </div>
 
         <?php endif; ?>
+
           <!-- Modal -->
             <div class="modal fade" id="myModal" role="dialog">
               <div class="modal-dialog modal-sm">
@@ -182,5 +182,5 @@
           </div>
         </section><!-- /.content -->
       </div><!-- /.content-wrapper -->
-@endsection
+
     

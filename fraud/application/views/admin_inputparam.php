@@ -37,7 +37,7 @@
           </div>
           
           <div class="box-body">
-          <form class="form-horizontal" role="form" action="addcaseparam" method="post">
+          <form class="form-horizontal" role="form" action="<?php echo site_url("addcaseparam"); ?>" method="post">
             <div class="form-group" style="margin-bottom:113px;">
               <label class="control-label col-sm-2" for="namaparameter">Name:</label>
               <div class="col-sm-9">
@@ -68,7 +68,7 @@
           </div>
           
           <div class="box-body">
-          <form class="form-horizontal" role="form" action="addactparam" method="post">
+          <form class="form-horizontal" role="form" action="<?php echo site_url("addactparam"); ?>" method="post">
             <div class="form-group">
               <label class="control-label col-sm-2" for="namaparameter">Name:</label>
               <div class="col-sm-9">

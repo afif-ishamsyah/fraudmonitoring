@@ -195,7 +195,7 @@
                     <h4 class="modal-title">Add Activity</h4>
                   </div>
                   <div class="modal-body">
-                    <form class="form-horizontal" role="form" action="addactivity" method="post" enctype="multipart/form-data">
+                    <form class="form-horizontal" role="form" action="<?php echo site_url("addactivity"); ?>" method="post" enctype="multipart/form-data">
                     <div class="form-group">
                         <label class="control-label col-sm-2">Activity Date:</label>
                           <div class="col-sm-10">
@@ -214,7 +214,7 @@
                       <div class="col-sm-10">
                         <select class="form-control" name="acttype" id="casetype" required>
                           <?php foreach($actlist as $list):?>
-                            <option value="<? echo $list->ID_PARAMETER;?>"><?php echo $list->DESCRIPTION;?></option>
+                            <option value="<?php echo $list->ID_PARAMETER; ?>"><?php echo $list->DESCRIPTION ;?></option>
                             <?php endforeach; ?>
                         </select>
                       </div>

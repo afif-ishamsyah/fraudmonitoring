@@ -265,7 +265,104 @@
 	  	$query = $this->db->get();
 	  	return $query->result();
 	  }
-	
+
+	  function getprofile2($mainnumber)
+	  {
+	  	$this->db2->select('PROFIL.NIPNAS, PROFIL.NAMACC, PROFIL.ALAMAT, PROFIL.NIKAM, PROFIL.NAMAAM, PROFIL.SEGMEN, REVENUE.AVERAGE')
+	  			->from('PROFIL')
+	  			->join('REVENUE','PROFIL.NOTEL = REVENUE.NOTEL')
+	  			->where('PROFIL.NOTEL',$mainnumber);
+	  	$query = $this->db2->get();
+	  	return $query->row();
+	  }
+
+	  function getcaseexist($telephonenumber)
+	  {
+	  	$this->db->select('PROFIL.TELEPHONE_NUMBER')
+	  			 ->from('KASUS')
+	  			 ->join('PROFIL','KASUS.ID_CASE = PROFIL.ID_CASE')
+	  			 ->where('PROFIL.TELEPHONE_NUMBER', $telephonenumber)
+	  			 ->where('KASUS.STATUS','0');
+	  	$query = $this->db->get();
+	  	if($query->num_rows() > 0)
+      	{
+      		return 1;
+      	}
+      	else
+      	{
+      		return 0;
+      	}
+	  }
+
+	  function checkidcaseexist($id)
+	  {
+	  	$this->db->select('ID_CASE')
+	  			 ->from('KASUS')
+	  			 ->where('ID_CASE', $id);
+	  	$query = $this->db->get();
+	  	if($query->num_rows() > 0)
+      	{
+      		return 1;
+      	}
+      	else
+      	{
+      		return 0;
+      	}
+	  }
+
+
+	  function insertcases($insertdata)
+	  {
+	  	$this->db->insert('KASUS', $insertdata);
+	  }
+
+	  function insertprofiles($profiledata)
+	  {
+	  	$this->db->insert('PROFIL', $profiledata);
+	  }
+
+	  function inseractivity($data)
+	  {
+	  	$this->db->insert('ACTIVITY', $data);
+	  }
+
+	  function getstatus($type)
+	  {
+	  	$this->db->select('STATUS')
+	  			->from('ACTIVITY_PARAMETER')
+	  			->where('ID_PARAMETER',$type);
+	  	$query = $this->db->get();
+	  	return $query->row()->STATUS;
+	  }
+
+	  function getstatusbyid($id)
+	  {
+	  	$this->db->select('STATUS')
+	  			->from('KASUS')
+	  			->where('ID_CASE',$id);
+	  	$query = $this->db->get();
+	  	return $query->row()->STATUS;
+	  }
+
+	  function insertlastactivity($id, $data)
+	  {
+	  	$this->db->where('ID_CASE', $id);
+		$this->db->update('KASUS', $data);
+	  }
+
+	  function getcasenumbers($id)
+	  {
+	  	$this->db->select('KASUS.ID_CASE, PROFIL.TELEPHONE_NUMBER, PROFIL.MAIN_NUMBER')
+	  			->from('KASUS')
+	  			->join('PROFIL','KASUS.ID_CASE = PROFIL.ID_CASE')
+	  			->where('KASUS.ID_CASE',$id);
+	  	$query = $this->db->get();
+	  	return $query->row();
+	  }
+
+	  //$data['nomor'] = DB::table('kasus')->join('profil','kasus.id_case','=','profil.id_case')
+ //      											     ->select('kasus.id_case','profil.telephone_number','profil.main_number')
+ //      												 ->where('kasus.id_case','=',$id1)->first();
 } 
 
 ?>

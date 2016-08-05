@@ -33,7 +33,7 @@
         <div class="col-md-12">
         <div class="box box-danger">
         <div class="box-body">
-          <form class="form-horizontal" role="form" action="edituser" method="post">
+          <form class="form-horizontal" role="form" action="<?php echo site_url("edituser"); ?>" method="post">
             <div class="form-group">
               <label class="control-label col-sm-2" for="no. telp">Username:</label>
               <div class="col-sm-9">
