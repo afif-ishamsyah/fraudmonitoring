@@ -22,13 +22,7 @@
         <!-- Main content -->
         <section class="content">
         <div class="row">
-        <?php if($this->session->flashdata('fail')): ?>
-        <div class="col-md-12"><div class="alert alert-danger"><?php echo $this->session->flashdata('fail'); ?></div></div>
-        <?php endif; ?>
-
-       <?php if($this->session->flashdata('success')): ?>
-        <div class="col-md-12"><div class="alert alert-success"><?php echo $this->session->flashdata('success'); ?></div></div>
-        <?php endif; ?>
+       
         <div class="col-md-12">
         <div class="box box-danger">
         <div class="box-header with-border">
@@ -39,6 +33,7 @@
             <div class="form-group">
               <label class="control-label col-sm-2" for="notelepon">Telephone Number:</label>
               <div class="col-sm-10">
+
                 <input class="form-control" name="telnumber" id="telnumber" value="<?php echo $nomor->TELEPHONE_NUMBER;?>" disabled>
                 <input class="form-control" type="hidden" name="idcase" id="idcase" value="<?php echo $nomor->ID_CASE;?>">
               </div>
@@ -47,10 +42,9 @@
              <div class="form-group">
               <label class="control-label col-sm-2" for="destnumber">Main Number:</label>
               <div class="col-sm-10">
-                <input type="number" class="form-control" name="mainnumber" id="destnumber" value="<?php echo $nomor->MAIN_NUMBER;?>" required>
-              </div>
+                <input type="number" class="form-control" name="mainnumber" id="destnumber" value="<?php echo $nomors; ?>" required>
+              </div>    
             </div>
-            
             <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>">
 
           </div>
@@ -64,12 +58,9 @@
               </div>
               </form>
             </div>
-
-
             </div>
             </div>
 
-        <?php if($this->session->flashdata('fail') || $this->session->flashdata('success')): ?>
 
           <div class="col-md-12">
             <div class="box box-danger">
@@ -90,56 +81,56 @@
                 <div class="form-group">
                   <label class="control-label col-sm-2" for="notelepon">Main Number:</label>
                   <div class="col-sm-10">
-                    <input class="form-control" name="mainnumber" id="telnumber" value="<?php echo $nomor->MAIN_NUMBER;?>" disabled>
+                    <input class="form-control" name="mainnumber" id="telnumber" value="<?php echo $nomors;?>" required>
                   </div>
                 </div>
 
                 <div class="form-group">
                   <label class="control-label col-sm-2" for="destnumber">NIK AM:</label>
                   <div class="col-sm-10">
-                    <input class="form-control" name="nikam" id="destnumber" value="<?php echo $nomor->NIKAM;?>" type="number" required>
+                    <input class="form-control" name="nikam" id="destnumber" value="<?php echo $profile->NIKAM;?>" type="number" required>
                   </div>
                 </div>
 
                  <div class="form-group">
                   <label class="control-label col-sm-2" for="destnumber">Account Manager:</label>
                   <div class="col-sm-10">
-                    <input class="form-control" name="am" id="destnumber" value="<?php echo $nomor->AM;?>" required>
+                    <input class="form-control" name="am" id="destnumber" value="<?php echo $profile->NAMAAM;?>" required>
                   </div>
                 </div>
 
                 <div class="form-group">
                   <label class="control-label col-sm-2" for="destnumber">NIP NAS:</label>
                   <div class="col-sm-10">
-                    <input type="number" class="form-control" name="nipnas" id="destnumber" value="<?php echo $nomor->NIPNAS;?>" required>
+                    <input type="number" class="form-control" name="nipnas" id="destnumber" value="<?php echo $profile->NIPNAS;?>" required>
                   </div>
                 </div>
 
                 <div class="form-group">
                   <label class="control-label col-sm-2" for="destnumber">Corporate Customer:</label>
                   <div class="col-sm-10">
-                    <input class="form-control" name="customer" id="destnumber" value="<?php echo $nomor->CUSTOMER;?>" required>
+                    <input class="form-control" name="customer" id="destnumber" value="<?php echo $profile->NAMACC;?>" required>
                   </div>
                 </div>
 
                 <div class="form-group">
                   <label class="control-label col-sm-2" for="destnumber">Installation Address:</label>
                   <div class="col-sm-10">
-                    <input class="form-control" name="alamat" id="destnumber" value="<?php echo $nomor->INSTALLATION;?>" required>
+                    <input class="form-control" name="alamat" id="destnumber" value="<?php echo $profile->ALAMAT;?>" required>
                   </div>
                 </div>
 
                 <div class="form-group">
                   <label class="control-label col-sm-2" for="destnumber">Segment:</label>
                   <div class="col-sm-10">
-                    <input pattern=".{3,3}" class="form-control" name="segmen" id="destnumber" value="<?php echo $nomor->SEGMEN;?>" required>
+                    <input pattern=".{3,3}" class="form-control" name="segmen" id="destnumber" value="<?php echo $profile->SEGMEN;?>" required>
                   </div>
                 </div>
 
                 <div class="form-group">
                   <label class="control-label col-sm-2" for="destnumber">Average Revenue:</label>
                   <div class="col-sm-10">
-                    <input type="number" class="form-control" name="revenue" id="destnumber" value="<?php echo $nomor->REVENUE;?>" required>
+                    <input type="number" class="form-control" name="revenue" id="destnumber" value="<?php echo $profile->AVERAGE;?>" required>
                   </div>
                 </div>
 
@@ -149,15 +140,13 @@
                 <div class="box-footer">
                   <div class="form-group">
                     <div class="pull-right">
-                      <a href="<?php echo site_url("cases/$nomor->ID_CASE"); ?>" type="button" class="btn btn-danger" >Back</a>
+                      <a href="<?php echo site_url("cases/$nomor->ID_CASE"); ?>" type="button" class="btn btn-danger" >Cancel</a>
                       <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Update</button>
                     </div>
                   </div>
                 </div>
                 </div>
                 </div>
-
-        <?php endif; ?>
 
           <!-- Modal -->
             <div class="modal fade" id="myModal" role="dialog">

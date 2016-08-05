@@ -576,7 +576,7 @@ public function user()
 		 	 }
 		 	 else
 		 	 {
-		 	 	$this->session->set_flashdata('fail', 'Parameter sudah digunakan dan tidak bisa dihapus');
+		 	 	$this->session->set_flashdata('fail', 'Nomor masih dalam proses');
 		 	 	redirect('caseform');
 		 	 }
 			
@@ -639,7 +639,19 @@ public function user()
 		if($status=='0')
 		{
 			$data = array();
+
 			$data['nomor'] = $this->user->getcasenumbers($id);
+			$data['nomors'] = $this->user->getmainnumber1($id);
+			$profile = $this->user->getprofile2($data['nomors']);
+
+			if(empty($profile))
+			{
+				$data['profile'] = $this->user->getnullprofile();
+			}
+			else
+			{
+				$data['profile'] = $profile;
+			}
 
 			$this->load->view('header'); 
 			$this->load->view('edit',$data);
@@ -651,24 +663,79 @@ public function user()
 		}
 
 	}
-	// $status = DB::table('kasus')->where('id_case','=',$id1)->value('status');
-	// 		if(Auth::user()->previledge=='0' && $status=='0')
-	// 		{
-	// 			$data = array();
- //      			$data['nomor'] = DB::table('kasus')->join('profil','kasus.id_case','=','profil.id_case')
- //      											     ->select('kasus.id_case','profil.telephone_number','profil.main_number')
- //      												 ->where('kasus.id_case','=',$id1)->first();
 
-	//   			return view('edit',$data);
-	// 		}
-	// 		elseif(Auth::user()->previledge=='0' && $status=='1')
-	// 		{
-	// 			return redirect('user');
-	// 		}
-	// 		elseif(Auth::user()->previledge=='1')
-	// 		{
-	// 			return redirect('admin');
-	// 		}
+	public function checkprofile()
+	{
+		if ($_SERVER['REQUEST_METHOD'] === 'POST') 
+		{
+			$this->load->model('user');
+
+			$mainnumber =  $this->input->post('mainnumber');
+			$id =  $this->input->post('idcase');
+			
+			$data = array();
+			$data['nomor'] = $this->user->getcasenumbers($id);
+			$data['nomors'] = $mainnumber;
+			$profile = $this->user->getprofile2($mainnumber);
+
+			if(empty($profile))
+			{
+				$data['profile'] = $this->user->getnullprofile();
+			}
+			else
+			{
+				$data['profile'] = $profile;
+			}
+
+		 	 $this->load->view('header'); 
+			 $this->load->view('edit',$data);
+			 $this->load->view('footer'); 	
+		 	 
+		}
+		elseif ($_SERVER['REQUEST_METHOD'] === 'GET')
+		{
+			redirect('user');
+		}
+	}
+
+	public function editingprofileprocess()
+	{
+		if ($_SERVER['REQUEST_METHOD'] === 'POST') 
+		{
+			$this->load->model('user');
+
+			$id =  $this->input->post('idcase');
+			
+			$data = array(
+				'MAIN_NUMBER' => $this->input->post('mainnumber'),
+				'NIPNAS' => $this->input->post('nipnas'),
+				'CUSTOMER' => $this->input->post('customer'),
+				'NIKAM' => $this->input->post('nikam'),
+				'AM' => $this->input->post('am'),
+				'INSTALLATION' => $this->input->post('alamat'),
+				'SEGMEN' => $this->input->post('segmen'),
+				'REVENUE' => $this->input->post('revenue')
+				);
+			$this->user->updateprofile($id, $data);
+			redirect('cases/'.$id);
+		 	 
+		}
+		elseif ($_SERVER['REQUEST_METHOD'] === 'GET')
+		{
+			redirect('user');
+		}
+	}
+
+	// $data=Input::all();
+ // 	DB::table('profil')
+ //              ->where('id_case', $data['idcase'])
+ //              ->update(['nipnas' => $data['nipnas'], 'customer' => $data['customer'], 'nikam' => $data['nikam'], 'am' => $data['am'],
+ // 'installation'=>$data['alamat'],'segmen' => $data['segmen'], 'revenue' => $data['revenue']]);
+
+	// return Redirect::route('closed',$data['idcase']);
+
+
+
 
 }
 

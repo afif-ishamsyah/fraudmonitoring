@@ -80,3 +80,5 @@ $route['cases/(:any)'] = 'fraud/cases/$1';
 $route['insertcase'] = 'fraud/insertcase';
 $route['addactivity'] = 'fraud/addactivity';
 $route['editingprofile/(:any)'] = 'fraud/editingprofile/$1';
+$route['checkprofile'] = 'fraud/checkprofile';
+$route['editingprofileprocess'] = 'fraud/editingprofileprocess';

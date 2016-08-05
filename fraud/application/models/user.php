@@ -268,11 +268,19 @@
 
 	  function getprofile2($mainnumber)
 	  {
-	  	$this->db2->select('PROFIL.NIPNAS, PROFIL.NAMACC, PROFIL.ALAMAT, PROFIL.NIKAM, PROFIL.NAMAAM, PROFIL.SEGMEN, REVENUE.AVERAGE')
+	  	$this->db2->select('PROFIL.NIPNAS , PROFIL.NAMACC, PROFIL.ALAMAT, PROFIL.NIKAM, PROFIL.NAMAAM, PROFIL.SEGMEN, REVENUE.AVERAGE')
 	  			->from('PROFIL')
 	  			->join('REVENUE','PROFIL.NOTEL = REVENUE.NOTEL')
 	  			->where('PROFIL.NOTEL',$mainnumber);
 	  	$query = $this->db2->get();
+	  	return $query->row();
+	  }
+
+	  function getnullprofile()
+	  {
+	  	$this->db->select("NULL AS NIPNAS , NULL AS NAMACC, NULL AS ALAMAT, NULL AS NIKAM, NULL AS NAMAAM, NULL AS SEGMEN, NULL AS AVERAGE", false)
+	  			->from('PROFIL');
+	  	$query = $this->db->get();
 	  	return $query->row();
 	  }
 
@@ -352,17 +360,29 @@
 
 	  function getcasenumbers($id)
 	  {
-	  	$this->db->select('KASUS.ID_CASE, PROFIL.TELEPHONE_NUMBER, PROFIL.MAIN_NUMBER')
-	  			->from('KASUS')
-	  			->join('PROFIL','KASUS.ID_CASE = PROFIL.ID_CASE')
-	  			->where('KASUS.ID_CASE',$id);
+	  	$this->db->select('PROFIL.ID_CASE, PROFIL.TELEPHONE_NUMBER')
+	  			->from('PROFIL')
+	  			->where('PROFIL.ID_CASE',$id);
 	  	$query = $this->db->get();
 	  	return $query->row();
 	  }
 
-	  //$data['nomor'] = DB::table('kasus')->join('profil','kasus.id_case','=','profil.id_case')
- //      											     ->select('kasus.id_case','profil.telephone_number','profil.main_number')
- //      												 ->where('kasus.id_case','=',$id1)->first();
+	  function getmainnumber1($id)
+	  {
+	  	$this->db->select('PROFIL.MAIN_NUMBER')
+	  			->from('PROFIL')
+	  			->where('PROFIL.ID_CASE',$id);
+	  	$query = $this->db->get();
+	  	return $query->row()->MAIN_NUMBER;
+	  }
+
+	  function updateprofile($id, $data)
+	  {
+	  	$this->db->where('ID_CASE', $id);
+		$this->db->update('PROFIL', $data);
+	  }
+
+
 } 
 
 ?>
