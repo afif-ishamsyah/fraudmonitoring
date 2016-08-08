@@ -64,20 +64,26 @@
               <li class="dropdown user user-menu">
                 <a class="dropdown-toggle" data-toggle="dropdown">
                   <img src="<?php echo base_url("/assets/telkom.jpg"); ?>" class="user-image" alt="User Image">
-                  <span class="hidden-xs">user</span>
+                  <span class="hidden-xs"><?php echo $username; ?></span>
                 </a>
                 <ul class="dropdown-menu">
                   <!-- User image -->
                   <li class="user-header">
                     <img src="<?php echo base_url("/assets/telkom.jpg"); ?>" class="img-circle" alt="User Image">
                     <p style="font-size:24px;">
-                    <small>Admin</small>
+                      <?php echo $username; ?>
+                      <?php if($previledge=='0'): ?>
+                      <small>User</small>
+                      <?php endif; ?>
+                      <?php if($previledge=='1'): ?>
+                      <small>Admin</small>
+                      <?php endif; ?>
                     </p>
                   </li>
                   <!-- Menu Footer-->
                   <li class="user-footer">   
                     <div class="pull-right">
-                      <a href="<?php echo base_url("/logout"); ?>" class="btn btn-default btn-flat">Sign out</a>
+                      <a href="<?php echo site_url("logout"); ?>" class="btn btn-default btn-flat">Sign out</a>
                     </div>
                   </li>
                 </ul>

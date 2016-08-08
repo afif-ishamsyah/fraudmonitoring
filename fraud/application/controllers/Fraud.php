@@ -4,70 +4,232 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Fraud extends CI_Controller {
 	
 	
+
+
+	public function loginform()
+	{
+		if($this->session->userdata('logged_in'))
+	    {
+		     $session_data = $this->session->userdata('logged_in');
+		     $previledge = $session_data['previledge'];
+		     if($previledge=='1')
+		     {
+		     	redirect('admin');
+		     }
+		     elseif($previledge=='0')
+		     {
+		     	redirect('user');
+		     }
+	   }
+	   else
+	   {
+	   		$this->load->view('login');
+	   }
+	}
+
+	public function login()
+	{
+		if ($_SERVER['REQUEST_METHOD'] === 'POST') 
+		{
+		 	 $this->load->model('general');
+
+		 	 $username = $this->input->post('username');
+		 	 $password = $this->general->hashpassword($this->input->post('password'));
+
+		 	 $check = $this->general->checklogin($username, $password);
+
+		 	 if($check)
+		 	 {
+			 	$sess_array = array();
+			    foreach($check as $row)
+			    {
+			    	$sess_array = array(
+			         'id' => $row->ID,
+			         'username' => $row->USERNAME,
+			         'previledge' => $row->PREVILEDGE
+			        );
+			    }
+			    $this->session->set_userdata('logged_in', $sess_array);
+			    redirect('home');
+			 }
+			 else
+			 {
+			 	$this->session->set_flashdata('fail', 'Username dan Password tidak ditemukan');
+			 	redirect('loginform');
+			 }
+		}
+		elseif ($_SERVER['REQUEST_METHOD'] === 'GET')
+		{
+			redirect('home');
+		}
+	}
+
+	public function home()
+	{
+	   if($this->session->userdata('logged_in'))
+	   {
+	     $session_data = $this->session->userdata('logged_in');
+	     $previledge = $session_data['previledge'];
+	     if($previledge=='1')
+	     {
+	     	redirect('admin');
+	     }
+	     elseif($previledge=='0')
+	     {
+	     	redirect('user');
+	     }
+	   }
+	   else
+	   {
+	     redirect('loginform');
+	   }
+	}
+
+	public function logout()
+	{
+		if($this->session->userdata('logged_in'))
+	    {
+	    	$this->session->unset_userdata('logged_in');
+	   		session_destroy();
+	   		redirect('home');
+	    }
+	    else
+	    {
+	      redirect('loginform');
+	    }
+	}
 //---------------------------------------------------------------------Fungsi Admin------------------------------------------------------
 
 	public function admin()
 	{
-		$this->load->model('admin');
+		if($this->session->userdata('logged_in'))
+	    {
+		     $session_data = $this->session->userdata('logged_in');
+		     $userdata['username'] = $session_data['username'];
+		     $userdata['previledge'] = $session_data['previledge'];
+		     if($userdata['previledge']=='1')
+		     {
+		     	$this->load->model('admin');
 
-		$data=array();
+				$data=array();
 
-		$data['tahun1'] = date("Y");
-		$data['tahun2'] = date("Y")-1;
-		$data['tahun3'] = date("Y")-2;
-		$data['tahun4'] = date("Y")-3;
-		$data['tahun5'] = date("Y")-4;
+				$data['tahun1'] = date("Y");
+				$data['tahun2'] = date("Y")-1;
+				$data['tahun3'] = date("Y")-2;
+				$data['tahun4'] = date("Y")-3;
+				$data['tahun5'] = date("Y")-4;
 
-		$data['unfinish'] = $this->admin->countopen();
-		$data['finish'] = $this->admin->countclose();
+				$data['unfinish'] = $this->admin->countopen();
+				$data['finish'] = $this->admin->countclose();
 
-		$data['closed1'] = $this->admin->countperyear($data['tahun1'], '1');
-		$data['open1'] = $this->admin->countperyear($data['tahun1'], '0');
+				$data['closed1'] = $this->admin->countperyear($data['tahun1'], '1');
+				$data['open1'] = $this->admin->countperyear($data['tahun1'], '0');
 
-		$data['closed2'] = $this->admin->countperyear($data['tahun2'], '1');
-		$data['open2'] = $this->admin->countperyear($data['tahun2'], '0');
+				$data['closed2'] = $this->admin->countperyear($data['tahun2'], '1');
+				$data['open2'] = $this->admin->countperyear($data['tahun2'], '0');
 
-		$data['closed3'] = $this->admin->countperyear($data['tahun3'], '1');
-		$data['open3'] = $this->admin->countperyear($data['tahun3'], '0');
+				$data['closed3'] = $this->admin->countperyear($data['tahun3'], '1');
+				$data['open3'] = $this->admin->countperyear($data['tahun3'], '0');
 
-		$data['closed4'] = $this->admin->countperyear($data['tahun4'], '1');
-		$data['open4'] = $this->admin->countperyear($data['tahun4'], '0');
+				$data['closed4'] = $this->admin->countperyear($data['tahun4'], '1');
+				$data['open4'] = $this->admin->countperyear($data['tahun4'], '0');
 
-		$data['closed5'] = $this->admin->countperyear($data['tahun5'], '1');
-		$data['open5'] = $this->admin->countperyear($data['tahun5'], '0');
+				$data['closed5'] = $this->admin->countperyear($data['tahun5'], '1');
+				$data['open5'] = $this->admin->countperyear($data['tahun5'], '0');
 
-		$data['parameter'] = $this->admin->countperparam();
+				$data['parameter'] = $this->admin->countperparam();
 
-		$this->load->view('headerhome'); 
-		$this->load->view('home_admin');
-		$this->load->view('footerhome',$data);  
+				$this->load->view('headerhome',$userdata); 
+				$this->load->view('home_admin');
+				$this->load->view('footerhome',$data);  
+		     }
+		     elseif($userdata['previledge']=='0')
+		     {
+		     	redirect('user');
+		     }
+	   }
+	   else
+	   {
+	     redirect('loginform');
+	   }
+		
 	}
 
 	public function userform()
 	{
-		$this->load->view('header'); 
-		$this->load->view('admin_inputuser');
-		$this->load->view('footer');  
+		if($this->session->userdata('logged_in'))
+	    {
+		     $session_data = $this->session->userdata('logged_in');
+		     $userdata['username'] = $session_data['username'];
+		     $userdata['previledge'] = $session_data['previledge'];
+		     if($userdata['previledge']=='1')
+		     {
+		     	$this->load->view('header', $userdata); 
+				$this->load->view('admin_inputuser');
+				$this->load->view('footer');  
+		     }
+		     elseif($userdata['previledge']=='0')
+		     {
+		     	redirect('user');
+		     }
+	   }
+	   else
+	   {
+	     redirect('loginform');
+	   }
 
 	}
 
 	public function edituserform()
 	{
-		$this->load->view('header'); 
-		$this->load->view('admin_edituser');
-		$this->load->view('footer');  
-
+		if($this->session->userdata('logged_in'))
+	    {
+		     $session_data = $this->session->userdata('logged_in');
+		     $userdata['username'] = $session_data['username'];
+		     $userdata['previledge'] = $session_data['previledge'];
+		     if($userdata['previledge']=='1')
+		     {
+		     	$this->load->view('header', $userdata); 
+				$this->load->view('admin_edituser');
+				$this->load->view('footer');  
+		     }
+		     elseif($userdata['previledge']=='0')
+		     {
+		     	redirect('user');
+		     }
+	   }
+	   else
+	   {
+	     redirect('loginform');
+	   }
 	}
 
 	public function paramform()
 	{
-		$this->load->model('admin');
-		$data=array();
-		$data['caseparam'] = $this->admin->getcaseparam();
-		$data['actparam'] = $this->admin->getactparam();
-		$this->load->view('header'); 
-		$this->load->view('admin_inputparam',$data);
-		$this->load->view('footer');  
+		if($this->session->userdata('logged_in'))
+	    {
+		     $session_data = $this->session->userdata('logged_in');
+		     $userdata['username'] = $session_data['username'];
+		     $userdata['previledge'] = $session_data['previledge'];
+		     if($userdata['previledge']=='1')
+		     {
+		     	$this->load->model('admin');
+				$data=array();
+				$data['caseparam'] = $this->admin->getcaseparam();
+				$data['actparam'] = $this->admin->getactparam();
+				$this->load->view('header',$userdata); 
+				$this->load->view('admin_inputparam',$data);
+				$this->load->view('footer');  
+		     }
+		     elseif($userdata['previledge']=='0')
+		     {
+		     	redirect('user');
+		     }
+	   }
+	   else
+	   {
+	     redirect('loginform');
+	   }
 
 	}
 	public function register()
@@ -105,7 +267,7 @@ class Fraud extends CI_Controller {
 		}
 		elseif ($_SERVER['REQUEST_METHOD'] === 'GET')
 		{
-			redirect('admin');
+			redirect('home');
 		}
 	}
 
@@ -157,7 +319,7 @@ class Fraud extends CI_Controller {
 		}
 		elseif ($_SERVER['REQUEST_METHOD'] === 'GET')
 		{
-			redirect('admin');
+			redirect('home');
 		}
 	}
 
@@ -185,7 +347,7 @@ class Fraud extends CI_Controller {
 		}
 		elseif ($_SERVER['REQUEST_METHOD'] === 'GET')
 		{
-			redirect('admin');
+			redirect('home');
 		}
 	}
 
@@ -219,60 +381,95 @@ class Fraud extends CI_Controller {
 		}
 		elseif ($_SERVER['REQUEST_METHOD'] === 'GET')
 		{
-			redirect('admin');
+			redirect('home');
 		}
 	}
 
 	public function deletecaseparam($id)
 	{
-		$this->load->model('admin');
+		if($this->session->userdata('logged_in'))
+	    {
+		     $session_data = $this->session->userdata('logged_in');
+		     $userdata['previledge'] = $session_data['previledge'];
+		     if($userdata['previledge']=='1')
+		     {
+		     	$this->load->model('admin');
 
-		$exist = $this->admin->idcaseparamexist($id);
+				$exist = $this->admin->idcaseparamexist($id);
 
-		if($exist==0)
-		{
-			redirect('admin');
-		}
+				if($exist==0)
+				{
+					redirect('admin');
+				}
 
-		$used = $this->admin->usedcaseparam($id);
+				$used = $this->admin->usedcaseparam($id);
 
-		if($used==1)
-		{
-			$this->session->set_flashdata('fail', 'Parameter sudah digunakan dan tidak bisa dihapus');
-			redirect('paramform');
-		}
-		else
-		{
-			$this->admin->deletecase($id);
-			$this->session->set_flashdata('success', 'Parameter berhasil dihapus');
-			redirect('paramform');
-		}
+				if($used==1)
+				{
+					$this->session->set_flashdata('fail', 'Parameter sudah digunakan dan tidak bisa dihapus');
+					redirect('paramform');
+				}
+				else
+				{
+					$this->admin->deletecase($id);
+					$this->session->set_flashdata('success', 'Parameter berhasil dihapus');
+					redirect('paramform');
+				}
+		     }
+		     elseif($userdata['previledge']=='0')
+		     {
+		     	redirect('user');
+		     }
+	   }
+	   else
+	   {
+	     redirect('loginform');
+	   }
+		
 	}
 
 	public function deleteactparam($id)
 	{
-		$this->load->model('admin');
+		if($this->session->userdata('logged_in'))
+	    {
+		     $session_data = $this->session->userdata('logged_in');
+		     $userdata['previledge'] = $session_data['previledge'];
+		     if($userdata['previledge']=='1')
+		     {
+		     	$this->load->model('admin');
 
-		$exist = $this->admin->idactparamexist($id);
+				$exist = $this->admin->idactparamexist($id);
 
-		if($exist==0)
-		{
-			redirect('admin');
-		}
+				if($exist==0)
+				{
+					redirect('admin');
+				}
 
-		$used = $this->admin->usedactparam($id);
+				$used = $this->admin->usedactparam($id);
 
-		if($used==1)
-		{
-			$this->session->set_flashdata('fail', 'Parameter sudah digunakan dan tidak bisa dihapus');
-			redirect('paramform');
-		}
-		else
-		{
-			$this->admin->deleteact($id);
-			$this->session->set_flashdata('success', 'Parameter berhasil dihapus');
-			redirect('paramform');
-		}
+				if($used==1)
+				{
+					$this->session->set_flashdata('fail', 'Parameter sudah digunakan dan tidak bisa dihapus');
+					redirect('paramform');
+				}
+				else
+				{
+					$this->admin->deleteact($id);
+					$this->session->set_flashdata('success', 'Parameter berhasil dihapus');
+					redirect('paramform');
+				}
+				
+		     }
+		     elseif($userdata['previledge']=='0')
+		     {
+		     	redirect('user');
+		     }
+	   }
+	   else
+	   {
+	     redirect('loginform');
+	   }
+		
 	}
 
 
@@ -282,224 +479,402 @@ class Fraud extends CI_Controller {
 
 public function user()
 	{
-		$this->load->model('user');
+		if($this->session->userdata('logged_in'))
+	    {
+		     $session_data = $this->session->userdata('logged_in');
+		     $userdata['username'] = $session_data['username'];
+		     $userdata['previledge'] = $session_data['previledge'];
+		     if($userdata['previledge']=='0')
+		     {
+		     	$this->load->model('user');
 
-		$data=array();
+				$data=array();
 
-		$data['tahun1'] = date("Y");
-		$data['tahun2'] = date("Y")-1;
-		$data['tahun3'] = date("Y")-2;
-		$data['tahun4'] = date("Y")-3;
-		$data['tahun5'] = date("Y")-4;
+				$data['tahun1'] = date("Y");
+				$data['tahun2'] = date("Y")-1;
+				$data['tahun3'] = date("Y")-2;
+				$data['tahun4'] = date("Y")-3;
+				$data['tahun5'] = date("Y")-4;
 
-		$data['unfinish'] = $this->user->countopen();
-		$data['finish'] = $this->user->countclose();
+				$data['unfinish'] = $this->user->countopen();
+				$data['finish'] = $this->user->countclose();
 
-		$data['closed1'] = $this->user->countperyear($data['tahun1'], '1');
-		$data['open1'] = $this->user->countperyear($data['tahun1'], '0');
+				$data['closed1'] = $this->user->countperyear($data['tahun1'], '1');
+				$data['open1'] = $this->user->countperyear($data['tahun1'], '0');
 
-		$data['closed2'] = $this->user->countperyear($data['tahun2'], '1');
-		$data['open2'] = $this->user->countperyear($data['tahun2'], '0');
+				$data['closed2'] = $this->user->countperyear($data['tahun2'], '1');
+				$data['open2'] = $this->user->countperyear($data['tahun2'], '0');
 
-		$data['closed3'] = $this->user->countperyear($data['tahun3'], '1');
-		$data['open3'] = $this->user->countperyear($data['tahun3'], '0');
+				$data['closed3'] = $this->user->countperyear($data['tahun3'], '1');
+				$data['open3'] = $this->user->countperyear($data['tahun3'], '0');
 
-		$data['closed4'] = $this->user->countperyear($data['tahun4'], '1');
-		$data['open4'] = $this->user->countperyear($data['tahun4'], '0');
+				$data['closed4'] = $this->user->countperyear($data['tahun4'], '1');
+				$data['open4'] = $this->user->countperyear($data['tahun4'], '0');
 
-		$data['closed5'] = $this->user->countperyear($data['tahun5'], '1');
-		$data['open5'] = $this->user->countperyear($data['tahun5'], '0');
+				$data['closed5'] = $this->user->countperyear($data['tahun5'], '1');
+				$data['open5'] = $this->user->countperyear($data['tahun5'], '0');
 
-		$data['parameter'] = $this->user->countperparam();
+				$data['parameter'] = $this->user->countperparam();
 
-		$this->load->view('headerhome'); 
-		$this->load->view('home_user');
-		$this->load->view('footerhome',$data);  
+				$this->load->view('headerhome',$userdata); 
+				$this->load->view('home_user');
+				$this->load->view('footerhome',$data);  
+		     }
+		     elseif($userdata['previledge']=='1')
+		     {
+		     	redirect('admin');
+		     }
+	   }
+	   else
+	   {
+	     redirect('loginform');
+	   }
 	}
 
 	public function caseform()
 	{
-		$this->load->model('user');
-		$data = array();
-		$data['case'] = $this->user->getcaseparam();
+		if($this->session->userdata('logged_in'))
+	    {
+			 $session_data = $this->session->userdata('logged_in');
+		     $userdata['username'] = $session_data['username'];
+		     $userdata['previledge'] = $session_data['previledge'];
+		     if($userdata['previledge']=='0')
+		     {
+		     	$this->load->model('user');
+				$data = array();
+				$data['case'] = $this->user->getcaseparam();
 
-		$this->load->view('header'); 
-		$this->load->view('input',$data);
-		$this->load->view('footer');  
+				$this->load->view('header',$userdata); 
+				$this->load->view('input',$data);
+				$this->load->view('footer');  
+		     }
+		     elseif($userdata['previledge']=='1')
+		     {
+		     	redirect('admin');
+		     }
+	   }
+	   else
+	   {
+	     redirect('loginform');
+	   }
+
 	}
 
 	public function search()
 	{
-		$this->load->model('user');
-		$data = array();
-		$data['nomor'] = $this->user->getsearch();
+		if($this->session->userdata('logged_in'))
+	    {
+			 $session_data = $this->session->userdata('logged_in');
+		     $userdata['username'] = $session_data['username'];
+		     $userdata['previledge'] = $session_data['previledge'];
+		     if($userdata['previledge']=='0')
+		     {
+		     	$this->load->model('user');
+				$data = array();
+				$data['nomor'] = $this->user->getsearch();
 
-		$this->load->view('header'); 
-		$this->load->view('search',$data);
-		$this->load->view('footer');  
+				$this->load->view('header',$userdata); 
+				$this->load->view('search',$data);
+				$this->load->view('footer');   
+		     }
+		     elseif($userdata['previledge']=='1')
+		     {
+		     	redirect('admin');
+		     }
+	   }
+	   else
+	   {
+	     redirect('loginform');
+	   }
 	}
 
 	public function searchnumber()
 	{
-		$this->load->model('user');
-		$data = array();
-		$opsi = $this->input->get('opsi1');
-		$telephone = $this->input->get('telephone');
+		if($this->session->userdata('logged_in'))
+	    {
+			 $session_data = $this->session->userdata('logged_in');
+		     $userdata['username'] = $session_data['username'];
+		     $userdata['previledge'] = $session_data['previledge'];
+		     if($userdata['previledge']=='0')
+		     {
+		     	$this->load->model('user');
+				$data = array();
+				$opsi = $this->input->get('opsi1');
+				$telephone = $this->input->get('telephone');
 
-		if($opsi=='1')
-		{
-			$data['nomor'] = $this->user->getsearchnumber($telephone);	
-		}
-		elseif($opsi=='2')
-		{
-			$data['nomor'] = $this->user->getsearchnumbers($telephone,'0');	
-		}
-		elseif($opsi=='3')
-		{
-			$data['nomor'] = $this->user->getsearchnumbers($telephone, '1');	
-		}
+				if($opsi=='1')
+				{
+					$data['nomor'] = $this->user->getsearchnumber($telephone);	
+				}
+				elseif($opsi=='2')
+				{
+					$data['nomor'] = $this->user->getsearchnumbers($telephone,'0');	
+				}
+				elseif($opsi=='3')
+				{
+					$data['nomor'] = $this->user->getsearchnumbers($telephone, '1');	
+				}
 
-		$this->load->view('header'); 
-		$this->load->view('search',$data);
-		$this->load->view('footer'); 
+				$this->load->view('header',$userdata); 
+				$this->load->view('search',$data);
+				$this->load->view('footer'); 
+		     }
+		     elseif($userdata['previledge']=='1')
+		     {
+		     	redirect('admin');
+		     }
+	   }
+	   else
+	   {
+	     redirect('loginform');
+	   }
+		
 	}
 
 	public function searchdate()
 	{
-		$this->load->model('user');
-		$data = array();
-		$opsi = $this->input->get('opsi1');
-		$date = $this->input->get('date');
+		if($this->session->userdata('logged_in'))
+	    {
+			 $session_data = $this->session->userdata('logged_in');
+		     $userdata['username'] = $session_data['username'];
+		     $userdata['previledge'] = $session_data['previledge'];
+		     if($userdata['previledge']=='0')
+		     {
+		     	$this->load->model('user');
+				$data = array();
+				$opsi = $this->input->get('opsi1');
+				$date = $this->input->get('date');
 
-		if($opsi=='1')
-		{
-			$data['nomor'] = $this->user->getsearchdate($date);	
-		}
-		elseif($opsi=='2')
-		{
-			$data['nomor'] = $this->user->getsearchdates($date,'0');	
-		}
-		elseif($opsi=='3')
-		{
-			$data['nomor'] = $this->user->getsearchdates($date, '1');	
-		}
+				if($opsi=='1')
+				{
+					$data['nomor'] = $this->user->getsearchdate($date);	
+				}
+				elseif($opsi=='2')
+				{
+					$data['nomor'] = $this->user->getsearchdates($date,'0');	
+				}
+				elseif($opsi=='3')
+				{
+					$data['nomor'] = $this->user->getsearchdates($date, '1');	
+				}
 
-		$this->load->view('header'); 
-		$this->load->view('search',$data);
-		$this->load->view('footer'); 
+				$this->load->view('header',$userdata); 
+				$this->load->view('search',$data);
+				$this->load->view('footer'); 
+		     }
+		     elseif($userdata['previledge']=='1')
+		     {
+		     	redirect('admin');
+		     }
+	   }
+	   else
+	   {
+	     redirect('loginform');
+	   }
+		
 	}
 
 	public function searchinputdate()
 	{
-		$this->load->model('user');
-		$data = array();
-		$opsi = $this->input->get('opsi1');
-		$date = $this->input->get('date');
+		if($this->session->userdata('logged_in'))
+	    {
+			 $session_data = $this->session->userdata('logged_in');
+		     $userdata['username'] = $session_data['username'];
+		     $userdata['previledge'] = $session_data['previledge'];
+		     if($userdata['previledge']=='0')
+		     {
+		     	$this->load->model('user');
+				$data = array();
+				$opsi = $this->input->get('opsi1');
+				$date = $this->input->get('date');
 
-		if($opsi=='1')
-		{
-			$data['nomor'] = $this->user->getsearchinputdate($date);	
-		}
-		elseif($opsi=='2')
-		{
-			$data['nomor'] = $this->user->getsearchinputdates($date,'0');	
-		}
-		elseif($opsi=='3')
-		{
-			$data['nomor'] = $this->user->getsearchinputdates($date, '1');	
-		}
+				if($opsi=='1')
+				{
+					$data['nomor'] = $this->user->getsearchinputdate($date);	
+				}
+				elseif($opsi=='2')
+				{
+					$data['nomor'] = $this->user->getsearchinputdates($date,'0');	
+				}
+				elseif($opsi=='3')
+				{
+					$data['nomor'] = $this->user->getsearchinputdates($date, '1');	
+				}
 
-		$this->load->view('header'); 
-		$this->load->view('search',$data);
-		$this->load->view('footer'); 
+				$this->load->view('header',$userdata); 
+				$this->load->view('search',$data);
+				$this->load->view('footer'); 
+		     }
+		     elseif($userdata['previledge']=='1')
+		     {
+		     	redirect('admin');
+		     }
+	   }
+	   else
+	   {
+	     redirect('loginform');
+	   }
+		
 	}
 
 	public function searcham()
 	{
-		$this->load->model('user');
-		$data = array();
-		$opsi = $this->input->get('opsi1');
-		$nama = strtolower($this->input->get('am'));
+		if($this->session->userdata('logged_in'))
+	    {
+			 $session_data = $this->session->userdata('logged_in');
+		     $userdata['username'] = $session_data['username'];
+		     $userdata['previledge'] = $session_data['previledge'];
+		     if($userdata['previledge']=='0')
+		     {
+		     	$this->load->model('user');
+				$data = array();
+				$opsi = $this->input->get('opsi1');
+				$nama = strtolower($this->input->get('am'));
 
-		if($opsi=='1')
-		{
-			$data['nomor'] = $this->user->getsearcham($nama);	
-		}
-		elseif($opsi=='2')
-		{
-			$data['nomor'] = $this->user->getsearchams($nama,'0');	
-		}
-		elseif($opsi=='3')
-		{
-			$data['nomor'] = $this->user->getsearchams($nama, '1');	
-		}
+				if($opsi=='1')
+				{
+					$data['nomor'] = $this->user->getsearcham($nama);	
+				}
+				elseif($opsi=='2')
+				{
+					$data['nomor'] = $this->user->getsearchams($nama,'0');	
+				}
+				elseif($opsi=='3')
+				{
+					$data['nomor'] = $this->user->getsearchams($nama, '1');	
+				}
 
-		$this->load->view('header'); 
-		$this->load->view('search',$data);
-		$this->load->view('footer'); 
+				$this->load->view('header',$userdata); 
+				$this->load->view('search',$data);
+				$this->load->view('footer'); 
+		     }
+		     elseif($userdata['previledge']=='1')
+		     {
+		     	redirect('admin');
+		     }
+	   }
+	   else
+	   {
+	     redirect('loginform');
+	   }
+		
 	}
 
 	public function searchcustomer()
 	{
-		$this->load->model('user');
-		$data = array();
-		$opsi = $this->input->get('opsi1');
-		$nama = strtolower($this->input->get('customer'));
+		if($this->session->userdata('logged_in'))
+	    {
+			 $session_data = $this->session->userdata('logged_in');
+		     $userdata['username'] = $session_data['username'];
+		     $userdata['previledge'] = $session_data['previledge'];
+		     if($userdata['previledge']=='0')
+		     {
+		     	$this->load->model('user');
+				$data = array();
+				$opsi = $this->input->get('opsi1');
+				$nama = strtolower($this->input->get('customer'));
 
-		if($opsi=='1')
-		{
-			$data['nomor'] = $this->user->getsearchcustomer($nama);	
-		}
-		elseif($opsi=='2')
-		{
-			$data['nomor'] = $this->user->getsearchcustomers($nama,'0');	
-		}
-		elseif($opsi=='3')
-		{
-			$data['nomor'] = $this->user->getsearchcustomers($nama, '1');	
-		}
+				if($opsi=='1')
+				{
+					$data['nomor'] = $this->user->getsearchcustomer($nama);	
+				}
+				elseif($opsi=='2')
+				{
+					$data['nomor'] = $this->user->getsearchcustomers($nama,'0');	
+				}
+				elseif($opsi=='3')
+				{
+					$data['nomor'] = $this->user->getsearchcustomers($nama, '1');	
+				}
 
-		$this->load->view('header'); 
-		$this->load->view('search',$data);
-		$this->load->view('footer'); 
+				$this->load->view('header',$userdata); 
+				$this->load->view('search',$data);
+				$this->load->view('footer'); 
+		     }
+		     elseif($userdata['previledge']=='1')
+		     {
+		     	redirect('admin');
+		     }
+	   }
+	   else
+	   {
+	     redirect('loginform');
+	   }
+
 	}
 
 	public function listprofile()
 	{
-		$this->load->model('user');
-		$data = array();
-		$data['nomor'] = $this->user->getlistprofile();
+		if($this->session->userdata('logged_in'))
+	    {
+			 $session_data = $this->session->userdata('logged_in');
+		     $userdata['username'] = $session_data['username'];
+		     $userdata['previledge'] = $session_data['previledge'];
+		     if($userdata['previledge']=='0')
+		     {
+		     	$this->load->model('user');
+				$data = array();
+				$data['nomor'] = $this->user->getlistprofile();
 
-		$this->load->view('header'); 
-		$this->load->view('listprofile',$data);
-		$this->load->view('footer'); 
+				$this->load->view('header',$userdata); 
+				$this->load->view('listprofile',$data);
+				$this->load->view('footer'); 
+		     }
+		     elseif($userdata['previledge']=='1')
+		     {
+		     	redirect('admin');
+		     }
+	   }
+	   else
+	   {
+	     redirect('loginform');
+	   }
+		
 	}
 
 	public function cases($id)
 	{
-		$this->load->model('user');
+		if($this->session->userdata('logged_in'))
+	    {
+			 $session_data = $this->session->userdata('logged_in');
+		     $userdata['username'] = $session_data['username'];
+		     $userdata['previledge'] = $session_data['previledge'];
+		     if($userdata['previledge']=='0')
+		     {
+		     	$this->load->model('user');
 
-		if($this->user->checkidcaseexist($id)==0)
-		{
-			show_404();
-		}
+				if($this->user->checkidcaseexist($id)==0)
+				{
+					show_404();
+				}
 
-		$number = $this->user->getnumber($id);
-		$tanggals = $this->user->getdate($id);
-		$tanggal = date('d-m-Y',strtotime($tanggals));
+				$number = $this->user->getnumber($id);
+				$tanggals = $this->user->getdate($id);
+				$tanggal = date('d-m-Y',strtotime($tanggals));
 
-		$data = array();
+				$data = array();
 
-		$data['nomor'] = $this->user->getprofile($id);
-		$data['aktivitas'] = $this->user->getactivity($id);
-		$data['cases'] = $this->user->getcasedetail($id);
-		$data['actlist'] = $this->user->getactparam();
-		$data['jumlah'] = $this->user->getcounthistory($number, $tanggal);
-		$data['history'] = $this->user->gethistory($number, $tanggal);
+				$data['nomor'] = $this->user->getprofile($id);
+				$data['aktivitas'] = $this->user->getactivity($id);
+				$data['cases'] = $this->user->getcasedetail($id);
+				$data['actlist'] = $this->user->getactparam();
+				$data['jumlah'] = $this->user->getcounthistory($number, $tanggal);
+				$data['history'] = $this->user->gethistory($number, $tanggal);
 
-		$this->load->view('header'); 
-		$this->load->view('case',$data);
-		$this->load->view('footer'); 
+				$this->load->view('header',$userdata); 
+				$this->load->view('case',$data);
+				$this->load->view('footer'); 
+		     }
+		     elseif($userdata['previledge']=='1')
+		     {
+		     	redirect('admin');
+		     }
+	   }
+	   else
+	   {
+	     redirect('loginform');
+	   }
+		
 	}
 
 	public function insertcase()
@@ -583,7 +958,7 @@ public function user()
 		}
 		elseif ($_SERVER['REQUEST_METHOD'] === 'GET')
 		{
-			redirect('user');
+			redirect('home');
 		}
 	}
 
@@ -621,46 +996,64 @@ public function user()
 		}
 		elseif ($_SERVER['REQUEST_METHOD'] === 'GET')
 		{
-			redirect('user');
+			redirect('home');
 		}
 	}
 
 	public function editingprofile($id)
 	{
-		$this->load->model('user');
+		if($this->session->userdata('logged_in'))
+	    {
+			 $session_data = $this->session->userdata('logged_in');
+		     $userdata['username'] = $session_data['username'];
+		     $userdata['previledge'] = $session_data['previledge'];
+		     if($userdata['previledge']=='0')
+		     {
+		     	$this->load->model('user');
 
-		if($this->user->checkidcaseexist($id)==0)
-		{
-			show_404();
-		}
+				if($this->user->checkidcaseexist($id)==0)
+				{
+					show_404();
+				}
 
-		$status = $this->user->getstatusbyid($id);
+				$status = $this->user->getstatusbyid($id);
 
-		if($status=='0')
-		{
-			$data = array();
+				if($status=='0')
+				{
+					$data = array();
 
-			$data['nomor'] = $this->user->getcasenumbers($id);
-			$data['nomors'] = $this->user->getmainnumber1($id);
-			$profile = $this->user->getprofile2($data['nomors']);
+					$data['nomor'] = $this->user->getcasenumbers($id);
+					$data['nomors'] = $this->user->getmainnumber1($id);
+					$profile = $this->user->getprofile2($data['nomors']);
 
-			if(empty($profile))
-			{
-				$data['profile'] = $this->user->getnullprofile();
-			}
-			else
-			{
-				$data['profile'] = $profile;
-			}
+					if(empty($profile))
+					{
+						$data['profile'] = $this->user->getnullprofile();
+					}
+					else
+					{
+						$data['profile'] = $profile;
+					}
 
-			$this->load->view('header'); 
-			$this->load->view('edit',$data);
-			$this->load->view('footer'); 
-		}
-		elseif($status=='1')
-		{
-			redirect('user');
-		}
+					$this->load->view('header',$userdata); 
+					$this->load->view('edit',$data);
+					$this->load->view('footer'); 
+				}
+				elseif($status=='1')
+				{
+					redirect('user');
+				}
+		     }
+		     elseif($userdata['previledge']=='1')
+		     {
+		     	redirect('admin');
+		     }
+	   }
+	   else
+	   {
+	     redirect('loginform');
+	   }
+		
 
 	}
 
@@ -687,14 +1080,18 @@ public function user()
 				$data['profile'] = $profile;
 			}
 
-		 	 $this->load->view('header'); 
+			$session_data = $this->session->userdata('logged_in');
+		    $userdata['username'] = $session_data['username'];
+		    $userdata['previledge'] = $session_data['previledge'];
+
+		 	 $this->load->view('header',$userdata); 
 			 $this->load->view('edit',$data);
 			 $this->load->view('footer'); 	
 		 	 
 		}
 		elseif ($_SERVER['REQUEST_METHOD'] === 'GET')
 		{
-			redirect('user');
+			redirect('home');
 		}
 	}
 
@@ -722,20 +1119,9 @@ public function user()
 		}
 		elseif ($_SERVER['REQUEST_METHOD'] === 'GET')
 		{
-			redirect('user');
+			redirect('home');
 		}
 	}
-
-	// $data=Input::all();
- // 	DB::table('profil')
- //              ->where('id_case', $data['idcase'])
- //              ->update(['nipnas' => $data['nipnas'], 'customer' => $data['customer'], 'nikam' => $data['nikam'], 'am' => $data['am'],
- // 'installation'=>$data['alamat'],'segmen' => $data['segmen'], 'revenue' => $data['revenue']]);
-
-	// return Redirect::route('closed',$data['idcase']);
-
-
-
 
 }
 

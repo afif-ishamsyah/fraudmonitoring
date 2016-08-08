@@ -7,7 +7,6 @@
    		$this->db2 = $this->load->database('oracle2', TRUE);
       }
 
-
       function countopen()
       {
       	$this->db->select('ID_CASE')->from('KASUS')->where('STATUS', '0');
