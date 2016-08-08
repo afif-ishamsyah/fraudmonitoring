@@ -897,63 +897,81 @@ public function user()
 
 		 	 if($caseexist==0)
 		 	 {
-		 	 	$id = (string)$this->uuid->v4();
+		 	 	$config['upload_path'] = 'case_activity/';
+				$config['allowed_types'] = '*';
+				$config['max_size'] = '30000';
+				$this->load->library('upload',$config);
 
-		 	 	$insertdata = array(
-		                'ID_CASE' => $id,
-		                'CASE_PARAMETER' =>  $this->input->post('casetype'),
-		                'CASE_TIME' => $dates,
-		                'DESCRIPTION' => $this->input->post('deskripsi'),
-		                'STATUS' => '0',
-		                'DESTINATION' => $this->input->post('destcountry'),
-		                'DESTINATION_NUMBER' => $this->input->post('destnumber'),
-		                'DURASI' => $this->input->post('durasi'),
-		                'NUMBER_OF_CALL' => $this->input->post('frekuensi'),
-		                'INPUT_DATE' => date('d-M-Y')
-		        );
+				if($this->upload->do_upload('fileupload'))
+				{
+					$uploaded = $this->upload->data();
+					$file_path = $uploaded['full_path'];
+					$file_name = $uploaded['file_name'];
 
-		 	 	$this->user->insertcases($insertdata);
+			 	 	$id = (string)$this->uuid->v4();
 
-		 	 	if(empty($profile))
-		 	 	{
-		 	 		$profiledata = array(
-		                'ID_CASE' => $id,
-		                'TELEPHONE_NUMBER' =>  $telephonenumber,
-		                'MAIN_NUMBER' =>  $mainnumber,
-		                'NIPNAS' => '',
-		                'CUSTOMER' => '',
-		                'INSTALLATION' => '',
-		                'NIKAM' => '',
-		                'AM' => '',
-		                'SEGMEN' => '',
-		                'REVENUE' =>''
-		                );
-		 	 		$this->user->insertprofiles($profiledata);
-		 	 	}
-		 	 	else
-		 	 	{
-		 	 		$profiledata = array(
-		                'ID_CASE' => $id,
-		                'TELEPHONE_NUMBER' =>  $telephonenumber,
-		                'MAIN_NUMBER' =>  $mainnumber,
-		                'NIPNAS' => $profile->NIPNAS,
-		                'CUSTOMER' => $profile->NAMACC,
-		                'INSTALLATION' => $profile->ALAMAT,
-		                'NIKAM' => $profile->NIKAM,
-		                'AM' => $profile->NAMAAM,
-		                'SEGMEN' =>  $profile->SEGMEN,
-		                'REVENUE' => $profile->AVERAGE
-		                );
-		 	 		$this->user->insertprofiles($profiledata);
-		 	 	}
+			 	 	$insertdata = array(
+			                'ID_CASE' => $id,
+			                'CASE_PARAMETER' =>  $this->input->post('casetype'),
+			                'CASE_TIME' => $dates,
+			                'DESCRIPTION' => $this->input->post('deskripsi'),
+			                'STATUS' => '0',
+			                'DESTINATION' => $this->input->post('destcountry'),
+			                'DESTINATION_NUMBER' => $this->input->post('destnumber'),
+			                'DURASI' => $this->input->post('durasi'),
+			                'NUMBER_OF_CALL' => $this->input->post('frekuensi'),
+			                'INPUT_DATE' => date('d-M-Y'),
+			                'FILENAME' => $file_name,
+		                	'ORIGINAL_FILENAME' => $file_path
+			        );
 
-		 	 	redirect('cases/'.$id);
-		 	 }
-		 	 else
-		 	 {
+			 	 	$this->user->insertcases($insertdata);
+
+			 	 	if(empty($profile))
+			 	 	{
+			 	 		$profiledata = array(
+			                'ID_CASE' => $id,
+			                'TELEPHONE_NUMBER' =>  $telephonenumber,
+			                'MAIN_NUMBER' =>  $mainnumber,
+			                'NIPNAS' => '',
+			                'CUSTOMER' => '',
+			                'INSTALLATION' => '',
+			                'NIKAM' => '',
+			                'AM' => '',
+			                'SEGMEN' => '',
+			                'REVENUE' =>''
+			                );
+			 	 		$this->user->insertprofiles($profiledata);
+			 	 	}
+			 	 	else
+			 	 	{
+			 	 		$profiledata = array(
+			                'ID_CASE' => $id,
+			                'TELEPHONE_NUMBER' =>  $telephonenumber,
+			                'MAIN_NUMBER' =>  $mainnumber,
+			                'NIPNAS' => $profile->NIPNAS,
+			                'CUSTOMER' => $profile->NAMACC,
+			                'INSTALLATION' => $profile->ALAMAT,
+			                'NIKAM' => $profile->NIKAM,
+			                'AM' => $profile->NAMAAM,
+			                'SEGMEN' =>  $profile->SEGMEN,
+			                'REVENUE' => $profile->AVERAGE
+			                );
+			 	 		$this->user->insertprofiles($profiledata);
+			 	 	}
+			 	 	redirect('cases/'.$id);
+			 	}
+			 	else
+			 	{
+			 		$this->session->set_flashdata('fail', 'Upload file gagal');
+		 	 		redirect('caseform');
+			 	}
+		 	}
+		 	else
+		 	{
 		 	 	$this->session->set_flashdata('fail', 'Nomor masih dalam proses');
 		 	 	redirect('caseform');
-		 	 }
+		 	}
 			
 		}
 		elseif ($_SERVER['REQUEST_METHOD'] === 'GET')
@@ -969,35 +987,103 @@ public function user()
 			$this->load->model('user');
 
 			$id = $this->input->post('idcase');
+			$file = $this->input->post('fileupload');
 
 		 	 $date = str_replace('/', '-', $this->input->post('actdate'));
 			 $dates = date('d-M-Y', strtotime($date));
 
-			 $data = array(
+			 $config['upload_path'] = 'file_activity/';
+			 $config['allowed_types'] = '*';
+			 $config['max_size'] = '30000';
+			 $this->load->library('upload',$config);
+
+			 if($this->upload->do_upload('fileupload'))
+			 {
+				 $uploaded = $this->upload->data();
+				 $file_path = $uploaded['full_path'];
+				 $file_name = $uploaded['file_name'];
+				 $data = array(
 		                'ID_CASE' => $id,
 		                'ACTIVITY_DATE' => $dates,
 		                'ACTIVITY_NUMBER' => $this->input->post('acttype'),
 		                'DESCRIPTION' =>  $this->input->post('deskripsi'),
-		                'INPUT_DATE' => date('d-M-Y')
+		                'INPUT_DATE' => date('d-M-Y'),
+		                'FILENAME' => $file_name,
+		                'ORIGINAL_FILENAME' => $file_path
 		                );
 
-			 $this->user->inseractivity($data);
+				 $this->user->inseractivity($data);
 
-			 $status = $this->user->getstatus($this->input->post('acttype'));
+				 $status = $this->user->getstatus($this->input->post('acttype'));
 
-			 $casedata = array(
-		                'STATUS' =>  $status,
-		                'LAST_ACTIVITY' =>   $this->input->post('acttype')
-		                );
+				 $casedata = array(
+			                'STATUS' =>  $status,
+			                'LAST_ACTIVITY' =>   $this->input->post('acttype')
+			                );
 
-			 $this->user->insertlastactivity($id ,$casedata);
+				 $this->user->insertlastactivity($id ,$casedata);
 
-			 redirect('cases/'.$id);
+				 redirect('cases/'.$id);
+			 }
+			 else
+			 {
+			 	$this->session->set_flashdata('fail', 'Upload file gagal');
+		 	 	redirect('cases/'.$id);
+			 }
 		}
 		elseif ($_SERVER['REQUEST_METHOD'] === 'GET')
 		{
 			redirect('home');
 		}
+	}
+
+	public function getact($id)
+	{
+		if($this->session->userdata('logged_in'))
+	    {
+			 $session_data = $this->session->userdata('logged_in');
+		     $userdata['previledge'] = $session_data['previledge'];
+		     if($userdata['previledge']=='0')
+		     {
+		     	$this->load->helper('download');
+		     	$data = file_get_contents("file_activity/".$id);
+		     	force_download($id, $data);
+		     	
+		     }
+		     elseif($userdata['previledge']=='1')
+		     {
+		     	redirect('admin');
+		     }
+	   }
+	   else
+	   {
+	     redirect('loginform');
+	   }
+	}
+
+	public function getcase($id)
+	{
+		if($this->session->userdata('logged_in'))
+	    {
+			 $session_data = $this->session->userdata('logged_in');
+		     $userdata['previledge'] = $session_data['previledge'];
+		     if($userdata['previledge']=='0')
+		     {
+		     	$this->load->helper('download');
+		     	$data = file_get_contents("case_activity/".$id);
+		     	force_download($id, $data);
+		     	
+		     }
+		     elseif($userdata['previledge']=='1')
+		     {
+		     	redirect('admin');
+		     }
+	   }
+	   else
+	   {
+	     redirect('loginform');
+	   }
+		
 	}
 
 	public function editingprofile($id)
@@ -1122,6 +1208,7 @@ public function user()
 			redirect('home');
 		}
 	}
+
 
 }
 

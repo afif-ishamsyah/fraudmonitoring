@@ -33,6 +33,11 @@
         <!-- Main content -->
         <section class="content">
         <div class="row">
+
+          <?php if($this->session->flashdata('fail')): ?>
+          <div class="col-md-12"><div class="alert alert-danger"><?php echo $this->session->flashdata('fail'); ?></div></div>
+          <?php endif; ?>
+          
         <div class="col-md-6">
           <div class="box box-danger">
             <div class="box-header">

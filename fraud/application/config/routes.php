@@ -86,3 +86,5 @@ $route['addactivity'] = 'fraud/addactivity';
 $route['editingprofile/(:any)'] = 'fraud/editingprofile/$1';
 $route['checkprofile'] = 'fraud/checkprofile';
 $route['editingprofileprocess'] = 'fraud/editingprofileprocess';
+$route['getact/(:any)'] = 'fraud/getact/$1';
+$route['getcase/(:any)'] = 'fraud/getcase/$1';
