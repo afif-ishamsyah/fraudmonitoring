@@ -41,7 +41,7 @@
 
       function getcaseparam()
 	  {
-	  	$this->db->select('ID_PARAMETER, DESCRIPTION')
+	  	$this->db->select('ID_PARAMETER, DESCRIPTION, AKTIF')
 	  			 ->from('CASE_PARAMETER')
 	  			 ->where('AKTIF','1');
 	  	$query = $this->db->get();
@@ -225,7 +225,7 @@
 
 	  function getactparam()
 	  {
-	  	$this->db->select('ID_PARAMETER, DESCRIPTION, AKRONIM, STATUS')->from('ACTIVITY_PARAMETER')->where('AKTIF','1');
+	  	$this->db->select('ID_PARAMETER, DESCRIPTION, AKRONIM, STATUS, AKTIF')->from('ACTIVITY_PARAMETER')->where('AKTIF','1');
 	  	$query = $this->db->get();
 	  	return $query->result();
 	  }

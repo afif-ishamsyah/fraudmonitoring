@@ -385,7 +385,7 @@ class Fraud extends CI_Controller {
 		}
 	}
 
-	public function deletecaseparam($id)
+	public function changecaseparam($id)
 	{
 		if($this->session->userdata('logged_in'))
 	    {
@@ -402,17 +402,19 @@ class Fraud extends CI_Controller {
 					redirect('admin');
 				}
 
-				$used = $this->admin->usedcaseparam($id);
+				$aktif = $this->admin->getcaseaktif($id);
+				$des = $this->admin->desccase($id);
 
-				if($used==1)
+				if($aktif=='1')
 				{
-					$this->session->set_flashdata('fail', 'Parameter sudah digunakan dan tidak bisa dihapus');
+					$this->admin->changeaktifcase($id, '0');
+					$this->session->set_flashdata('success', 'Case Parameter '.$des.' sudah dinonaktifkan');
 					redirect('paramform');
 				}
-				else
+				elseif($aktif=='0')
 				{
-					$this->admin->deletecase($id);
-					$this->session->set_flashdata('success', 'Parameter berhasil dihapus');
+					$this->admin->changeaktifcase($id, '1');
+					$this->session->set_flashdata('success', 'Case Parameter '.$des.' berhasil diaktifkan');
 					redirect('paramform');
 				}
 		     }
@@ -428,7 +430,7 @@ class Fraud extends CI_Controller {
 		
 	}
 
-	public function deleteactparam($id)
+	public function changeactparam($id)
 	{
 		if($this->session->userdata('logged_in'))
 	    {
@@ -445,17 +447,19 @@ class Fraud extends CI_Controller {
 					redirect('admin');
 				}
 
-				$used = $this->admin->usedactparam($id);
+				$aktif = $this->admin->getactaktif($id);
+				$des = $this->admin->descact($id);
 
-				if($used==1)
+				if($aktif=='1')
 				{
-					$this->session->set_flashdata('fail', 'Parameter sudah digunakan dan tidak bisa dihapus');
+					$this->admin->changeaktifactivity($id, '0');
+					$this->session->set_flashdata('success', 'Activity Parameter '.$des.' sudah dinonaktifkan');
 					redirect('paramform');
 				}
-				else
+				elseif($aktif=='0')
 				{
-					$this->admin->deleteact($id);
-					$this->session->set_flashdata('success', 'Parameter berhasil dihapus');
+					$this->admin->changeaktifactivity($id, '1');
+					$this->session->set_flashdata('success', 'Activity Parameter '.$des.' berhasil diaktifkan');
 					redirect('paramform');
 				}
 				
@@ -470,6 +474,35 @@ class Fraud extends CI_Controller {
 	     redirect('loginform');
 	   }
 		
+	}
+
+	public function editcaseparam()
+	{
+		if ($_SERVER['REQUEST_METHOD'] === 'POST') 
+		{
+			$this->load->model('admin');
+
+			$id = $this->input->post('idcase');
+			$desc = strtoupper($this->input->post('casename'));
+			$exist = $this->admin->caseparamexist($desc);
+
+			if($exist==1)
+			{
+				$this->session->set_flashdata('fail', 'Parameter sudah ada sebelumya');
+				redirect('paramform');	 
+			}
+			else
+			{
+				$this->admin->editcasepar($id, $desc);
+				$this->session->set_flashdata('success', 'Parameter berhasil diubah');
+				redirect('paramform');
+			}
+			
+		}
+		elseif ($_SERVER['REQUEST_METHOD'] === 'GET')
+		{
+			redirect('home');
+		}
 	}
 
 

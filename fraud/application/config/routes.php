@@ -66,8 +66,10 @@ $route['register'] = 'fraud/register';
 $route['edituser'] = 'fraud/edituser';
 $route['addcaseparam'] = 'fraud/addcaseparam';
 $route['addactparam'] = 'fraud/addactparam';
-$route['deletecaseparam/(:any)'] = 'fraud/deletecaseparam/$1';
-$route['deleteactparam/(:any)'] = 'fraud/deleteactparam/$1';
+$route['changecaseparam/(:any)'] = 'fraud/changecaseparam/$1';
+$route['changeactparam/(:any)'] = 'fraud/changeactparam/$1';
+$route['editcaseparam'] = 'fraud/editcaseparam';
+$route['editactparam'] = 'fraud/editactparam';
 $route['admin'] = 'fraud/admin';
 
 //---------User------------

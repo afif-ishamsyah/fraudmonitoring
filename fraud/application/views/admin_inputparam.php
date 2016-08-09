@@ -117,6 +117,7 @@
                     <thead>
                       <tr>
                         <th>Name</th>
+                        <th>Status</th>
                         <th>Action</th>
                       </tr>
                     </thead>
@@ -124,16 +125,15 @@
                       <?php foreach($caseparam as $casepar): ?>
                       <tr>
                         <td><?php echo $casepar->DESCRIPTION; ?></td>
-                        <td>
-                        <div class="col-md-12">
-                            <a  type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#<?php echo $casepar->ID_PARAMETER; ?>aktif"><i class="fa fa-ban"></i> <span>Deactivate</span></a>
-                        </div> 
-                        <div class="col-md-12">
-                            <a  type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#<?php echo $casepar->ID_PARAMETER; ?>deaktif"><i class="fa fa-check"></i> <span>Activate</span></a>
-                        </div> 
-                        <div class="col-md-12">
-                            <a  type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#<?php echo $casepar->ID_PARAMETER; ?>edit"><i class="fa fa-edit"></i> <span>Edit</span></a>
-                        </div>
+                        <?php if($casepar->AKTIF=='0'): ?>
+                        <td>Disabled</td>
+                        <td><a  type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#<?php echo $casepar->ID_PARAMETER; ?>deaktif"><i class="fa fa-check"></i> <span>Enable</span></a>
+                        <?php endif; ?>
+                        <?php if($casepar->AKTIF=='1'): ?>
+                         <td>Enabled</td>
+                         <td><a  type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#<?php echo $casepar->ID_PARAMETER; ?>aktif"><i class="fa fa-ban"></i> <span>Disable</span></a>
+                        <?php endif; ?>
+                            <a  type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#<?php echo $casepar->ID_PARAMETER; ?>edit"><i class="fa fa-edit"></i> <span>Edit</span></a>
                         </td>
                       </tr>
 
@@ -145,11 +145,11 @@
                               <h4 class="modal-title">ATTENTION!</h4>
                             </div>
                             <div class="modal-body">
-                              <p>Are you sure to <u>Deactivate</u> activity parameter  <b><?php echo $casepar->DESCRIPTION; ?></b> ?</p>
+                              <p>Are you sure to <u>Disable</u> activity parameter  <b><?php echo $casepar->DESCRIPTION; ?></b> ?</p>
                             </div>
                             <div class="modal-footer">
                               <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-                              <a href="<?php echo site_url("deleteactparam/$casepar->ID_PARAMETER"); ?>" type="submit" class="btn btn-success">Yes</a>
+                              <a href="<?php echo site_url("changecaseparam/$casepar->ID_PARAMETER"); ?>" type="submit" class="btn btn-success">Yes</a>
                             </div>
                           </div>
                         </div>
@@ -163,40 +163,43 @@
                               <h4 class="modal-title">ATTENTION!</h4>
                             </div>
                             <div class="modal-body">
-                              <p>Are you sure to <u>Activate</u> activity parameter  <b><?php echo $casepar->DESCRIPTION; ?></b> ?</p>
+                              <p>Are you sure to <u>Enable</u> activity parameter  <b><?php echo $casepar->DESCRIPTION; ?></b> ?</p>
                             </div>
                             <div class="modal-footer">
                               <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-                              <a href="<?php echo site_url("deleteactparam/$casepar->ID_PARAMETER"); ?>" type="submit" class="btn btn-success">Yes</a>
+                              <a href="<?php echo site_url("changecaseparam/$casepar->ID_PARAMETER"); ?>" type="submit" class="btn btn-success">Yes</a>
                             </div>
                           </div>
                         </div>
                       </div>
 
                       <div class="modal fade" id="<?php echo $casepar->ID_PARAMETER; ?>edit" role="dialog">
-                        <div class="modal-dialog">
-                          <div class="modal-content">
-                            <div class="modal-header">
-                              <button type="button" class="close" data-dismiss="modal">&times;</button>
-                              <h4 class="modal-title">Edit Parameter <b><?php echo $casepar->DESCRIPTION; ?></b></h4>
-                            </div>
-                            <div class="modal-body">
-                              <div class="form-group">
-                                <label class="control-label col-sm-2" for="frekueni">Case Name:</label>
-                                <div class="col-sm-10">
-                                  <input type="number" class="form-control" name="actname" id="actname" value="" required>
-                                </div>
+                          <div class="modal-dialog">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title">Edit Parameter <b><?php echo $casepar->DESCRIPTION; ?></b></h4>
                               </div>
-                            <div class="modal-footer">
-                              <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-                              <a href="<?php echo site_url("deleteactparam/$casepar->ID_PARAMETER"); ?>" type="submit" class="btn btn-success">Edit</a>
+                              <div class="modal-body">
+                               <form class="form-horizontal" role="form" action="<?php echo site_url("editcaseparam"); ?>" method="post" enctype="multipart/form-data"> 
+                                  <div class="form-group">
+                                      <label class="control-label">Case Name:</label>
+                                      <input type="text" name="casename" class="form-control" value="<?php echo $casepar->DESCRIPTION;?>" required>
+                                      <input class="form-control" type="hidden" name="idcase" id="idcase" value="<?php echo $casepar->ID_PARAMETER; ?>">
+                                      <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>">
+
+                                  </div>
+                              </div>
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                                <button type="submit" class="btn btn-primary">Edit</button>
+                              </div>
                             </div>
+                            </form>
                           </div>
                         </div>
-                      </div>
-                      </div>
 
-                      <?php endforeach; ?>
+                        <?php endforeach; ?>
                       </tbody>
                   </table>
                   </div>
@@ -230,20 +233,20 @@
                         <?php if($actpar->STATUS=='1'): ?>
                         <td>Close</td>
                         <?php endif; ?>
-                        <td>Activate</td>
+                        <?php if($actpar->AKTIF=='0'): ?>
+                        <td>Disabled</td>
                         <td>
-                        <div class="col-md-12">
-                            <a  type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#<?php echo $actpar->ID_PARAMETER; ?>aktif"><i class="fa fa-ban"></i> <span>Deactivate</span></a>
-                        </div> 
-                        <div class="col-md-12">
-                            <a  type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#<?php echo $actpar->ID_PARAMETER; ?>deaktif"><i class="fa fa-check"></i> <span>Activate</span></a>
-                        </div> 
-                        <div class="col-md-12">
-                            <a  type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#<?php echo $actpar->ID_PARAMETER; ?>edit"><i class="fa fa-edit"></i> <span>Edit</span></a>
-                        </div>
+                                <a  type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#act<?php echo $actpar->ID_PARAMETER; ?>aktif"><i class="fa fa-check"></i> <span>Enable</span></a>
+                        <?php endif; ?>
+                        <?php if($actpar->AKTIF=='1'): ?>
+                        <td>Enabled</td> 
+                        <td>      
+                                <a  type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#act<?php echo $actpar->ID_PARAMETER; ?>deaktif"><i class="fa fa-ban"></i> <span>Disable</span></a>
+                        <?php endif; ?> 
+                                <a  type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#act<?php echo $actpar->ID_PARAMETER; ?>edit"><i class="fa fa-edit"></i> <span>Edit</span></a>
                         </td>
                       </tr>
-                      <div class="modal fade" id="<?php echo $actpar->ID_PARAMETER; ?>aktif" role="dialog">
+                      <div class="modal fade" id="act<?php echo $actpar->ID_PARAMETER; ?>aktif" role="dialog">
                         <div class="modal-dialog modal-sm">
                           <div class="modal-content">
                             <div class="modal-header">
@@ -251,17 +254,17 @@
                               <h4 class="modal-title">ATTENTION!</h4>
                             </div>
                             <div class="modal-body">
-                              <p>Are you sure to <u>Deactivate</u> activity parameter  <b><?php echo $actpar->DESCRIPTION; ?></b> ?</p>
+                              <p>Are you sure to <u>Enable</u> activity parameter  <b><?php echo $actpar->DESCRIPTION; ?></b> ?</p>
                             </div>
                             <div class="modal-footer">
                               <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-                              <a href="<?php echo site_url("deleteactparam/$actpar->ID_PARAMETER"); ?>" type="submit" class="btn btn-success">Yes</a>
+                              <a href="<?php echo site_url("changeactparam/$actpar->ID_PARAMETER"); ?>" type="submit" class="btn btn-success">Yes</a>
                             </div>
                           </div>
                         </div>
                       </div>
 
-                      <div class="modal fade" id="<?php echo $actpar->ID_PARAMETER; ?>deaktif" role="dialog">
+                      <div class="modal fade" id="act<?php echo $actpar->ID_PARAMETER; ?>deaktif" role="dialog">
                         <div class="modal-dialog modal-sm">
                           <div class="modal-content">
                             <div class="modal-header">
@@ -269,17 +272,17 @@
                               <h4 class="modal-title">ATTENTION!</h4>
                             </div>
                             <div class="modal-body">
-                              <p>Are you sure to <u>Activate</u> activity parameter  <b><?php echo $actpar->DESCRIPTION; ?></b> ?</p>
+                              <p>Are you sure to <u>Disable</u> activity parameter  <b><?php echo $actpar->DESCRIPTION; ?></b> ?</p>
                             </div>
                             <div class="modal-footer">
                               <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-                              <a href="<?php echo site_url("deleteactparam/$actpar->ID_PARAMETER"); ?>" type="submit" class="btn btn-success">Yes</a>
+                              <a href="<?php echo site_url("changeactparam/$actpar->ID_PARAMETER"); ?>" type="submit" class="btn btn-success">Yes</a>
                             </div>
                           </div>
                         </div>
                       </div>
 
-                      <div class="modal fade" id="<?php echo $actpar->ID_PARAMETER; ?>edit" role="dialog">
+                      <div class="modal fade" id="act<?php echo $actpar->ID_PARAMETER; ?>edit" role="dialog">
                         <div class="modal-dialog">
                           <div class="modal-content">
                             <div class="modal-header">
@@ -287,24 +290,25 @@
                               <h4 class="modal-title">Edit Parameter <b><?php echo $actpar->DESCRIPTION; ?></b></h4>
                             </div>
                             <div class="modal-body">
+                              <form class="form-horizontal" role="form" action="<?php echo site_url("editactparam"); ?>" method="post" enctype="multipart/form-data">
                               <div class="form-group">
-                                <label class="control-label col-sm-2" for="frekueni">Activity Name:</label>
-                                <div class="col-sm-10">
-                                  <input type="number" class="form-control" name="actname" id="actname" value="" required>
-                                </div>
+                                <label class="control-label" for="frekueni">Activity Name:</label>
+                                  <input type="text" class="form-control" name="actname" id="actname" value="<?php echo $actpar->DESCRIPTION; ?>" required>
+                                  <input class="form-control" type="hidden" name="idcase" id="idcase" value="<?php echo $actpar->ID_PARAMETER; ?>">
+                                  <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>">
+
                               </div>
                               <div class="form-group">
-                                <label class="control-label col-sm-2" for="frekueni">Activity Code:</label>
-                                <div class="col-sm-10">
-                                  <input type="number" class="form-control" name="actcode" id="actcode" value="" required>
-                                </div>
+                                <label class="control-label" for="frekueni">Activity Code:</label>
+                                  <input type="text" class="form-control" name="actcode" id="actcode" value="<?php echo $actpar->AKRONIM; ?>" required>                              
                               </div>
                             </div>
                             <div class="modal-footer">
                               <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-                              <a href="<?php echo site_url("deleteactparam/$actpar->ID_PARAMETER"); ?>" type="submit" class="btn btn-success">Edit</a>
+                              <button href="" type="submit" class="btn btn-primary">Edit</button>
                             </div>
                           </div>
+                        </form>
                         </div>
                       </div>
 
@@ -323,7 +327,7 @@
                     <h4 class="modal-title">ATTENTION!</h4>
                   </div>
                   <div class="modal-body">
-                    <p>Are you sure to delete this parameter?</p>
+                    <p>Are you sure to change this parameter?</p>
                   </div>
                   <div class="modal-footer">
                     <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>

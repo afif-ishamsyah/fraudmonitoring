@@ -81,7 +81,7 @@
 
     function getcaseparam()
 	  {
-	  	$this->db->select('ID_PARAMETER, DESCRIPTION');
+	  	$this->db->select('ID_PARAMETER, DESCRIPTION, AKTIF');
 	  	$this->db->from('CASE_PARAMETER');
 	  	$query = $this->db->get();
 	  	return $query->result();
@@ -102,19 +102,26 @@
       	}
 	  }
 
-	  function usedcaseparam($id)
+	  function getcaseaktif($id)
 	  {
-	  	$this->db->select('ID_CASE')->from('KASUS')->where('CASE_PARAMETER',$id);
+	  	$this->db->select('AKTIF')->from('CASE_PARAMETER')->where('ID_PARAMETER',$id);
 	  	$query = $this->db->get();
-      	if($query->num_rows() > 0)
-      	{
-      		return 1;
-      	}
-      	else
-      	{
-      		return 0;
-      	}
+      return $query->row()->AKTIF;
 	  }
+
+    function desccase($id)
+    {
+      $this->db->select('DESCRIPTION')->from('CASE_PARAMETER')->where('ID_PARAMETER',$id);
+      $query = $this->db->get();
+      return $query->row()->DESCRIPTION;
+    }
+
+    function changeaktifcase($id, $num)
+    {
+      $this->db->set('AKTIF', $num);
+      $this->db->where('ID_PARAMETER', $id);
+      $this->db->update('CASE_PARAMETER');
+    }
 
 	  function caseparamexist($parameter)
 	  {
@@ -140,11 +147,18 @@
 	 	$this->db->where('ID_PARAMETER', $id);
 		$this->db->delete('CASE_PARAMETER');
 	 }
+
+   function editcasepar($id, $des)
+    {
+      $this->db->set('DESCRIPTION', $des);
+      $this->db->where('ID_PARAMETER', $id);
+      $this->db->update('CASE_PARAMETER');
+    }
 	 //------------------------------------------------------------------------Activity Parameter--------------------
 
 	 function getactparam()
 	  {
-	  	$this->db->select('ID_PARAMETER, DESCRIPTION, AKRONIM, STATUS');
+	  	$this->db->select('ID_PARAMETER, DESCRIPTION, AKRONIM, STATUS, AKTIF');
 	  	$this->db->from('ACTIVITY_PARAMETER');
 	  	$query = $this->db->get();
 	  	return $query->result();
@@ -164,19 +178,26 @@
       }
   }
 
-  function usedactparam($id)
-  {
-      $this->db->select('ID_CASE')->from('ACTIVITY')->where('ACTIVITY_NUMBER',$id);
+   function getactaktif($id)
+    {
+      $this->db->select('AKTIF')->from('ACTIVITY_PARAMETER')->where('ID_PARAMETER',$id);
       $query = $this->db->get();
-      if($query->num_rows() > 0)
-      {
-            return 1;
-      }
-      else
-      {
-            return 0;
-      }
-  }
+      return $query->row()->AKTIF;
+    }
+
+    function descact($id)
+    {
+      $this->db->select('DESCRIPTION')->from('ACTIVITY_PARAMETER')->where('ID_PARAMETER',$id);
+      $query = $this->db->get();
+      return $query->row()->DESCRIPTION;
+    }
+
+    function changeaktifactivity($id, $num)
+    {
+      $this->db->set('AKTIF', $num);
+      $this->db->where('ID_PARAMETER', $id);
+      $this->db->update('ACTIVITY_PARAMETER');
+    }
 
   function actparamexist($parameter, $akronim)
   {
