@@ -37,25 +37,25 @@
             <div class="form-group">
               <label class="control-label col-sm-2" for="no. telp">Username:</label>
               <div class="col-sm-9">
-                <input class="form-control" name="username" id="username" placeholder="Masukkan Username" required>
+                <input class="form-control" name="username" id="username" placeholder="Masukkan Username" pattern=".{1,30}" required>
               </div>
               </div>
               <div class="form-group">
               <label class="control-label col-sm-2" for="no. telp">Password Lama:</label>
               <div class="col-sm-9">
-                <input class="form-control" name="password" id="pass" placeholder="Masukkan Password Anda yang Lama" type="password" required>
+                <input class="form-control" name="password" id="pass" placeholder="Masukkan Password Anda yang Lama" type="password" pattern=".{1,25}" required>
               </div>
               </div>
               <div class="form-group">
               <label class="control-label col-sm-2" for="no. telp">Password Baru:</label>
               <div class="col-sm-9">
-                <input class="form-control" name="newpassword" id="passbaru" placeholder="Masukkan Password Baru" type="password" required>
+                <input class="form-control" name="newpassword" id="passbaru" placeholder="Masukkan Password Baru" type="password" pattern=".{1,25}" required>
               </div>
               </div>
               <div class="form-group">
               <label class="control-label col-sm-2" for="no. telp">Re-type Password Baru:</label>
               <div class="col-sm-9">
-                <input class="form-control" name="connewpassword" id="repassbaru" placeholder="Masukkan Ulang Password Baru" type="password" required>
+                <input class="form-control" name="connewpassword" id="repassbaru" placeholder="Masukkan Ulang Password Baru" type="password" pattern=".{1,25}" required>
               </div>
               </div>
               <div class="form-group">

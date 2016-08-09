@@ -41,7 +41,7 @@
             <div class="form-group" style="margin-bottom:113px;">
               <label class="control-label col-sm-2" for="namaparameter">Name:</label>
               <div class="col-sm-9">
-                <input class="form-control" name="parameter" id="namaparameter" placeholder="Masukkan Nama Parameter" required>
+                <input class="form-control" name="parameter" id="namaparameter" placeholder="Masukkan Nama Parameter" pattern=".{1,30}" required>
               </div>
             </div>
 
@@ -72,7 +72,7 @@
             <div class="form-group">
               <label class="control-label col-sm-2" for="namaparameter">Name:</label>
               <div class="col-sm-9">
-                <input class="form-control" name="parameter" id="namaparameter" placeholder="Masukkan Nama Parameter" required>
+                <input class="form-control" name="parameter" id="namaparameter" placeholder="Masukkan Nama Parameter" pattern=".{1,30}" required>
               </div>
             </div>
 

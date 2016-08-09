@@ -42,7 +42,7 @@
              <div class="form-group">
               <label class="control-label col-sm-2" for="destnumber">Main Number:</label>
               <div class="col-sm-10">
-                <input type="number" class="form-control" name="mainnumber" id="destnumber" value="<?php echo $nomors; ?>" required>
+                <input type="number" class="form-control" name="mainnumber" id="destnumber" value="<?php echo $nomors; ?>" pattern=".{1,15}" required>
               </div>    
             </div>
             <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>">
@@ -88,7 +88,7 @@
                 <div class="form-group">
                   <label class="control-label col-sm-2" for="destnumber">NIK AM:</label>
                   <div class="col-sm-10">
-                    <input class="form-control" name="nikam" id="destnumber" value="<?php echo $profile->NIKAM;?>" type="number" required>
+                    <input class="form-control" name="nikam" id="destnumber" value="<?php echo $profile->NIKAM;?>" type="number" pattern=".{6,6}" required>
                   </div>
                 </div>
 
@@ -102,7 +102,7 @@
                 <div class="form-group">
                   <label class="control-label col-sm-2" for="destnumber">NIP NAS:</label>
                   <div class="col-sm-10">
-                    <input type="number" class="form-control" name="nipnas" id="destnumber" value="<?php echo $profile->NIPNAS;?>" required>
+                    <input type="number" class="form-control" name="nipnas" id="destnumber" value="<?php echo $profile->NIPNAS;?>" pattern=".{8,15}" required>
                   </div>
                 </div>
 

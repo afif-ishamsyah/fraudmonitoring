@@ -62,13 +62,13 @@
                     <div class="form-group">
                       <label for="inputuser" class="col-sm-3 control-label">Username:</label>
                       <div class="col-sm-8">
-                        <input type="text" name="username" class="form-control" id="username" placeholder="Username" required>
+                        <input type="text" name="username" class="form-control" id="username" placeholder="Username" pattern=".{1,30}" required>
                       </div>
                     </div>
                     <div class="form-group">
                       <label for="inputpass" class="col-sm-3 control-label">Password:</label>
                       <div class="col-sm-8">
-                        <input type="password" name="password" class="form-control" id="password" placeholder="Password" required>
+                        <input type="password" name="password" class="form-control" id="password" placeholder="Password" pattern=".{1,25}" required>
                       </div>
                     </div>
                     <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>">

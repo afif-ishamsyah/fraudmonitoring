@@ -37,19 +37,19 @@
               <div class="form-group">
               <label class="control-label col-sm-2" for="no. telp">Username:</label>
               <div class="col-sm-9">
-                <input class="form-control" name="username" id="username" placeholder="Masukkan Username" required>
+                <input class="form-control" name="username" id="username" placeholder="Masukkan Username" pattern=".{1,30}" required>
               </div>
               </div>
               <div class="form-group">
               <label class="control-label col-sm-2" for="no. telp">Password:</label>
               <div class="col-sm-9">
-                <input class="form-control" name="password" id="pass" placeholder="Masukkan Password" type="password" required>
+                <input class="form-control" name="password" id="pass" placeholder="Masukkan Password" type="password" pattern=".{1,25}" required>
               </div>
               </div>
               <div class="form-group">
               <label class="control-label col-sm-2" for="no. telp">Re-type Password:</label>
               <div class="col-sm-9">
-                <input class="form-control" name="conpassword" id="repass" placeholder="Masukkan Ulang Password" type="password" required>
+                <input class="form-control" name="conpassword" id="repass" placeholder="Masukkan Ulang Password" type="password" pattern=".{1,25}" required>
               </div>
               </div>
 
