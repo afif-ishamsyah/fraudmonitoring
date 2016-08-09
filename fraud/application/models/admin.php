@@ -79,7 +79,7 @@
 
        //------------------------------------------------------------------------Case Parameter--------------------
 
-      function getcaseparam()
+    function getcaseparam()
 	  {
 	  	$this->db->select('ID_PARAMETER, DESCRIPTION');
 	  	$this->db->from('CASE_PARAMETER');
@@ -150,58 +150,58 @@
 	  	return $query->result();
 	  }
 
-         function idactparamexist($id)
-        {
-            $this->db->select('ID_PARAMETER')->from('ACTIVITY_PARAMETER')->where('ID_PARAMETER',$id);
-            $query = $this->db->get();
-            if($query->num_rows() > 0)
-            {
-                  return 1;
-            }
-            else
-            {
-                  return 0;
-            }
-        }
+   function idactparamexist($id)
+  {
+      $this->db->select('ID_PARAMETER')->from('ACTIVITY_PARAMETER')->where('ID_PARAMETER',$id);
+      $query = $this->db->get();
+      if($query->num_rows() > 0)
+      {
+            return 1;
+      }
+      else
+      {
+            return 0;
+      }
+  }
 
-        function usedactparam($id)
-        {
-            $this->db->select('ID_CASE')->from('ACTIVITY')->where('ACTIVITY_NUMBER',$id);
-            $query = $this->db->get();
-            if($query->num_rows() > 0)
-            {
-                  return 1;
-            }
-            else
-            {
-                  return 0;
-            }
-        }
+  function usedactparam($id)
+  {
+      $this->db->select('ID_CASE')->from('ACTIVITY')->where('ACTIVITY_NUMBER',$id);
+      $query = $this->db->get();
+      if($query->num_rows() > 0)
+      {
+            return 1;
+      }
+      else
+      {
+            return 0;
+      }
+  }
 
-	  function actparamexist($parameter, $akronim)
-	  {
-	  	$this->db->select('ID_PARAMETER')->from('ACTIVITY_PARAMETER')->where('DESCRIPTION',strtoupper($parameter))->or_where('AKRONIM',strtoupper($akronim));
-	  	$query = $this->db->get();
-      	if($query->num_rows() > 0)
-      	{
-      		return 1;
-      	}
-      	else
-      	{
-      		return 0;
-      	}
-	  }
+  function actparamexist($parameter, $akronim)
+  {
+  	$this->db->select('ID_PARAMETER')->from('ACTIVITY_PARAMETER')->where('DESCRIPTION',strtoupper($parameter))->or_where('AKRONIM',strtoupper($akronim));
+  	$query = $this->db->get();
+    	if($query->num_rows() > 0)
+    	{
+    		return 1;
+    	}
+    	else
+    	{
+    		return 0;
+    	}
+  }
 
-	 function insertactparamater($data)
-	 {
-	 	$this->db->insert('ACTIVITY_PARAMETER', $data);
-	 }
+  function insertactparamater($data)
+  {
+  	$this->db->insert('ACTIVITY_PARAMETER', $data);
+  }
 
-       function deleteact($id)
-       {
-            $this->db->where('ID_PARAMETER', $id);
-            $this->db->delete('ACTIVITY_PARAMETER');
-       }
+  function deleteact($id)
+  {
+    $this->db->where('ID_PARAMETER', $id);
+    $this->db->delete('ACTIVITY_PARAMETER');
+  }
    									
-   } 
+} 
 ?>

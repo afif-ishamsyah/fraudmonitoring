@@ -126,10 +126,27 @@
                         <td><?php echo $casepar->DESCRIPTION; ?></td>
                         <td>
                         <div class="col-md-12">
-                            <a href="<?php echo site_url("deletecaseparam/$casepar->ID_PARAMETER"); ?>" type="submit" class="btn btn-danger btn-sm"><i class="fa fa-times"></i> <span>Delete</span></a>
+                            <a type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#<?php echo $casepar->ID_PARAMETER; ?>"><i class="fa fa-times"></i> <span>Delete</span></a>
                         </div>
                         </td>
                       </tr>
+                      <div class="modal fade" id="<?php echo $casepar->ID_PARAMETER; ?>" role="dialog">
+                        <div class="modal-dialog modal-sm">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <button type="button" class="close" data-dismiss="modal">&times;</button>
+                              <h4 class="modal-title">ATTENTION!</h4>
+                            </div>
+                            <div class="modal-body">
+                              <p>Are you sure to delete case parameter <b><?php echo $casepar->DESCRIPTION; ?></b> ?</p>
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                              <a href="<?php echo site_url("deletecaseparam/$casepar->ID_PARAMETER"); ?>" type="submit" class="btn btn-success">Yes</a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                       <?php endforeach; ?>
                       </tbody>
                   </table>
@@ -153,8 +170,8 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <?php foreach($actparam as $actpar)
- : ?>                     <tr>
+                      <?php foreach($actparam as $actpar): ?>                     
+                      <tr>
                         <td><?php echo $actpar->DESCRIPTION; ?></td>
                         <td><?php echo $actpar->AKRONIM; ?></td>
                         <?php if($actpar->STATUS=='0'): ?>
@@ -165,10 +182,27 @@
                         <?php endif; ?>
                         <td>
                         <div class="col-md-12">
-                            <a href="<?php echo site_url("deleteactparam/$actpar->ID_PARAMETER"); ?>" type="submit" class="btn btn-danger btn-sm"><i class="fa fa-times"></i> <span>Delete</span></a>
+                            <a  type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#<?php echo $actpar->ID_PARAMETER; ?>"><i class="fa fa-times"></i> <span>Delete</span></a>
                         </div> 
                         </td>
                       </tr>
+                      <div class="modal fade" id="<?php echo $actpar->ID_PARAMETER; ?>" role="dialog">
+                        <div class="modal-dialog modal-sm">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <button type="button" class="close" data-dismiss="modal">&times;</button>
+                              <h4 class="modal-title">ATTENTION!</h4>
+                            </div>
+                            <div class="modal-body">
+                              <p>Are you sure to delete activity parameter  <b><?php echo $actpar->DESCRIPTION; ?></b> ?</p>
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                              <a href="<?php echo site_url("deleteactparam/$actpar->ID_PARAMETER"); ?>" type="submit" class="btn btn-success">Yes</a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                       <?php endforeach; ?>
                       </tbody>
                   </table>

@@ -85,21 +85,22 @@
                   <button class="btn btn-primary btn-xs col-md-4 pull-right" data-toggle="modal" data-target="#myModal3"><i class="fa fa-search"></i> <span>View Previous Case</span></button>
                 </div>
             </div>
-            <?php if($cases->STATUS=='0'): ?>
+            
             <div class="box-footer">
             <div class="form-group">
+                <?php if($cases->STATUS=='0'): ?>
                 <div class="col-md-4">
                 <a type="button" class="btn btn-danger center-block" data-toggle="modal" data-target="#myModal"><i class="fa fa-plus"></i> <span>Add Activity</span></a>
                 </div>
                 <div class="col-md-4">
+                <a href="<?php echo site_url("editingprofile/$cases->ID_CASE"); ?>" type="button" class="btn btn-danger center-block"><i class="fa fa-edit"></i> <span>Edit Profile</span></a>
+                </div>
+                <?php endif; ?>
+                <div class="col-md-4">
                 <a type="button" class="btn btn-success center-block" data-toggle="modal" data-target="#myModal4"><i class="fa fa-envelope"></i> <span>Print Email</span></a>
                 </div>
-                <div class="col-md-4">
-                <a href="<?php echo site_url("editingprofile/$cases->ID_CASE"); ?>" type="button" class="btn btn-danger center-block"><i class="fa fa-edit"></i> <span>Edit Profile</span></a>
-              </div>
               </div>
             </div>
-            <?php endif; ?>
           </div>
           </div>
 
@@ -219,7 +220,7 @@
                       <div class="col-sm-10">
                         <select class="form-control" name="acttype" id="casetype" required>
                           <?php foreach($actlist as $list):?>
-                            <option value="<?php echo $list->ID_PARAMETER; ?>"><?php echo $list->DESCRIPTION ;?></option>
+                            <option value="<?php echo $list->ID_PARAMETER; ?>"><?php echo $list->DESCRIPTION; ?></option>
                             <?php endforeach; ?>
                         </select>
                       </div>

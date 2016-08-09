@@ -244,7 +244,7 @@
                         <td><?php echo date('d-m-Y',strtotime($number->CASE_TIME)); ?></td>
                         <td><?php echo $number->CUSTOMER; ?></td>
                         <td><?php echo $number->AM; ?></td>
-                        <td><?php echo $number->AKRONIM; ?></td>
+                        <td><?php echo $number->LAST_ACTIVITY; ?></td>
                         <?php if($number->STATUS=='0'): ?>
                         <td><a href="<?php echo site_url("cases/$number->ID_CASE"); ?>"type="get" class="btn btn-danger">Update</a></td>
                         <?php endif; ?>

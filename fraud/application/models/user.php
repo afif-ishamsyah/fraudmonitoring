@@ -41,18 +41,18 @@
 
       function getcaseparam()
 	  {
-	  	$this->db->select('ID_PARAMETER, DESCRIPTION');
-	  	$this->db->from('CASE_PARAMETER');
+	  	$this->db->select('ID_PARAMETER, DESCRIPTION')
+	  			 ->from('CASE_PARAMETER')
+	  			 ->where('AKTIF','1');
 	  	$query = $this->db->get();
 	  	return $query->result();
 	  }
 
 	  function getsearch()
 	  {
-	  	$this->db->select('KASUS.ID_CASE, PROFIL.TELEPHONE_NUMBER, PROFIL.CUSTOMER, PROFIL.AM, KASUS.CASE_TIME, KASUS.STATUS, ACTIVITY_PARAMETER.AKRONIM')
+	  	$this->db->select('KASUS.ID_CASE, PROFIL.TELEPHONE_NUMBER, PROFIL.CUSTOMER, PROFIL.AM, KASUS.CASE_TIME, KASUS.STATUS, KASUS.LAST_ACTIVITY')
 	  			->from('KASUS')
 	  			->join('PROFIL','KASUS.ID_CASE = PROFIL.ID_CASE')
-	  			->join('ACTIVITY_PARAMETER','KASUS.LAST_ACTIVITY = ACTIVITY_PARAMETER.ID_PARAMETER', 'LEFT')
 	  			->order_by('KASUS.STATUS','ASC');
 	  	$query = $this->db->get();
 	  	return $query->result();
@@ -60,10 +60,9 @@
 
 	  function getsearchnumber($telephone)
 	  {
-	  	$this->db->select('KASUS.ID_CASE, PROFIL.TELEPHONE_NUMBER, PROFIL.CUSTOMER, PROFIL.AM, KASUS.CASE_TIME, KASUS.STATUS, ACTIVITY_PARAMETER.AKRONIM')
+	  	$this->db->select('KASUS.ID_CASE, PROFIL.TELEPHONE_NUMBER, PROFIL.CUSTOMER, PROFIL.AM, KASUS.CASE_TIME, KASUS.STATUS, KASUS.LAST_ACTIVITY')
 	  			->from('KASUS')
 	  			->join('PROFIL','KASUS.ID_CASE = PROFIL.ID_CASE')
-	  			->join('ACTIVITY_PARAMETER','KASUS.LAST_ACTIVITY = ACTIVITY_PARAMETER.ID_PARAMETER', 'LEFT')
 	  			->like('PROFIL.TELEPHONE_NUMBER',$telephone)
 	  			->order_by('KASUS.STATUS','ASC');
 	  	$query = $this->db->get();
@@ -72,10 +71,9 @@
 
 	  function getsearchnumbers($telephone, $status)
 	  {
-	  	$this->db->select('KASUS.ID_CASE, PROFIL.TELEPHONE_NUMBER, PROFIL.CUSTOMER, PROFIL.AM, KASUS.CASE_TIME, KASUS.STATUS, ACTIVITY_PARAMETER.AKRONIM')
+	  	$this->db->select('KASUS.ID_CASE, PROFIL.TELEPHONE_NUMBER, PROFIL.CUSTOMER, PROFIL.AM, KASUS.CASE_TIME, KASUS.STATUS, KASUS.LAST_ACTIVITY')
 	  			->from('KASUS')
 	  			->join('PROFIL','KASUS.ID_CASE = PROFIL.ID_CASE')
-	  			->join('ACTIVITY_PARAMETER','KASUS.LAST_ACTIVITY = ACTIVITY_PARAMETER.ID_PARAMETER', 'LEFT')
 	  			->like('PROFIL.TELEPHONE_NUMBER',$telephone)
 	  			->where('KASUS.STATUS', $status);
 	  	$query = $this->db->get();
@@ -84,10 +82,9 @@
 
 	  function getsearchdate($date)
 	  {
-	  	$this->db->select('KASUS.ID_CASE, PROFIL.TELEPHONE_NUMBER, PROFIL.CUSTOMER, PROFIL.AM, KASUS.CASE_TIME, KASUS.STATUS, ACTIVITY_PARAMETER.AKRONIM')
+	  	$this->db->select('KASUS.ID_CASE, PROFIL.TELEPHONE_NUMBER, PROFIL.CUSTOMER, PROFIL.AM, KASUS.CASE_TIME, KASUS.STATUS, KASUS.LAST_ACTIVITY')
 	  			->from('KASUS')
 	  			->join('PROFIL','KASUS.ID_CASE = PROFIL.ID_CASE')
-	  			->join('ACTIVITY_PARAMETER','KASUS.LAST_ACTIVITY = ACTIVITY_PARAMETER.ID_PARAMETER', 'LEFT')
 	  			->where('KASUS.CASE_TIME <=',"TO_DATE('$date','DD/MM/YYYY')", FALSE)
 	  			->order_by('KASUS.STATUS','ASC');
 	  	$query = $this->db->get();
@@ -96,10 +93,9 @@
 
 	  function getsearchdates($date, $status)
 	  {
-	  	$this->db->select('KASUS.ID_CASE, PROFIL.TELEPHONE_NUMBER, PROFIL.CUSTOMER, PROFIL.AM, KASUS.CASE_TIME, KASUS.STATUS, ACTIVITY_PARAMETER.AKRONIM')
+	  	$this->db->select('KASUS.ID_CASE, PROFIL.TELEPHONE_NUMBER, PROFIL.CUSTOMER, PROFIL.AM, KASUS.CASE_TIME, KASUS.STATUS, KASUS.LAST_ACTIVITY')
 	  			->from('KASUS')
 	  			->join('PROFIL','KASUS.ID_CASE = PROFIL.ID_CASE')
-	  			->join('ACTIVITY_PARAMETER','KASUS.LAST_ACTIVITY = ACTIVITY_PARAMETER.ID_PARAMETER', 'LEFT')
 	  			->where('KASUS.CASE_TIME <=',"TO_DATE('$date','DD/MM/YYYY')", FALSE)
 	  			->where('KASUS.STATUS', $status);
 	  	$query = $this->db->get();
@@ -108,10 +104,9 @@
 
 	  function getsearchinputdate($date)
 	  {
-	  	$this->db->select('KASUS.ID_CASE, PROFIL.TELEPHONE_NUMBER, PROFIL.CUSTOMER, PROFIL.AM, KASUS.CASE_TIME, KASUS.STATUS, ACTIVITY_PARAMETER.AKRONIM')
+	  	$this->db->select('KASUS.ID_CASE, PROFIL.TELEPHONE_NUMBER, PROFIL.CUSTOMER, PROFIL.AM, KASUS.CASE_TIME, KASUS.STATUS, KASUS.LAST_ACTIVITY')
 	  			->from('KASUS')
 	  			->join('PROFIL','KASUS.ID_CASE = PROFIL.ID_CASE')
-	  			->join('ACTIVITY_PARAMETER','KASUS.LAST_ACTIVITY = ACTIVITY_PARAMETER.ID_PARAMETER', 'LEFT')
 	  			->where('KASUS.INPUT_DATE <=',"TO_DATE('$date','DD/MM/YYYY')", FALSE)
 	  			->order_by('KASUS.STATUS','ASC');
 	  	$query = $this->db->get();
@@ -120,10 +115,9 @@
 
 	  function getsearchinputdates($date, $status)
 	  {
-	  	$this->db->select('KASUS.ID_CASE, PROFIL.TELEPHONE_NUMBER, PROFIL.CUSTOMER, PROFIL.AM, KASUS.CASE_TIME, KASUS.STATUS, ACTIVITY_PARAMETER.AKRONIM')
+	  	$this->db->select('KASUS.ID_CASE, PROFIL.TELEPHONE_NUMBER, PROFIL.CUSTOMER, PROFIL.AM, KASUS.CASE_TIME, KASUS.STATUS, KASUS.LAST_ACTIVITY')
 	  			->from('KASUS')
 	  			->join('PROFIL','KASUS.ID_CASE = PROFIL.ID_CASE')
-	  			->join('ACTIVITY_PARAMETER','KASUS.LAST_ACTIVITY = ACTIVITY_PARAMETER.ID_PARAMETER', 'LEFT')
 	  			->where('KASUS.INPUT_DATE <=',"TO_DATE('$date','DD/MM/YYYY')", FALSE)
 	  			->where('KASUS.STATUS', $status);
 	  	$query = $this->db->get();
@@ -132,10 +126,9 @@
 
 	  function getsearcham($nama)
 	  {
-	  	$this->db->select('KASUS.ID_CASE, PROFIL.TELEPHONE_NUMBER, PROFIL.CUSTOMER, PROFIL.AM, KASUS.CASE_TIME, KASUS.STATUS, ACTIVITY_PARAMETER.AKRONIM')
+	  	$this->db->select('KASUS.ID_CASE, PROFIL.TELEPHONE_NUMBER, PROFIL.CUSTOMER, PROFIL.AM, KASUS.CASE_TIME, KASUS.STATUS, KASUS.LAST_ACTIVITY')
 	  			->from('KASUS')
 	  			->join('PROFIL','KASUS.ID_CASE = PROFIL.ID_CASE')
-	  			->join('ACTIVITY_PARAMETER','KASUS.LAST_ACTIVITY = ACTIVITY_PARAMETER.ID_PARAMETER', 'LEFT')
 	  			->like('LOWER("AM")', $nama)
 	  			->order_by('KASUS.STATUS','ASC');
 	  	$query = $this->db->get();
@@ -144,10 +137,9 @@
 
 	  function getsearchams($nama, $status)
 	  {
-	  	$this->db->select('KASUS.ID_CASE, PROFIL.TELEPHONE_NUMBER, PROFIL.CUSTOMER, PROFIL.AM, KASUS.CASE_TIME, KASUS.STATUS, ACTIVITY_PARAMETER.AKRONIM')
+	  	$this->db->select('KASUS.ID_CASE, PROFIL.TELEPHONE_NUMBER, PROFIL.CUSTOMER, PROFIL.AM, KASUS.CASE_TIME, KASUS.STATUS, KASUS.LAST_ACTIVITY')
 	  			->from('KASUS')
 	  			->join('PROFIL','KASUS.ID_CASE = PROFIL.ID_CASE')
-	  			->join('ACTIVITY_PARAMETER','KASUS.LAST_ACTIVITY = ACTIVITY_PARAMETER.ID_PARAMETER', 'LEFT')
 	  			->like('LOWER("AM")', $nama)
 	  			->where('KASUS.STATUS', $status);
 	  	$query = $this->db->get();
@@ -156,10 +148,9 @@
 
 	  function getsearchcustomer($nama)
 	  {
-	  	$this->db->select('KASUS.ID_CASE, PROFIL.TELEPHONE_NUMBER, PROFIL.CUSTOMER, PROFIL.AM, KASUS.CASE_TIME, KASUS.STATUS, ACTIVITY_PARAMETER.AKRONIM')
+	  	$this->db->select('KASUS.ID_CASE, PROFIL.TELEPHONE_NUMBER, PROFIL.CUSTOMER, PROFIL.AM, KASUS.CASE_TIME, KASUS.STATUS, KASUS.LAST_ACTIVITY')
 	  			->from('KASUS')
 	  			->join('PROFIL','KASUS.ID_CASE = PROFIL.ID_CASE')
-	  			->join('ACTIVITY_PARAMETER','KASUS.LAST_ACTIVITY = ACTIVITY_PARAMETER.ID_PARAMETER', 'LEFT')
 	  			->like('LOWER("CUSTOMER")', $nama)
 	  			->order_by('KASUS.STATUS','ASC');
 	  	$query = $this->db->get();
@@ -168,10 +159,9 @@
 
 	  function getsearchcustomers($nama, $status)
 	  {
-	  	$this->db->select('KASUS.ID_CASE, PROFIL.TELEPHONE_NUMBER, PROFIL.CUSTOMER, PROFIL.AM, KASUS.CASE_TIME, KASUS.STATUS, ACTIVITY_PARAMETER.AKRONIM')
+	  	$this->db->select('KASUS.ID_CASE, PROFIL.TELEPHONE_NUMBER, PROFIL.CUSTOMER, PROFIL.AM, KASUS.CASE_TIME, KASUS.STATUS, KASUS.LAST_ACTIVITY')
 	  			->from('KASUS')
 	  			->join('PROFIL','KASUS.ID_CASE = PROFIL.ID_CASE')
-	  			->join('ACTIVITY_PARAMETER','KASUS.LAST_ACTIVITY = ACTIVITY_PARAMETER.ID_PARAMETER', 'LEFT')
 	  			->like('LOWER("CUSTOMER")', $nama)
 	  			->where('KASUS.STATUS', $status);
 	  	$query = $this->db->get();
@@ -216,9 +206,8 @@
 
 	  function getactivity($id)
 	  {
-	  	$this->db->select('ACTIVITY.ACTIVITY_DATE AS TANGGAL, ACTIVITY_PARAMETER.DESCRIPTION AS TYPE, ACTIVITY.DESCRIPTION AS DESCR, ACTIVITY.FILENAME')
+	  	$this->db->select('ACTIVITY.ACTIVITY_DATE AS TANGGAL, ACTIVITY.ACTIVITY_PARAMETER AS TYPE, ACTIVITY.DESCRIPTION AS DESCR, ACTIVITY.FILENAME')
 	  			->from('ACTIVITY')
-	  			->join('ACTIVITY_PARAMETER', 'ACTIVITY.ACTIVITY_NUMBER = ACTIVITY_PARAMETER.ID_PARAMETER')
 	  			->where('ACTIVITY.ID_CASE',$id)
 	  			->order_by('ACTIVITY.INPUT_DATE','ASC');
 	  	$query = $this->db->get();
@@ -227,9 +216,8 @@
 
 	  function getcasedetail($id)
 	  {
-	  	$this->db->select('KASUS.ID_CASE, KASUS.DESTINATION, KASUS.STATUS, KASUS.DESTINATION_NUMBER, KASUS.DURASI, KASUS.NUMBER_OF_CALL, CASE_PARAMETER.DESCRIPTION AS DES1, KASUS.CASE_TIME, KASUS.DESCRIPTION AS DES2, KASUS.FILENAME')
+	  	$this->db->select('KASUS.ID_CASE, KASUS.DESTINATION, KASUS.STATUS, KASUS.DESTINATION_NUMBER, KASUS.DURASI, KASUS.NUMBER_OF_CALL, KASUS.CASE_PARAMETER AS DES1, KASUS.CASE_TIME, KASUS.DESCRIPTION AS DES2, KASUS.FILENAME')
 	  			->from('KASUS')
-	  			->join('CASE_PARAMETER', 'KASUS.CASE_PARAMETER = CASE_PARAMETER.ID_PARAMETER')
 	  			->where('KASUS.ID_CASE',$id);
 	  	$query = $this->db->get();
 	  	return $query->row();
@@ -237,7 +225,7 @@
 
 	  function getactparam()
 	  {
-	  	$this->db->select('ID_PARAMETER, DESCRIPTION, AKRONIM, STATUS')->from('ACTIVITY_PARAMETER');
+	  	$this->db->select('ID_PARAMETER, DESCRIPTION, AKRONIM, STATUS')->from('ACTIVITY_PARAMETER')->where('AKTIF','1');
 	  	$query = $this->db->get();
 	  	return $query->result();
 	  }
@@ -333,13 +321,13 @@
 	  	$this->db->insert('ACTIVITY', $data);
 	  }
 
-	  function getstatus($type)
+	  function getlastactivity($type)
 	  {
-	  	$this->db->select('STATUS')
+	  	$this->db->select('STATUS, AKRONIM, DESCRIPTION')
 	  			->from('ACTIVITY_PARAMETER')
 	  			->where('ID_PARAMETER',$type);
 	  	$query = $this->db->get();
-	  	return $query->row()->STATUS;
+	  	return $query->row();
 	  }
 
 	  function getstatusbyid($id)
@@ -380,7 +368,6 @@
 	  	$this->db->where('ID_CASE', $id);
 		$this->db->update('PROFIL', $data);
 	  }
-
 
 } 
 

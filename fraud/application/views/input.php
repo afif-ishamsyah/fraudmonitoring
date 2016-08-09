@@ -80,7 +80,7 @@
               <div class="col-sm-10">
                     <select class="form-control" name="casetype" id="casetype" required>
                       <?php foreach($case as $kasus): ?>
-                      <option value="<?php echo $kasus->ID_PARAMETER; ?>"><?php echo $kasus->DESCRIPTION ;?></option>
+                      <option value="<?php echo $kasus->DESCRIPTION ;?>"><?php echo $kasus->DESCRIPTION ;?></option>
                       <?php endforeach; ?>
                     </select>
                   </div>

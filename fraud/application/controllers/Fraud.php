@@ -989,6 +989,9 @@ public function user()
 			$id = $this->input->post('idcase');
 			$file = $this->input->post('fileupload');
 
+			$status = array();
+			$status = $this->user->getlastactivity($this->input->post('acttype'));
+
 		 	 $date = str_replace('/', '-', $this->input->post('actdate'));
 			 $dates = date('d-M-Y', strtotime($date));
 
@@ -1002,10 +1005,13 @@ public function user()
 				 $uploaded = $this->upload->data();
 				 $file_path = $uploaded['full_path'];
 				 $file_name = $uploaded['file_name'];
+
+				
+
 				 $data = array(
 		                'ID_CASE' => $id,
 		                'ACTIVITY_DATE' => $dates,
-		                'ACTIVITY_NUMBER' => $this->input->post('acttype'),
+		                'ACTIVITY_PARAMETER' => $status->DESCRIPTION,
 		                'DESCRIPTION' =>  $this->input->post('deskripsi'),
 		                'INPUT_DATE' => date('d-M-Y'),
 		                'FILENAME' => $file_name,
@@ -1014,11 +1020,11 @@ public function user()
 
 				 $this->user->inseractivity($data);
 
-				 $status = $this->user->getstatus($this->input->post('acttype'));
+				
 
 				 $casedata = array(
-			                'STATUS' =>  $status,
-			                'LAST_ACTIVITY' =>   $this->input->post('acttype')
+			                'STATUS' =>  $status->STATUS,
+			                'LAST_ACTIVITY' =>   $status->AKRONIM
 			                );
 
 				 $this->user->insertlastactivity($id ,$casedata);
@@ -1208,8 +1214,6 @@ public function user()
 			redirect('home');
 		}
 	}
-
-
 }
 
 ?>
