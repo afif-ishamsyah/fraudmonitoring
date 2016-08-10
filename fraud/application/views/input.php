@@ -93,7 +93,7 @@
                     <div class="input-group-addon">
                       <i class="fa fa-calendar"></i>
                     </div>
-                    <input type="text" name="casedate" class="form-control" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask placeholder="dd-mm-yyyy" required>
+                    <input type="text" name="casedate" class="form-control" id="datepicker6" placeholder="dd/mm/yyyy" required>
                   </div><!-- /.input group -->
                   </div>
             </div><!-- /.form group -->

@@ -34,6 +34,11 @@
 
      <link rel="stylesheet" href="<?php echo base_url("/plugins/datatables/dataTables.bootstrap.css"); ?>">
 
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css">
+
+    <style type="text/css">.ui-datepicker { position: relative; z-index: 10000 !important; }</style>
+
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>

@@ -148,7 +148,7 @@
                 <div class="form-group">
                   <label class="control-label col-sm-5">Evidence:</label>
                   <div class="col-sm-7">
-                    <a href="<?php echo site_url("getcase/$cases->FILENAME"); ?>" type="button" class="btn btn-primary btn-xs"><i class="fa fa-download"></i><span>Download Evidence</span></a>
+                    <a href="<?php echo site_url("getcase/$cases->FILENAME"); ?>" type="button" class="btn btn-primary btn-xs"><i class="fa fa-download"></i> <span>Download Evidence</span></a>
                   </div>
                 </div>
             </div>
@@ -209,8 +209,8 @@
                             <div class="input-group-addon">
                               <i class="fa fa-calendar"></i>
                             </div>
+                            <input type="text" name="actdate" class="form-control" id="datepickera" placeholder="dd/mm/yyyy" required>
                             <input class="form-control" type="hidden" name="idcase" id="idcase" value="<?php echo $cases->ID_CASE; ?>">
-                            <input type="text" name="actdate" class="form-control" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask placeholder="dd-mm-yyyy" required>
                           </div><!-- /.input group -->
                           </div>
                     </div>
@@ -220,7 +220,7 @@
                       <div class="col-sm-10">
                         <select class="form-control" name="acttype" id="casetype" required>
                           <?php foreach($actlist as $list):?>
-                            <option value="<?php echo $list->ID_PARAMETER; ?>"><?php echo $list->DESCRIPTION; ?></option>
+                          <option value="<?php echo $list->ID_PARAMETER; ?>"><?php echo $list->DESCRIPTION; ?><?php if($list->STATUS=='1'): ?> (Closed)<?php endif; ?></option>
                             <?php endforeach; ?>
                         </select>
                       </div>
@@ -229,7 +229,7 @@
                     <div class="form-group">
                       <label class="control-label col-sm-2" for="deskripsi">Description:</label>
                       <div class="col-sm-10">
-                      <textarea class="form-control" rows="6" id="deskripsi" name="deskripsi" maxlength="500" required></textarea>
+                      <textarea class="form-control" rows="6" id="deskripsi" name="deskripsi" placeholder="Masukkan Deskripsi (Maksimal 500 Karakter)" maxlength="500" required></textarea>
                       </div>
                     </div>
 

@@ -78,7 +78,7 @@
                         <div class="input-group-addon">
                           <i class="fa fa-calendar"></i>
                         </div>
-                        <input type="text" name="date" class="form-control" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask placeholder="dd-mm-yyyy">
+                        <input type="text" name="date" class="form-control" id="datepicker" placeholder="dd/mm/yyyy">
                       </div><!-- /.input group -->
                     </div><!-- /.form group -->
 
@@ -88,7 +88,7 @@
                         <div class="input-group-addon">
                           <i class="fa fa-calendar"></i>
                         </div>
-                        <input type="text" name="enddate" class="form-control" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask placeholder="dd-mm-yyyy">
+                        <input type="text" name="enddate" class="form-control" id="datepicker2" placeholder="dd/mm/yyyy">
                       </div><!-- /.input group -->
                     </div><!-- /.form group -->
 
@@ -128,7 +128,7 @@
                         <div class="input-group-addon">
                           <i class="fa fa-calendar"></i>
                         </div>
-                        <input type="text" name="date" class="form-control" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask placeholder="dd-mm-yyyy">
+                        <input type="text" name="date" class="form-control" id="datepicker3" placeholder="dd/mm/yyyy">
                       </div><!-- /.input group -->
                     </div><!-- /.form group -->
 
@@ -138,7 +138,7 @@
                         <div class="input-group-addon">
                           <i class="fa fa-calendar"></i>
                         </div>
-                        <input type="text" name="enddate" class="form-control" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask placeholder="dd-mm-yyyy">
+                        <input type="text" name="enddate" class="form-control" id="datepicker4" placeholder="dd/mm/yyyy">
                       </div><!-- /.input group -->
                     </div><!-- /.form group -->
 
@@ -244,7 +244,13 @@
               <div class="col-md-12">
                 <div class="box box-danger">
                 <div class="box-header">
-                  <h3 class="box-title">Telephone Number</h3>
+                  <h3 class="box-title">List Case</h3>
+                  <?php if($value==1): ?>
+                  <a href="<?php echo site_url("downloadsearch"); ?>"type="get" class="btn btn-success pull-right"><i class="fa fa-download"></i> <span>Download Result</span></a>
+                   <?php endif; ?>
+                   <?php if($value==2): ?>
+                  <a href="<?php echo site_url("downloadsearchnumber/$telephone/$opsi"); ?>"type="get" class="btn btn-success pull-right"><i class="fa fa-download"></i> <span>Download Result</span></a>
+                   <?php endif; ?>
                 </div><!-- /.box-header -->
                 <div class="box-body">
                   <table id="example1" class="table table-bordered table-striped">

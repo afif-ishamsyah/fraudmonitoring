@@ -1,5 +1,5 @@
-<aside class="main-sidebar">
-      <section class="sidebar">
+      <aside class="main-sidebar">
+        <section class="sidebar">
           <!-- sidebar menu: : style can be found in sidebar.less -->
           <ul class="sidebar-menu">
             <li><a href="<?php echo site_url("admin"); ?>"><i class="fa fa-home"></i><span>Home</span></a></li>
@@ -64,7 +64,7 @@
               </div>
             </div>
             <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>">
-);
+
             <div class="box-footer">
               <div class="form-group">
               <div class=" pull-right">
