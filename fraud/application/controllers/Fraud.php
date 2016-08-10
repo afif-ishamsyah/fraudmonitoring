@@ -505,6 +505,43 @@ class Fraud extends CI_Controller {
 		}
 	}
 
+	public function editactparam()
+	{
+		if ($_SERVER['REQUEST_METHOD'] === 'POST') 
+		{
+			$this->load->model('admin');
+
+			$id = $this->input->post('idcase');
+			$desc = strtoupper($this->input->post('actname'));
+			$akr = strtoupper($this->input->post('actcode'));
+			$exist1 = $this->admin->actparamexist1($id, $desc);
+			$exist2 = $this->admin->actparamexist2($id, $akr);
+
+
+			if($exist1==1 || $exist2==1)
+			{
+				$this->session->set_flashdata('fail', 'Parameter sudah ada sebelumya');
+				redirect('paramform');	 
+			}
+			else
+			{
+				$data = array(
+					'DESCRIPTION' => strtoupper($desc),
+					'AKRONIM' => strtoupper($akr)
+					);
+
+				$this->admin->editactpar($id, $data);
+				$this->session->set_flashdata('success', 'Parameter berhasil diubah');
+				redirect('paramform');
+			}
+			
+		}
+		elseif ($_SERVER['REQUEST_METHOD'] === 'GET')
+		{
+			redirect('home');
+		}
+	}
+
 
 
 //---------------------------------------------------------Fungsi User------------------------------------------------------------------
@@ -677,18 +714,19 @@ public function user()
 				$data = array();
 				$opsi = $this->input->get('opsi1');
 				$date = $this->input->get('date');
+				$enddate = $this->input->get('enddate');
 
 				if($opsi=='1')
 				{
-					$data['nomor'] = $this->user->getsearchdate($date);	
+					$data['nomor'] = $this->user->getsearchdate($date, $enddate);	
 				}
 				elseif($opsi=='2')
 				{
-					$data['nomor'] = $this->user->getsearchdates($date,'0');	
+					$data['nomor'] = $this->user->getsearchdates($date, $enddate, '0');	
 				}
 				elseif($opsi=='3')
 				{
-					$data['nomor'] = $this->user->getsearchdates($date, '1');	
+					$data['nomor'] = $this->user->getsearchdates($date, $enddate, '1');	
 				}
 
 				$this->load->view('header',$userdata); 
@@ -720,18 +758,19 @@ public function user()
 				$data = array();
 				$opsi = $this->input->get('opsi1');
 				$date = $this->input->get('date');
+				$enddate = $this->input->get('enddate');
 
 				if($opsi=='1')
 				{
-					$data['nomor'] = $this->user->getsearchinputdate($date);	
+					$data['nomor'] = $this->user->getsearchinputdate($date, $enddate);	
 				}
 				elseif($opsi=='2')
 				{
-					$data['nomor'] = $this->user->getsearchinputdates($date,'0');	
+					$data['nomor'] = $this->user->getsearchinputdates($date, $enddate,'0');	
 				}
 				elseif($opsi=='3')
 				{
-					$data['nomor'] = $this->user->getsearchinputdates($date, '1');	
+					$data['nomor'] = $this->user->getsearchinputdates($date, $enddate, '1');	
 				}
 
 				$this->load->view('header',$userdata); 

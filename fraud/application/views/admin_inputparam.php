@@ -33,7 +33,7 @@
         <div class="col-md-6">
         <div class="box box-danger">
           <div class="box-header">
-            <div class="box-title">Case Parameter</div>
+            <div class="box-title">Create Case Parameter</div>
           </div>
           
           <div class="box-body">
@@ -64,7 +64,7 @@
           <div class="box box-danger">
           
           <div class="box-header">
-            <div class="box-title">Activity Parameter</div>
+            <div class="box-title">Create Activity Parameter</div>
           </div>
           
           <div class="box-body">
@@ -126,11 +126,11 @@
                       <tr>
                         <td><?php echo $casepar->DESCRIPTION; ?></td>
                         <?php if($casepar->AKTIF=='0'): ?>
-                        <td>Disabled</td>
+                        <td><font color="red"><b>Disabled</b></font></td> 
                         <td><a  type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#<?php echo $casepar->ID_PARAMETER; ?>deaktif"><i class="fa fa-check"></i> <span>Enable</span></a>
                         <?php endif; ?>
                         <?php if($casepar->AKTIF=='1'): ?>
-                         <td>Enabled</td>
+                         <td><font color="green"><b>Enabled</b></font></td> 
                          <td><a  type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#<?php echo $casepar->ID_PARAMETER; ?>aktif"><i class="fa fa-ban"></i> <span>Disable</span></a>
                         <?php endif; ?>
                             <a  type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#<?php echo $casepar->ID_PARAMETER; ?>edit"><i class="fa fa-edit"></i> <span>Edit</span></a>
@@ -231,15 +231,15 @@
                         <td>Open</td>
                         <?php endif; ?>
                         <?php if($actpar->STATUS=='1'): ?>
-                        <td>Close</td>
+                        <td><b>Close</b></td>
                         <?php endif; ?>
                         <?php if($actpar->AKTIF=='0'): ?>
-                        <td>Disabled</td>
+                        <td><font color="red"><b>Disabled</b></font></td> 
                         <td>
                                 <a  type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#act<?php echo $actpar->ID_PARAMETER; ?>aktif"><i class="fa fa-check"></i> <span>Enable</span></a>
                         <?php endif; ?>
                         <?php if($actpar->AKTIF=='1'): ?>
-                        <td>Enabled</td> 
+                        <td><font color="green"><b>Enabled</b></font></td> 
                         <td>      
                                 <a  type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#act<?php echo $actpar->ID_PARAMETER; ?>deaktif"><i class="fa fa-ban"></i> <span>Disable</span></a>
                         <?php endif; ?> 

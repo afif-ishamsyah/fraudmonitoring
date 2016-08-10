@@ -67,13 +67,12 @@
 
       function countperparam()
       {
-      	$this->db->select('CASE_PARAMETER.ID_PARAMETER, CASE_PARAMETER.DESCRIPTION, COUNT(KASUS.ID_CASE) AS TOTAL')
-      	    ->from('CASE_PARAMETER')
-      	    ->join('KASUS','CASE_PARAMETER.ID_PARAMETER = KASUS.CASE_PARAMETER')
-      	    ->group_by('CASE_PARAMETER.ID_PARAMETER , CASE_PARAMETER.DESCRIPTION')
-      	    ->order_by('CASE_PARAMETER.ID_PARAMETER','ASC');
-      	$query = $this->db->get();
-	  	return $query->result();
+        $this->db->select('KASUS.CASE_PARAMETER, COUNT(KASUS.ID_CASE) AS TOTAL')
+            ->from('KASUS')
+            ->group_by('KASUS.CASE_PARAMETER')
+            ->order_by('KASUS.CASE_PARAMETER','ASC');
+        $query = $this->db->get();
+      return $query->result();
       }
 
 
@@ -199,9 +198,11 @@
       $this->db->update('ACTIVITY_PARAMETER');
     }
 
-  function actparamexist($parameter, $akronim)
+  function actparamexist1($id ,$parameter)
   {
-  	$this->db->select('ID_PARAMETER')->from('ACTIVITY_PARAMETER')->where('DESCRIPTION',strtoupper($parameter))->or_where('AKRONIM',strtoupper($akronim));
+  	$this->db->select('ID_PARAMETER')->from('ACTIVITY_PARAMETER')
+                                     ->where('ID_PARAMETER !=', $id)
+                                     ->where('DESCRIPTION',strtoupper($parameter));
   	$query = $this->db->get();
     	if($query->num_rows() > 0)
     	{
@@ -211,6 +212,22 @@
     	{
     		return 0;
     	}
+  }
+
+  function actparamexist2($id ,$akronim)
+  {
+    $this->db->select('ID_PARAMETER')->from('ACTIVITY_PARAMETER')
+                                     ->where('ID_PARAMETER !=', $id)
+                                     ->where('AKRONIM',strtoupper($akronim));
+    $query = $this->db->get();
+      if($query->num_rows() > 0)
+      {
+        return 1;
+      }
+      else
+      {
+        return 0;
+      }
   }
 
   function insertactparamater($data)
@@ -223,6 +240,13 @@
     $this->db->where('ID_PARAMETER', $id);
     $this->db->delete('ACTIVITY_PARAMETER');
   }
+
+  function editactpar($id, $data)
+  {
+    $this->db->where('ID_PARAMETER', $id);
+    $this->db->update('ACTIVITY_PARAMETER', $data);
+  }
+
    									
 } 
 ?>

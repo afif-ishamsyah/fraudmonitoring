@@ -30,11 +30,10 @@
 
       function countperparam()
       {
-      	$this->db->select('CASE_PARAMETER.ID_PARAMETER, CASE_PARAMETER.DESCRIPTION, COUNT(KASUS.ID_CASE) AS TOTAL')
-      	    ->from('CASE_PARAMETER')
-      	    ->join('KASUS','CASE_PARAMETER.ID_PARAMETER = KASUS.CASE_PARAMETER')
-      	    ->group_by('CASE_PARAMETER.ID_PARAMETER , CASE_PARAMETER.DESCRIPTION')
-      	    ->order_by('CASE_PARAMETER.ID_PARAMETER','ASC');
+      	$this->db->select('KASUS.CASE_PARAMETER, COUNT(KASUS.ID_CASE) AS TOTAL')
+      	    ->from('KASUS')
+      	    ->group_by('KASUS.CASE_PARAMETER')
+      	    ->order_by('KASUS.CASE_PARAMETER','ASC');
       	$query = $this->db->get();
 	  	return $query->result();
       }
@@ -80,45 +79,49 @@
 	  	return $query->result();
 	  }
 
-	  function getsearchdate($date)
+	  function getsearchdate($date, $enddate)
 	  {
 	  	$this->db->select('KASUS.ID_CASE, PROFIL.TELEPHONE_NUMBER, PROFIL.CUSTOMER, PROFIL.AM, KASUS.CASE_TIME, KASUS.STATUS, KASUS.LAST_ACTIVITY')
 	  			->from('KASUS')
 	  			->join('PROFIL','KASUS.ID_CASE = PROFIL.ID_CASE')
-	  			->where('KASUS.CASE_TIME <=',"TO_DATE('$date','DD/MM/YYYY')", FALSE)
+	  			->where('KASUS.CASE_TIME >=',"TO_DATE('$date','DD/MM/YYYY')", FALSE)
+	  			->where('KASUS.CASE_TIME <=',"TO_DATE('$enddate','DD/MM/YYYY')", FALSE)
 	  			->order_by('KASUS.STATUS','ASC');
 	  	$query = $this->db->get();
 	  	return $query->result();
 	  }
 
-	  function getsearchdates($date, $status)
+	  function getsearchdates($date, $enddate, $status)
 	  {
 	  	$this->db->select('KASUS.ID_CASE, PROFIL.TELEPHONE_NUMBER, PROFIL.CUSTOMER, PROFIL.AM, KASUS.CASE_TIME, KASUS.STATUS, KASUS.LAST_ACTIVITY')
 	  			->from('KASUS')
 	  			->join('PROFIL','KASUS.ID_CASE = PROFIL.ID_CASE')
-	  			->where('KASUS.CASE_TIME <=',"TO_DATE('$date','DD/MM/YYYY')", FALSE)
+	  			->where('KASUS.CASE_TIME >=',"TO_DATE('$date','DD/MM/YYYY')", FALSE)
+	  			->where('KASUS.CASE_TIME <=',"TO_DATE('$enddate','DD/MM/YYYY')", FALSE)
 	  			->where('KASUS.STATUS', $status);
 	  	$query = $this->db->get();
 	  	return $query->result();
 	  }
 
-	  function getsearchinputdate($date)
+	  function getsearchinputdate($date, $enddate)
 	  {
 	  	$this->db->select('KASUS.ID_CASE, PROFIL.TELEPHONE_NUMBER, PROFIL.CUSTOMER, PROFIL.AM, KASUS.CASE_TIME, KASUS.STATUS, KASUS.LAST_ACTIVITY')
 	  			->from('KASUS')
 	  			->join('PROFIL','KASUS.ID_CASE = PROFIL.ID_CASE')
-	  			->where('KASUS.INPUT_DATE <=',"TO_DATE('$date','DD/MM/YYYY')", FALSE)
+	  			->where('KASUS.INPUT_DATE >=',"TO_DATE('$date','DD/MM/YYYY')", FALSE)
+	  			->where('KASUS.INPUT_DATE <=',"TO_DATE('$enddate','DD/MM/YYYY')", FALSE)
 	  			->order_by('KASUS.STATUS','ASC');
 	  	$query = $this->db->get();
 	  	return $query->result();
 	  }
 
-	  function getsearchinputdates($date, $status)
+	  function getsearchinputdates($date, $enddate, $status)
 	  {
 	  	$this->db->select('KASUS.ID_CASE, PROFIL.TELEPHONE_NUMBER, PROFIL.CUSTOMER, PROFIL.AM, KASUS.CASE_TIME, KASUS.STATUS, KASUS.LAST_ACTIVITY')
 	  			->from('KASUS')
 	  			->join('PROFIL','KASUS.ID_CASE = PROFIL.ID_CASE')
-	  			->where('KASUS.INPUT_DATE <=',"TO_DATE('$date','DD/MM/YYYY')", FALSE)
+	  			->where('KASUS.INPUT_DATE >=',"TO_DATE('$date','DD/MM/YYYY')", FALSE)
+	  			->where('KASUS.INPUT_DATE <=',"TO_DATE('$enddate','DD/MM/YYYY')", FALSE)
 	  			->where('KASUS.STATUS', $status);
 	  	$query = $this->db->get();
 	  	return $query->result();

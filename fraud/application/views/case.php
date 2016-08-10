@@ -24,7 +24,7 @@
         <?php endif; ?>
         <?php if($cases->STATUS=='0'): ?>
           <h1 class="pull-left">Case</h1>
-          <h1><span class="label label-danger pull-right">Open Case
+          <h1><span class="label label-danger pull-right">Case Open
           </span></h1>
         <?php endif; ?>
         </section>

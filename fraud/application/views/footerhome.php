@@ -55,7 +55,7 @@
 
         var donutData = [
           <?php foreach($parameter as $param):?>
-          {label: '<?php echo $param->DESCRIPTION; ?>', data: <?php echo $param->TOTAL; ?>, color: getRandomColor()},
+          {label: '<?php echo $param->CASE_PARAMETER; ?>', data: <?php echo $param->TOTAL; ?>, color: getRandomColor()},
           <?php endforeach; ?>
         ];
         $.plot("#donut-chart", donutData, {

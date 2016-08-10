@@ -73,7 +73,7 @@
                   <div class="tab-pane" id="tab_2">
                   <form action="<?php echo site_url("searchdate"); ?>" method="get">
                     <div class="form-group">
-                      <label>Case Date:</label>
+                      <label>Start Date:</label>
                       <div class="input-group">
                         <div class="input-group-addon">
                           <i class="fa fa-calendar"></i>
@@ -81,6 +81,17 @@
                         <input type="text" name="date" class="form-control" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask placeholder="dd-mm-yyyy">
                       </div><!-- /.input group -->
                     </div><!-- /.form group -->
+
+                    <div class="form-group">
+                      <label>End Date:</label>
+                      <div class="input-group">
+                        <div class="input-group-addon">
+                          <i class="fa fa-calendar"></i>
+                        </div>
+                        <input type="text" name="enddate" class="form-control" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask placeholder="dd-mm-yyyy">
+                      </div><!-- /.input group -->
+                    </div><!-- /.form group -->
+
 
                     <div class="form-group">
                       <label>Status:</label>
@@ -112,12 +123,22 @@
                   <div class="tab-pane" id="tab_3">
                   <form action="<?php echo site_url("searchinputdate"); ?>" method="get">
                     <div class="form-group">
-                      <label>Input Date:</label>
+                      <label>Start Date:</label>
                       <div class="input-group">
                         <div class="input-group-addon">
                           <i class="fa fa-calendar"></i>
                         </div>
                         <input type="text" name="date" class="form-control" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask placeholder="dd-mm-yyyy">
+                      </div><!-- /.input group -->
+                    </div><!-- /.form group -->
+
+                    <div class="form-group">
+                    <label>End Date:</label>
+                      <div class="input-group">
+                        <div class="input-group-addon">
+                          <i class="fa fa-calendar"></i>
+                        </div>
+                        <input type="text" name="enddate" class="form-control" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask placeholder="dd-mm-yyyy">
                       </div><!-- /.input group -->
                     </div><!-- /.form group -->
 
