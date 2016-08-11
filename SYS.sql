@@ -40,8 +40,8 @@ GRANT UNLIMITED TABLESPACE TO fastel;
 
 grant select, insert on profil to fastel;
 grant select, insert on revenue to fastel;
-grant select, insert on profil to fraud;
-grant select, insert on revenue to fraud;
+grant select, insert on DES_PROFILE_FASTEL_AM to fraud;
+grant select, insert on  to fraud;
 
 alter session set current_schema = fastel; 
 alter session set current_schema = system;

@@ -7,10 +7,10 @@
 
       } 
 
-	  function hashpassword($password) 
-	  {
-        return md5($password);
-      }
+	  // function hashpassword($password) 
+	  // {
+   //      return md5($password);
+   //    }
 
       function checkpass($username, $password)
       {
@@ -26,15 +26,43 @@
       	}
       }
 
+      function getuserlist($id)
+      {
+        $this->db->select('ID, USERNAME, PREVILEDGE')->from('PROFILEUSER')->where('ID !=',$id);
+        $query = $this->db->get();
+        return $query->result();
+
+      }
+
       function insertuser($data)
       {
         $this->db->insert('PROFILEUSER', $data);
       }
 
-      function updateuser($username, $data)
+      function updateuser($id, $data)
       {
-      	$this->db->where('USERNAME', $username);
+      	$this->db->where('ID', $id);
         $this->db->update('PROFILEUSER', $data);
+      }
+
+      function deleteuser($id)
+      {
+        $this->db->where('ID', $id);
+        $this->db->delete('PROFILEUSER');
+      }
+
+      function checkexistuser($id)
+      {
+        $this->db->select('ID')->from('PROFILEUSER')->where('ID', $id);
+        $query = $this->db->get();
+        if($query->num_rows() > 0)
+        {
+          return 1;
+        }
+        else
+        {
+          return 0;
+        }
       }
 
       function usernameexist($username)
@@ -42,6 +70,13 @@
       	$this->db->select('USERNAME')->from('PROFILEUSER')->where('UPPER("USERNAME")', strtoupper($username));
       	$query = $this->db->get();
 	  	return $query->result();
+      }
+
+      function getusername($id)
+      {
+        $this->db->select('USERNAME')->from('PROFILEUSER')->where('ID', $id);
+        $query = $this->db->get();
+        return $query->row()->USERNAME;
       }
 
       function countopen()

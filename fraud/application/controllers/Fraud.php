@@ -34,7 +34,7 @@ class Fraud extends CI_Controller {
 		 	 $this->load->model('general');
 
 		 	 $username = $this->input->post('username');
-		 	 $password = $this->general->hashpassword($this->input->post('password'));
+		 	 $password = $this->input->post('password');
 
 		 	 $check = $this->general->checklogin($username, $password);
 
@@ -177,20 +177,61 @@ class Fraud extends CI_Controller {
 	   {
 	     redirect('loginform');
 	   }
-
 	}
 
-	public function edituserform()
+	public function listuser()
+	{
+		if($this->session->userdata('logged_in'))
+	    {
+		     $session_data = $this->session->userdata('logged_in');
+		     $userdata['id'] = $session_data['id'];
+		     $userdata['username'] = $session_data['username'];
+		     $userdata['previledge'] = $session_data['previledge'];
+		     if($userdata['previledge']=='1')
+		     {
+		     	$this->load->model('admin');
+		     	$data = array();
+		     	$data['user'] = $this->admin->getuserlist($userdata['id']);
+
+		     	$this->load->view('header', $userdata); 
+				$this->load->view('admin_listuser', $data);
+				$this->load->view('footer');  
+		     }
+		     elseif($userdata['previledge']=='0')
+		     {
+		     	redirect('user');
+		     }
+	   }
+	   else
+	   {
+	     redirect('loginform');
+	   }
+	}
+
+	public function edituserform($id)
 	{
 		if($this->session->userdata('logged_in'))
 	    {
 		     $session_data = $this->session->userdata('logged_in');
 		     $userdata['username'] = $session_data['username'];
 		     $userdata['previledge'] = $session_data['previledge'];
+
+		     $this->load->model('admin');
+		     $check = $this->admin->checkexistuser($id);
+
+		     if($check==0)
+		     {
+		     	show_404();
+		     }
+
+		     $data = array();
+		     $data['ID'] = $id;
+		     $data['USERNAME'] = $this->admin->getusername($id);
+
 		     if($userdata['previledge']=='1')
 		     {
 		     	$this->load->view('header', $userdata); 
-				$this->load->view('admin_edituser');
+				$this->load->view('admin_edituser', $data);
 				$this->load->view('footer');  
 		     }
 		     elseif($userdata['previledge']=='0')
@@ -246,7 +287,7 @@ class Fraud extends CI_Controller {
 			 	{
 				 	$data = array(
 		                'USERNAME' => $username,
-		                'PASSWD' =>  $this->admin->hashpassword($this->input->post('password')),
+		                'PASSWD' =>  $this->input->post('password'),
 		                'PREVILEDGE' => $this->input->post('previledge')
 		         	 );
 				 	$this->admin->insertuser($data);
@@ -277,16 +318,10 @@ class Fraud extends CI_Controller {
 		{
 		 	 $this->load->model('admin');
 
+		 	 $id = $this->input->post('id');
 			 $username = $this->input->post('username');
-			 $exist = $this->admin->usernameexist($username);
 
-			 if(empty($exist))
-			 {
-			 	$this->session->set_flashdata('fail', 'Username tidak ditemukan');
-				redirect('edituserform');
-			 }
-
-			 $checkpassword = $this->admin->hashpassword($this->input->post('password'));
+			 $checkpassword = $this->input->post('password');
 			 $check = $this->admin->checkpass($username, $checkpassword);
 
 			 $newpassword = $this->input->post('newpassword');
@@ -297,24 +332,23 @@ class Fraud extends CI_Controller {
 			 	if($newpassword==$connewpassword)
 			 	{
 				 	$data = array(
-		                'USERNAME' => $username,
-		                'PASSWD' =>  $this->admin->hashpassword($newpassword),
+		                'PASSWD' =>  $newpassword,
 		                'PREVILEDGE' => $this->input->post('previledge')
 		         	 );
-				 	$this->admin->updateuser($username, $data);
+				 	$this->admin->updateuser($id, $data);
 				 	$this->session->set_flashdata('success', 'User berhasil diedit');
-				 	redirect('edituserform');
+				 	redirect('listuser');
 				 }
 				 else
 				 {
 				 	$this->session->set_flashdata('fail', 'Konfirmasi password salah');
-				 	redirect('edituserform');
+				 	redirect('edituserform/'.$id);
 				 }
 			 }
 			 else
 			 {
 			 	$this->session->set_flashdata('fail', 'Salah Password');
-			 	redirect('edituserform');	
+			 	redirect('edituserform/'.$id);	
 			 }
 		}
 		elseif ($_SERVER['REQUEST_METHOD'] === 'GET')
@@ -322,6 +356,43 @@ class Fraud extends CI_Controller {
 			redirect('home');
 		}
 	}
+
+	public function deleteuser($id)
+	{
+		if($this->session->userdata('logged_in'))
+	    {
+		     $session_data = $this->session->userdata('logged_in');
+		     $userdata['username'] = $session_data['username'];
+		     $userdata['previledge'] = $session_data['previledge'];
+		     if($userdata['previledge']=='1')
+		     {
+		     	 $this->load->model('admin');
+			     $check = $this->admin->checkexistuser($id);
+
+			     if($check==0)
+			     {
+			     	show_404();
+			     } 
+			     else
+			     {
+			     	$this->admin->deleteuser($id);
+			     	$this->session->set_flashdata('success', 'User berhasil dihapus');
+			     	redirect('listuser');
+			     }
+
+			 }
+		     elseif($userdata['previledge']=='0')
+		     {
+		     	redirect('user');
+		     }
+	   }
+	   else
+	   {
+	     redirect('loginform');
+	   }
+	}
+
+
 
 	public function addcaseparam()
 	{
@@ -678,7 +749,7 @@ public function user()
 				$objPHPExcel = new PHPExcel();
 			    $objPHPExcel->getActiveSheet()->setTitle("Search Result");
 			    //Loop Heading
-			    $heading=array('No','Nomor Telepon','Tanggal Case','Nama CC','Nama AM');
+			    $heading=array('No','Nomor Telepon','Tanggal Case','Nama CC','Nama AM','Status');
 			    $rowNumberH = 1;
 			    $colH = 'A';
 
@@ -697,12 +768,20 @@ public function user()
 		            $objPHPExcel->getActiveSheet()->setCellValue('C'.$row,date('d-M-Y',strtotime($n->CASE_TIME)));
 		            $objPHPExcel->getActiveSheet()->setCellValueExplicit('D'.$row,$n->CUSTOMER);
 		            $objPHPExcel->getActiveSheet()->setCellValueExplicit('E'.$row,$n->AM);
+		            if($n->STATUS=='0')
+		            {
+		            	$objPHPExcel->getActiveSheet()->setCellValueExplicit('F'.$row,'Open');
+		            }
+		            if($n->STATUS=='1')
+		            {
+		            	$objPHPExcel->getActiveSheet()->setCellValueExplicit('F'.$row,'Close');
+		            }
 		            $row++;
 		            $no++;
 		        }
 			    
 
-			    $header = 'a1:e1';
+			    $header = 'a1:f1';
 				$objPHPExcel->getActiveSheet()->getStyle($header)->getFill()->setFillType(\PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setARGB('00ffff00');
 				$style = array(
 				    'font' => array('bold' => true,),
@@ -710,7 +789,7 @@ public function user()
 				    );
 				$objPHPExcel->getActiveSheet()->getStyle($header)->applyFromArray($style);
 
-				for ($col = ord('a'); $col <= ord('e'); $col++)
+				for ($col = ord('a'); $col <= ord('f'); $col++)
 				{
     				$objPHPExcel->getActiveSheet()->getColumnDimension(chr($col))->setAutoSize(true);
 				}
@@ -722,7 +801,7 @@ public function user()
 			            )
 			        )
 			    );
-			    $objPHPExcel->getActiveSheet()->getStyle('A1:E'.$maxrow)->applyFromArray($styleArray);
+			    $objPHPExcel->getActiveSheet()->getStyle('A1:F'.$maxrow)->applyFromArray($styleArray);
 			    //Save as an Excel BIFF (xls) file
 			    $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel,'Excel2007');
 
@@ -821,7 +900,7 @@ public function user()
 				$objPHPExcel = new PHPExcel();
 			    $objPHPExcel->getActiveSheet()->setTitle("Search Result");
 			    //Loop Heading
-			    $heading=array('No','Nomor Telepon','Tanggal Case','Nama CC','Nama AM');
+			    $heading=array('No','Nomor Telepon','Tanggal Case','Nama CC','Nama AM','Status');
 			    $rowNumberH = 1;
 			    $colH = 'A';
 
@@ -840,12 +919,20 @@ public function user()
 		            $objPHPExcel->getActiveSheet()->setCellValue('C'.$row,date('d-M-Y',strtotime($n->CASE_TIME)));
 		            $objPHPExcel->getActiveSheet()->setCellValueExplicit('D'.$row,$n->CUSTOMER);
 		            $objPHPExcel->getActiveSheet()->setCellValueExplicit('E'.$row,$n->AM);
+		            if($n->STATUS=='0')
+		            {
+		            	$objPHPExcel->getActiveSheet()->setCellValueExplicit('F'.$row,'Open');
+		            }
+		            if($n->STATUS=='1')
+		            {
+		            	$objPHPExcel->getActiveSheet()->setCellValueExplicit('F'.$row,'Close');
+		            }
 		            $row++;
 		            $no++;
 		        }
 			    
 
-			    $header = 'a1:e1';
+			    $header = 'a1:f1';
 				$objPHPExcel->getActiveSheet()->getStyle($header)->getFill()->setFillType(\PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setARGB('00ffff00');
 				$style = array(
 				    'font' => array('bold' => true,),
@@ -853,7 +940,7 @@ public function user()
 				    );
 				$objPHPExcel->getActiveSheet()->getStyle($header)->applyFromArray($style);
 
-				for ($col = ord('a'); $col <= ord('e'); $col++)
+				for ($col = ord('a'); $col <= ord('f'); $col++)
 				{
     				$objPHPExcel->getActiveSheet()->getColumnDimension(chr($col))->setAutoSize(true);
 				}
@@ -865,7 +952,7 @@ public function user()
 			            )
 			        )
 			    );
-			    $objPHPExcel->getActiveSheet()->getStyle('A1:E'.$maxrow)->applyFromArray($styleArray);
+			    $objPHPExcel->getActiveSheet()->getStyle('A1:F'.$maxrow)->applyFromArray($styleArray);
 			    //Save as an Excel BIFF (xls) file
 			    $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel,'Excel2007');
 
@@ -967,7 +1054,7 @@ public function user()
 				$objPHPExcel = new PHPExcel();
 			    $objPHPExcel->getActiveSheet()->setTitle("Search Result");
 			    //Loop Heading
-			    $heading=array('No','Nomor Telepon','Tanggal Case','Nama CC','Nama AM');
+			    $heading=array('No','Nomor Telepon','Tanggal Case','Nama CC','Nama AM','Status');
 			    $rowNumberH = 1;
 			    $colH = 'A';
 
@@ -986,12 +1073,20 @@ public function user()
 		            $objPHPExcel->getActiveSheet()->setCellValue('C'.$row,date('d-M-Y',strtotime($n->CASE_TIME)));
 		            $objPHPExcel->getActiveSheet()->setCellValueExplicit('D'.$row,$n->CUSTOMER);
 		            $objPHPExcel->getActiveSheet()->setCellValueExplicit('E'.$row,$n->AM);
+		            if($n->STATUS=='0')
+		            {
+		            	$objPHPExcel->getActiveSheet()->setCellValueExplicit('F'.$row,'Open');
+		            }
+		            if($n->STATUS=='1')
+		            {
+		            	$objPHPExcel->getActiveSheet()->setCellValueExplicit('F'.$row,'Close');
+		            }
 		            $row++;
 		            $no++;
 		        }
 			    
 
-			    $header = 'a1:e1';
+			    $header = 'a1:f1';
 				$objPHPExcel->getActiveSheet()->getStyle($header)->getFill()->setFillType(\PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setARGB('00ffff00');
 				$style = array(
 				    'font' => array('bold' => true,),
@@ -999,7 +1094,7 @@ public function user()
 				    );
 				$objPHPExcel->getActiveSheet()->getStyle($header)->applyFromArray($style);
 
-				for ($col = ord('a'); $col <= ord('e'); $col++)
+				for ($col = ord('a'); $col <= ord('f'); $col++)
 				{
     				$objPHPExcel->getActiveSheet()->getColumnDimension(chr($col))->setAutoSize(true);
 				}
@@ -1011,7 +1106,7 @@ public function user()
 			            )
 			        )
 			    );
-			    $objPHPExcel->getActiveSheet()->getStyle('A1:E'.$maxrow)->applyFromArray($styleArray);
+			    $objPHPExcel->getActiveSheet()->getStyle('A1:F'.$maxrow)->applyFromArray($styleArray);
 			    //Save as an Excel BIFF (xls) file
 			    $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel,'Excel2007');
 
@@ -1113,7 +1208,7 @@ public function user()
 				$objPHPExcel = new PHPExcel();
 			    $objPHPExcel->getActiveSheet()->setTitle("Search Result");
 			    //Loop Heading
-			    $heading=array('No','Nomor Telepon','Tanggal Case','Nama CC','Nama AM');
+			    $heading=array('No','Nomor Telepon','Tanggal Case','Nama CC','Nama AM','Status');
 			    $rowNumberH = 1;
 			    $colH = 'A';
 
@@ -1132,12 +1227,20 @@ public function user()
 		            $objPHPExcel->getActiveSheet()->setCellValue('C'.$row,date('d-M-Y',strtotime($n->CASE_TIME)));
 		            $objPHPExcel->getActiveSheet()->setCellValueExplicit('D'.$row,$n->CUSTOMER);
 		            $objPHPExcel->getActiveSheet()->setCellValueExplicit('E'.$row,$n->AM);
+		            if($n->STATUS=='0')
+		            {
+		            	$objPHPExcel->getActiveSheet()->setCellValueExplicit('F'.$row,'Open');
+		            }
+		            if($n->STATUS=='1')
+		            {
+		            	$objPHPExcel->getActiveSheet()->setCellValueExplicit('F'.$row,'Close');
+		            }
 		            $row++;
 		            $no++;
 		        }
 			    
 
-			    $header = 'a1:e1';
+			    $header = 'a1:f1';
 				$objPHPExcel->getActiveSheet()->getStyle($header)->getFill()->setFillType(\PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setARGB('00ffff00');
 				$style = array(
 				    'font' => array('bold' => true,),
@@ -1145,7 +1248,7 @@ public function user()
 				    );
 				$objPHPExcel->getActiveSheet()->getStyle($header)->applyFromArray($style);
 
-				for ($col = ord('a'); $col <= ord('e'); $col++)
+				for ($col = ord('a'); $col <= ord('f'); $col++)
 				{
     				$objPHPExcel->getActiveSheet()->getColumnDimension(chr($col))->setAutoSize(true);
 				}
@@ -1157,7 +1260,7 @@ public function user()
 			            )
 			        )
 			    );
-			    $objPHPExcel->getActiveSheet()->getStyle('A1:E'.$maxrow)->applyFromArray($styleArray);
+			    $objPHPExcel->getActiveSheet()->getStyle('A1:F'.$maxrow)->applyFromArray($styleArray);
 			    //Save as an Excel BIFF (xls) file
 			    $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel,'Excel2007');
 
@@ -1256,7 +1359,7 @@ public function user()
 				$objPHPExcel = new PHPExcel();
 			    $objPHPExcel->getActiveSheet()->setTitle("Search Result");
 			    //Loop Heading
-			    $heading=array('No','Nomor Telepon','Tanggal Case','Nama CC','Nama AM');
+			    $heading=array('No','Nomor Telepon','Tanggal Case','Nama CC','Nama AM','Status');
 			    $rowNumberH = 1;
 			    $colH = 'A';
 
@@ -1275,12 +1378,20 @@ public function user()
 		            $objPHPExcel->getActiveSheet()->setCellValue('C'.$row,date('d-M-Y',strtotime($n->CASE_TIME)));
 		            $objPHPExcel->getActiveSheet()->setCellValueExplicit('D'.$row,$n->CUSTOMER);
 		            $objPHPExcel->getActiveSheet()->setCellValueExplicit('E'.$row,$n->AM);
+		            if($n->STATUS=='0')
+		            {
+		            	$objPHPExcel->getActiveSheet()->setCellValueExplicit('F'.$row,'Open');
+		            }
+		            if($n->STATUS=='1')
+		            {
+		            	$objPHPExcel->getActiveSheet()->setCellValueExplicit('F'.$row,'Close');
+		            }
 		            $row++;
 		            $no++;
 		        }
 			    
 
-			    $header = 'a1:e1';
+			    $header = 'a1:f1';
 				$objPHPExcel->getActiveSheet()->getStyle($header)->getFill()->setFillType(\PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setARGB('00ffff00');
 				$style = array(
 				    'font' => array('bold' => true,),
@@ -1288,7 +1399,7 @@ public function user()
 				    );
 				$objPHPExcel->getActiveSheet()->getStyle($header)->applyFromArray($style);
 
-				for ($col = ord('a'); $col <= ord('e'); $col++)
+				for ($col = ord('a'); $col <= ord('f'); $col++)
 				{
     				$objPHPExcel->getActiveSheet()->getColumnDimension(chr($col))->setAutoSize(true);
 				}
@@ -1300,7 +1411,7 @@ public function user()
 			            )
 			        )
 			    );
-			    $objPHPExcel->getActiveSheet()->getStyle('A1:E'.$maxrow)->applyFromArray($styleArray);
+			    $objPHPExcel->getActiveSheet()->getStyle('A1:F'.$maxrow)->applyFromArray($styleArray);
 			    //Save as an Excel BIFF (xls) file
 			    $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel,'Excel2007');
 
@@ -1399,7 +1510,7 @@ public function user()
 				$objPHPExcel = new PHPExcel();
 			    $objPHPExcel->getActiveSheet()->setTitle("Search Result");
 			    //Loop Heading
-			    $heading=array('No','Nomor Telepon','Tanggal Case','Nama CC','Nama AM');
+			    $heading=array('No','Nomor Telepon','Tanggal Case','Nama CC','Nama AM','Status');
 			    $rowNumberH = 1;
 			    $colH = 'A';
 
@@ -1418,12 +1529,20 @@ public function user()
 		            $objPHPExcel->getActiveSheet()->setCellValue('C'.$row,date('d-M-Y',strtotime($n->CASE_TIME)));
 		            $objPHPExcel->getActiveSheet()->setCellValueExplicit('D'.$row,$n->CUSTOMER);
 		            $objPHPExcel->getActiveSheet()->setCellValueExplicit('E'.$row,$n->AM);
+		            if($n->STATUS=='0')
+		            {
+		            	$objPHPExcel->getActiveSheet()->setCellValueExplicit('F'.$row,'Open');
+		            }
+		            if($n->STATUS=='1')
+		            {
+		            	$objPHPExcel->getActiveSheet()->setCellValueExplicit('F'.$row,'Close');
+		            }
 		            $row++;
 		            $no++;
 		        }
 			    
 
-			    $header = 'a1:e1';
+			    $header = 'a1:f1';
 				$objPHPExcel->getActiveSheet()->getStyle($header)->getFill()->setFillType(\PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setARGB('00ffff00');
 				$style = array(
 				    'font' => array('bold' => true,),
@@ -1431,7 +1550,7 @@ public function user()
 				    );
 				$objPHPExcel->getActiveSheet()->getStyle($header)->applyFromArray($style);
 
-				for ($col = ord('a'); $col <= ord('e'); $col++)
+				for ($col = ord('a'); $col <= ord('f'); $col++)
 				{
     				$objPHPExcel->getActiveSheet()->getColumnDimension(chr($col))->setAutoSize(true);
 				}
@@ -1443,7 +1562,7 @@ public function user()
 			            )
 			        )
 			    );
-			    $objPHPExcel->getActiveSheet()->getStyle('A1:E'.$maxrow)->applyFromArray($styleArray);
+			    $objPHPExcel->getActiveSheet()->getStyle('A1:F'.$maxrow)->applyFromArray($styleArray);
 			    //Save as an Excel BIFF (xls) file
 			    $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel,'Excel2007');
 

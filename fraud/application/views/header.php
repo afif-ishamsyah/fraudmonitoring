@@ -36,6 +36,7 @@
 
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css">
     <link rel="stylesheet" href="/resources/demos/style.css">
+    
 
     <style type="text/css">.ui-datepicker { position: relative; z-index: 10000 !important; }</style>
 
@@ -88,7 +89,7 @@
                   <!-- Menu Footer-->
                   <li class="user-footer">   
                     <div class="pull-right">
-                      <a href="<?php echo site_url("logout"); ?>" class="btn btn-default btn-flat">Sign out</a>
+                      <a href="javascript:void(0)" onclick="location.href='<?php echo site_url("logout"); ?>';" class="btn btn-default btn-flat">Sign out</a>
                     </div>
                   </li>
                 </ul>

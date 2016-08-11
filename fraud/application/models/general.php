@@ -6,10 +6,10 @@
     	$this->db = $this->load->database('oracle', TRUE);
    	}
 
-   	function hashpassword($password) 
-	{
-        return md5($password);
-    }
+ //   	function hashpassword($password) 
+	// {
+ //        return md5($password);
+ //    }
 
     function checklogin($username, $password)
     {

@@ -59,10 +59,12 @@ $route['logout'] = 'fraud/logout';
 
 //---------Admin------------
 $route['userform'] = 'fraud/userform';
-$route['edituserform'] = 'fraud/edituserform';
+$route['edituserform/(:any)'] = 'fraud/edituserform/$1';
+$route['deleteuser/(:any)'] = 'fraud/deleteuser/$1';
 $route['paramform'] = 'fraud/paramform';
 $route['user'] = 'fraud/user';
 $route['register'] = 'fraud/register';
+$route['listuser'] = 'fraud/listuser';
 $route['edituser'] = 'fraud/edituser';
 $route['addcaseparam'] = 'fraud/addcaseparam';
 $route['addactparam'] = 'fraud/addactparam';

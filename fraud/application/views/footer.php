@@ -43,6 +43,10 @@
 
 
     <script>
+      $('#repass').bind("cut copy paste",function(e) {
+       e.preventDefault();
+       });
+
      $(function () {
 
         $( "#datepicker" ).datepicker({constrainInput: true, dateFormat:"dd-mm-yy"});
@@ -87,9 +91,26 @@
           "info": true,
           "autoWidth": false
         });
- 
+        $("#example6").DataTable({
+          "paging": true,
+          "lengthChange": false,
+          "searching": true,
+          "ordering": true,
+          "info": true,
+          "autoWidth": false
+        });
+        $("#example7").DataTable({
+          "paging": true,
+          "lengthChange": true,
+          "searching": false,
+          "ordering": true,
+          "info": true,
+          "autoWidth": false
+        });
       });
      </script>
+
+
 
 
 </body>

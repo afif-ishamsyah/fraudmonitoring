@@ -4,7 +4,7 @@
           <ul class="sidebar-menu">
             <li><a href="<?php echo site_url("admin"); ?>"><i class="fa fa-home"></i><span>Home</span></a></li>
             <li><a href="<?php echo site_url("userform"); ?>"><i class="fa fa-edit"></i> <span>Create User</span></a></li>
-            <li class="active"><a href="<?php echo site_url("edituserform"); ?>"><i class="fa fa-search"></i> <span>Edit User</span></a></li>
+            <li><a href="<?php echo site_url("listuser"); ?>"><i class="fa fa-search"></i> <span>List User</span></a></li>
             <li><a href="<?php echo site_url("paramform"); ?>"><i class="fa fa-plus "></i> <span>Input Parameter</span></a></li>
           </ul>
         </section>
@@ -37,7 +37,8 @@
             <div class="form-group">
               <label class="control-label col-sm-2" for="no. telp">Username:</label>
               <div class="col-sm-9">
-                <input class="form-control" name="username" id="username" placeholder="Masukkan Username" pattern=".{1,30}" required>
+                <input class="form-control" name="username" id="username" placeholder="Masukkan Username" pattern=".{1,30}" value="<?php echo $USERNAME; ?>" readonly>
+                <input class="form-control" type="hidden" name="id" id="idcase" value="<?php echo $ID; ?>">
               </div>
               </div>
               <div class="form-group">
@@ -55,7 +56,7 @@
               <div class="form-group">
               <label class="control-label col-sm-2" for="no. telp">Re-type Password Baru:</label>
               <div class="col-sm-9">
-                <input class="form-control" name="connewpassword" id="repassbaru" placeholder="Masukkan Ulang Password Baru" type="password" pattern=".{1,25}" required>
+                <input class="form-control" name="connewpassword" id="repass" placeholder="Masukkan Ulang Password Baru" type="password" pattern=".{1,25}" required>
               </div>
               </div>
               <div class="form-group">

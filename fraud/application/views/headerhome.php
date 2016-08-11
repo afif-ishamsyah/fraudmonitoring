@@ -83,7 +83,7 @@
                   <!-- Menu Footer-->
                   <li class="user-footer">   
                     <div class="pull-right">
-                      <a href="<?php echo site_url("logout"); ?>" class="btn btn-default btn-flat">Sign out</a>
+                      <a href="javascript:void(0)" onclick="location.href='<?php echo site_url("logout"); ?>';" class="btn btn-default btn-flat">Sign out</a>
                     </div>
                   </li>
                 </ul>
