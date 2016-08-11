@@ -40,7 +40,7 @@
                     <form action="<?php echo site_url("searchnumber"); ?>" method="get">
                     <div class="form-group">
                     <label>Telephone Number:</label>
-                      <input class="form-control" name="telephone" placeholder="Masukkan Nomor Telepon">
+                      <input class="form-control" name="telephone" placeholder="Masukkan Nomor Telepon" required>
                     </div>
 
                     <div class="form-group">
@@ -78,7 +78,7 @@
                         <div class="input-group-addon">
                           <i class="fa fa-calendar"></i>
                         </div>
-                        <input type="text" name="date" class="form-control" id="datepicker" placeholder="dd/mm/yyyy">
+                        <input type="text" name="date" class="form-control" id="datepicker" placeholder="dd-mm-yyyy" required>
                       </div><!-- /.input group -->
                     </div><!-- /.form group -->
 
@@ -88,7 +88,7 @@
                         <div class="input-group-addon">
                           <i class="fa fa-calendar"></i>
                         </div>
-                        <input type="text" name="enddate" class="form-control" id="datepicker2" placeholder="dd/mm/yyyy">
+                        <input type="text" name="enddate" class="form-control" id="datepicker2" placeholder="dd-mm-yyyy" required>
                       </div><!-- /.input group -->
                     </div><!-- /.form group -->
 
@@ -128,7 +128,7 @@
                         <div class="input-group-addon">
                           <i class="fa fa-calendar"></i>
                         </div>
-                        <input type="text" name="date" class="form-control" id="datepicker3" placeholder="dd/mm/yyyy">
+                        <input type="text" name="date" class="form-control" id="datepicker3" placeholder="dd-mm-yyyy" required>
                       </div><!-- /.input group -->
                     </div><!-- /.form group -->
 
@@ -138,7 +138,7 @@
                         <div class="input-group-addon">
                           <i class="fa fa-calendar"></i>
                         </div>
-                        <input type="text" name="enddate" class="form-control" id="datepicker4" placeholder="dd/mm/yyyy">
+                        <input type="text" name="enddate" class="form-control" id="datepicker4" placeholder="dd-mm-yyyy" required>
                       </div><!-- /.input group -->
                     </div><!-- /.form group -->
 
@@ -173,7 +173,7 @@
                     <form action="<?php echo site_url("searchcustomer"); ?>" method="get">
                     <div class="form-group">
                     <label>Corporate Customer:</label>
-                      <input class="form-control" name="customer" placeholder="Masukkan Nama Corporate Cutomer">
+                      <input class="form-control" name="customer" placeholder="Masukkan Nama Corporate Cutomer" required>
                     </div>
 
                     <div class="form-group">
@@ -207,7 +207,7 @@
                   <form action="<?php echo site_url("searcham"); ?>" method="get">
                   <div class="form-group">
                     <label>Account Manager:</label>
-                    <input class="form-control" name="am" placeholder="Masukkan Nama Account Manager">
+                    <input class="form-control" name="am" placeholder="Masukkan Nama Account Manager" required>
                   </div>
 
                   <div class="form-group">
@@ -250,6 +250,18 @@
                    <?php endif; ?>
                    <?php if($value==2): ?>
                   <a href="<?php echo site_url("downloadsearchnumber/$telephone/$opsi"); ?>"type="get" class="btn btn-success pull-right"><i class="fa fa-download"></i> <span>Download Result</span></a>
+                   <?php endif; ?>
+                   <?php if($value==3): ?>
+                  <a href="<?php echo site_url("downloadsearchdate/$startdate/$enddate/$opsi"); ?>"type="get" class="btn btn-success pull-right"><i class="fa fa-download"></i> <span>Download Result</span></a>
+                   <?php endif; ?>
+                    <?php if($value==4): ?>
+                  <a href="<?php echo site_url("downloadsearchinputdate/$startdate/$enddate/$opsi"); ?>"type="get" class="btn btn-success pull-right"><i class="fa fa-download"></i> <span>Download Result</span></a>
+                   <?php endif; ?>
+                    <?php if($value==5): ?>
+                  <a href="<?php echo site_url("downloadsearcham/$nama/$opsi"); ?>"type="get" class="btn btn-success pull-right"><i class="fa fa-download"></i> <span>Download Result</span></a>
+                   <?php endif; ?>
+                    <?php if($value==6): ?>
+                  <a href="<?php echo site_url("downloadsearchcustomer/$nama/$opsi"); ?>"type="get" class="btn btn-success pull-right"><i class="fa fa-download"></i> <span>Download Result</span></a>
                    <?php endif; ?>
                 </div><!-- /.box-header -->
                 <div class="box-body">

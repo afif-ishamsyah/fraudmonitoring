@@ -45,12 +45,12 @@
     <script>
      $(function () {
 
-        $( "#datepicker" ).datepicker({constrainInput: true, dateFormat:"dd/mm/yy"});
-        $( "#datepicker2" ).datepicker({constrainInput: true, dateFormat:"dd/mm/yy"});
-        $( "#datepicker3" ).datepicker({constrainInput: true, dateFormat:"dd/mm/yy"});
-        $( "#datepicker4" ).datepicker({constrainInput: true, dateFormat:"dd/mm/yy"});
-        $( "#datepickera" ).datepicker({constrainInput: true, dateFormat:"dd/mm/yy"});
-        $( "#datepicker6" ).datepicker({constrainInput: true, dateFormat:"dd/mm/yy"});
+        $( "#datepicker" ).datepicker({constrainInput: true, dateFormat:"dd-mm-yy"});
+        $( "#datepicker2" ).datepicker({constrainInput: true, dateFormat:"dd-mm-yy"});
+        $( "#datepicker3" ).datepicker({constrainInput: true, dateFormat:"dd-mm-yy"});
+        $( "#datepicker4" ).datepicker({constrainInput: true, dateFormat:"dd-mm-yy"});
+        $( "#datepickera" ).datepicker({constrainInput: true, dateFormat:"dd-mm-yy"});
+        $( "#datepicker6" ).datepicker({constrainInput: true, dateFormat:"dd-mm-yy"});
 
         //Initialize Select2 Elements
         $(".select2").select2();

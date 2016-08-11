@@ -209,7 +209,7 @@
                             <div class="input-group-addon">
                               <i class="fa fa-calendar"></i>
                             </div>
-                            <input type="text" name="actdate" class="form-control" id="datepickera" placeholder="dd/mm/yyyy" required>
+                            <input type="text" name="actdate" class="form-control" id="datepickera" placeholder="dd-mm-yyyy" required>
                             <input class="form-control" type="hidden" name="idcase" id="idcase" value="<?php echo $cases->ID_CASE; ?>">
                           </div><!-- /.input group -->
                           </div>

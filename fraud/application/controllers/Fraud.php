@@ -902,6 +902,9 @@ public function user()
 				$date = $this->input->get('date');
 				$enddate = $this->input->get('enddate');
 				$data['value'] = 3;
+				$data['opsi'] = $opsi;
+				$data['startdate'] = $date;
+				$data['enddate'] = $enddate;
 
 				if($opsi=='1')
 				{
@@ -932,6 +935,104 @@ public function user()
 		
 	}
 
+	public function downloadsearchdate()
+	{
+		if($this->session->userdata('logged_in'))
+	    {
+			 $session_data = $this->session->userdata('logged_in');
+		     $userdata['previledge'] = $session_data['previledge'];
+		     if($userdata['previledge']=='0')
+		     {
+		     	$this->load->library('excel');
+		     	$this->load->model('user');
+		     	$date =  $this->uri->segment(2);
+  				$enddate =  $this->uri->segment(3);
+  				$opsi =  $this->uri->segment(4);
+
+				$data = array();
+				if($opsi=='1')
+				{
+					$data = $this->user->getsearchdate($date, $enddate);	
+				}
+				elseif($opsi=='2')
+				{
+					$data = $this->user->getsearchdates($date, $enddate, '0');	
+				}
+				elseif($opsi=='3')
+				{
+					$data = $this->user->getsearchdates($date, $enddate, '1');	
+				}
+				$count = count($data);
+
+				$objPHPExcel = new PHPExcel();
+			    $objPHPExcel->getActiveSheet()->setTitle("Search Result");
+			    //Loop Heading
+			    $heading=array('No','Nomor Telepon','Tanggal Case','Nama CC','Nama AM');
+			    $rowNumberH = 1;
+			    $colH = 'A';
+
+			    foreach($heading as $h){
+			        $objPHPExcel->getActiveSheet()->setCellValue($colH.$rowNumberH,$h);
+			        $colH++;    
+			    }
+			    //Loop Result
+			    $maxrow=$count+1;
+			    $row = 2;
+			    $no = 1;
+		        foreach($data as $n){
+		            //$numnil = (float) str_replace(',','.',$n->nilai);
+		            $objPHPExcel->getActiveSheet()->setCellValue('A'.$row,$no);
+		            $objPHPExcel->getActiveSheet()->setCellValue('B'.$row,$n->TELEPHONE_NUMBER);
+		            $objPHPExcel->getActiveSheet()->setCellValue('C'.$row,date('d-M-Y',strtotime($n->CASE_TIME)));
+		            $objPHPExcel->getActiveSheet()->setCellValueExplicit('D'.$row,$n->CUSTOMER);
+		            $objPHPExcel->getActiveSheet()->setCellValueExplicit('E'.$row,$n->AM);
+		            $row++;
+		            $no++;
+		        }
+			    
+
+			    $header = 'a1:e1';
+				$objPHPExcel->getActiveSheet()->getStyle($header)->getFill()->setFillType(\PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setARGB('00ffff00');
+				$style = array(
+				    'font' => array('bold' => true,),
+				    'alignment' => array('horizontal' => \PHPExcel_Style_Alignment::HORIZONTAL_CENTER,),
+				    );
+				$objPHPExcel->getActiveSheet()->getStyle($header)->applyFromArray($style);
+
+				for ($col = ord('a'); $col <= ord('e'); $col++)
+				{
+    				$objPHPExcel->getActiveSheet()->getColumnDimension(chr($col))->setAutoSize(true);
+				}
+			    //Cell Style
+			    $styleArray = array(
+			        'borders' => array(
+			            'allborders' => array(
+			                'style' => PHPExcel_Style_Border::BORDER_THIN
+			            )
+			        )
+			    );
+			    $objPHPExcel->getActiveSheet()->getStyle('A1:E'.$maxrow)->applyFromArray($styleArray);
+			    //Save as an Excel BIFF (xls) file
+			    $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel,'Excel2007');
+
+			    header('Content-Type: application/vnd.ms-excel');
+			    header('Content-Disposition: attachment;filename="Search Result.xlsx"');
+			    header('Cache-Control: max-age=0');
+
+			    $objWriter->save('php://output');
+			    exit();
+		     }
+		     elseif($userdata['previledge']=='1')
+		     {
+		     	redirect('admin');
+		     }
+	   }
+	   else
+	   {
+	     redirect('loginform');
+	   }
+	}
+
 	public function searchinputdate()
 	{
 		if($this->session->userdata('logged_in'))
@@ -947,6 +1048,9 @@ public function user()
 				$date = $this->input->get('date');
 				$enddate = $this->input->get('enddate');
 				$data['value'] = 4;
+				$data['opsi'] = $opsi;
+				$data['startdate'] = $date;
+				$data['enddate'] = $enddate;
 
 				if($opsi=='1')
 				{
@@ -977,6 +1081,104 @@ public function user()
 		
 	}
 
+	public function downloadsearchinputdate()
+	{
+		if($this->session->userdata('logged_in'))
+	    {
+			 $session_data = $this->session->userdata('logged_in');
+		     $userdata['previledge'] = $session_data['previledge'];
+		     if($userdata['previledge']=='0')
+		     {
+		     	$this->load->library('excel');
+		     	$this->load->model('user');
+		     	$date =  $this->uri->segment(2);
+  				$enddate =  $this->uri->segment(3);
+  				$opsi =  $this->uri->segment(4);
+
+				$data = array();
+				if($opsi=='1')
+				{
+					$data = $this->user->getsearchinputdate($date, $enddate);	
+				}
+				elseif($opsi=='2')
+				{
+					$data = $this->user->getsearchinputdates($date, $enddate,'0');	
+				}
+				elseif($opsi=='3')
+				{
+					$data = $this->user->getsearchinputdates($date, $enddate, '1');	
+				}
+				$count = count($data);
+
+				$objPHPExcel = new PHPExcel();
+			    $objPHPExcel->getActiveSheet()->setTitle("Search Result");
+			    //Loop Heading
+			    $heading=array('No','Nomor Telepon','Tanggal Case','Nama CC','Nama AM');
+			    $rowNumberH = 1;
+			    $colH = 'A';
+
+			    foreach($heading as $h){
+			        $objPHPExcel->getActiveSheet()->setCellValue($colH.$rowNumberH,$h);
+			        $colH++;    
+			    }
+			    //Loop Result
+			    $maxrow=$count+1;
+			    $row = 2;
+			    $no = 1;
+		        foreach($data as $n){
+		            //$numnil = (float) str_replace(',','.',$n->nilai);
+		            $objPHPExcel->getActiveSheet()->setCellValue('A'.$row,$no);
+		            $objPHPExcel->getActiveSheet()->setCellValue('B'.$row,$n->TELEPHONE_NUMBER);
+		            $objPHPExcel->getActiveSheet()->setCellValue('C'.$row,date('d-M-Y',strtotime($n->CASE_TIME)));
+		            $objPHPExcel->getActiveSheet()->setCellValueExplicit('D'.$row,$n->CUSTOMER);
+		            $objPHPExcel->getActiveSheet()->setCellValueExplicit('E'.$row,$n->AM);
+		            $row++;
+		            $no++;
+		        }
+			    
+
+			    $header = 'a1:e1';
+				$objPHPExcel->getActiveSheet()->getStyle($header)->getFill()->setFillType(\PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setARGB('00ffff00');
+				$style = array(
+				    'font' => array('bold' => true,),
+				    'alignment' => array('horizontal' => \PHPExcel_Style_Alignment::HORIZONTAL_CENTER,),
+				    );
+				$objPHPExcel->getActiveSheet()->getStyle($header)->applyFromArray($style);
+
+				for ($col = ord('a'); $col <= ord('e'); $col++)
+				{
+    				$objPHPExcel->getActiveSheet()->getColumnDimension(chr($col))->setAutoSize(true);
+				}
+			    //Cell Style
+			    $styleArray = array(
+			        'borders' => array(
+			            'allborders' => array(
+			                'style' => PHPExcel_Style_Border::BORDER_THIN
+			            )
+			        )
+			    );
+			    $objPHPExcel->getActiveSheet()->getStyle('A1:E'.$maxrow)->applyFromArray($styleArray);
+			    //Save as an Excel BIFF (xls) file
+			    $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel,'Excel2007');
+
+			    header('Content-Type: application/vnd.ms-excel');
+			    header('Content-Disposition: attachment;filename="Search Result.xlsx"');
+			    header('Cache-Control: max-age=0');
+
+			    $objWriter->save('php://output');
+			    exit();
+		     }
+		     elseif($userdata['previledge']=='1')
+		     {
+		     	redirect('admin');
+		     }
+	   }
+	   else
+	   {
+	     redirect('loginform');
+	   }
+	}
+
 	public function searcham()
 	{
 		if($this->session->userdata('logged_in'))
@@ -991,6 +1193,8 @@ public function user()
 				$opsi = $this->input->get('opsi1');
 				$nama = strtolower($this->input->get('am'));
 				$data['value'] = 5;
+				$data['nama'] = $nama;
+				$data['opsi'] = $opsi;
 
 				if($opsi=='1')
 				{
@@ -1021,6 +1225,103 @@ public function user()
 		
 	}
 
+	public function downloadsearcham()
+	{
+		if($this->session->userdata('logged_in'))
+	    {
+			 $session_data = $this->session->userdata('logged_in');
+		     $userdata['previledge'] = $session_data['previledge'];
+		     if($userdata['previledge']=='0')
+		     {
+		     	$this->load->library('excel');
+		     	$this->load->model('user');
+		     	$nama =  $this->uri->segment(2);
+  				$opsi =  $this->uri->segment(3);
+
+				$data = array();
+				if($opsi=='1')
+				{
+					$data = $this->user->getsearcham($nama);	
+				}
+				elseif($opsi=='2')
+				{
+					$data = $this->user->getsearchams($nama,'0');	
+				}
+				elseif($opsi=='3')
+				{
+					$data = $this->user->getsearchams($nama, '1');	
+				}
+				$count = count($data);
+
+				$objPHPExcel = new PHPExcel();
+			    $objPHPExcel->getActiveSheet()->setTitle("Search Result");
+			    //Loop Heading
+			    $heading=array('No','Nomor Telepon','Tanggal Case','Nama CC','Nama AM');
+			    $rowNumberH = 1;
+			    $colH = 'A';
+
+			    foreach($heading as $h){
+			        $objPHPExcel->getActiveSheet()->setCellValue($colH.$rowNumberH,$h);
+			        $colH++;    
+			    }
+			    //Loop Result
+			    $maxrow=$count+1;
+			    $row = 2;
+			    $no = 1;
+		        foreach($data as $n){
+		            //$numnil = (float) str_replace(',','.',$n->nilai);
+		            $objPHPExcel->getActiveSheet()->setCellValue('A'.$row,$no);
+		            $objPHPExcel->getActiveSheet()->setCellValue('B'.$row,$n->TELEPHONE_NUMBER);
+		            $objPHPExcel->getActiveSheet()->setCellValue('C'.$row,date('d-M-Y',strtotime($n->CASE_TIME)));
+		            $objPHPExcel->getActiveSheet()->setCellValueExplicit('D'.$row,$n->CUSTOMER);
+		            $objPHPExcel->getActiveSheet()->setCellValueExplicit('E'.$row,$n->AM);
+		            $row++;
+		            $no++;
+		        }
+			    
+
+			    $header = 'a1:e1';
+				$objPHPExcel->getActiveSheet()->getStyle($header)->getFill()->setFillType(\PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setARGB('00ffff00');
+				$style = array(
+				    'font' => array('bold' => true,),
+				    'alignment' => array('horizontal' => \PHPExcel_Style_Alignment::HORIZONTAL_CENTER,),
+				    );
+				$objPHPExcel->getActiveSheet()->getStyle($header)->applyFromArray($style);
+
+				for ($col = ord('a'); $col <= ord('e'); $col++)
+				{
+    				$objPHPExcel->getActiveSheet()->getColumnDimension(chr($col))->setAutoSize(true);
+				}
+			    //Cell Style
+			    $styleArray = array(
+			        'borders' => array(
+			            'allborders' => array(
+			                'style' => PHPExcel_Style_Border::BORDER_THIN
+			            )
+			        )
+			    );
+			    $objPHPExcel->getActiveSheet()->getStyle('A1:E'.$maxrow)->applyFromArray($styleArray);
+			    //Save as an Excel BIFF (xls) file
+			    $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel,'Excel2007');
+
+			    header('Content-Type: application/vnd.ms-excel');
+			    header('Content-Disposition: attachment;filename="Search Result.xlsx"');
+			    header('Cache-Control: max-age=0');
+
+			    $objWriter->save('php://output');
+			    exit();
+		     }
+		     elseif($userdata['previledge']=='1')
+		     {
+		     	redirect('admin');
+		     }
+	   }
+	   else
+	   {
+	     redirect('loginform');
+	   }
+	}
+
 	public function searchcustomer()
 	{
 		if($this->session->userdata('logged_in'))
@@ -1035,6 +1336,8 @@ public function user()
 				$opsi = $this->input->get('opsi1');
 				$nama = strtolower($this->input->get('customer'));
 				$data['value'] = 6;
+				$data['nama'] = $nama;
+				$data['opsi'] = $opsi;
 
 				if($opsi=='1')
 				{
@@ -1063,6 +1366,103 @@ public function user()
 	     redirect('loginform');
 	   }
 
+	}
+
+	public function downloadsearchcustomer()
+	{
+		if($this->session->userdata('logged_in'))
+	    {
+			 $session_data = $this->session->userdata('logged_in');
+		     $userdata['previledge'] = $session_data['previledge'];
+		     if($userdata['previledge']=='0')
+		     {
+		     	$this->load->library('excel');
+		     	$this->load->model('user');
+		     	$nama =  $this->uri->segment(2);
+  				$opsi =  $this->uri->segment(3);
+
+				$data = array();
+				if($opsi=='1')
+				{
+					$data = $this->user->getsearchcustomer($nama);	
+				}
+				elseif($opsi=='2')
+				{
+					$data = $this->user->getsearchcustomers($nama,'0');	
+				}
+				elseif($opsi=='3')
+				{
+					$data = $this->user->getsearchcustomers($nama, '1');	
+				}
+				$count = count($data);
+
+				$objPHPExcel = new PHPExcel();
+			    $objPHPExcel->getActiveSheet()->setTitle("Search Result");
+			    //Loop Heading
+			    $heading=array('No','Nomor Telepon','Tanggal Case','Nama CC','Nama AM');
+			    $rowNumberH = 1;
+			    $colH = 'A';
+
+			    foreach($heading as $h){
+			        $objPHPExcel->getActiveSheet()->setCellValue($colH.$rowNumberH,$h);
+			        $colH++;    
+			    }
+			    //Loop Result
+			    $maxrow=$count+1;
+			    $row = 2;
+			    $no = 1;
+		        foreach($data as $n){
+		            //$numnil = (float) str_replace(',','.',$n->nilai);
+		            $objPHPExcel->getActiveSheet()->setCellValue('A'.$row,$no);
+		            $objPHPExcel->getActiveSheet()->setCellValue('B'.$row,$n->TELEPHONE_NUMBER);
+		            $objPHPExcel->getActiveSheet()->setCellValue('C'.$row,date('d-M-Y',strtotime($n->CASE_TIME)));
+		            $objPHPExcel->getActiveSheet()->setCellValueExplicit('D'.$row,$n->CUSTOMER);
+		            $objPHPExcel->getActiveSheet()->setCellValueExplicit('E'.$row,$n->AM);
+		            $row++;
+		            $no++;
+		        }
+			    
+
+			    $header = 'a1:e1';
+				$objPHPExcel->getActiveSheet()->getStyle($header)->getFill()->setFillType(\PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setARGB('00ffff00');
+				$style = array(
+				    'font' => array('bold' => true,),
+				    'alignment' => array('horizontal' => \PHPExcel_Style_Alignment::HORIZONTAL_CENTER,),
+				    );
+				$objPHPExcel->getActiveSheet()->getStyle($header)->applyFromArray($style);
+
+				for ($col = ord('a'); $col <= ord('e'); $col++)
+				{
+    				$objPHPExcel->getActiveSheet()->getColumnDimension(chr($col))->setAutoSize(true);
+				}
+			    //Cell Style
+			    $styleArray = array(
+			        'borders' => array(
+			            'allborders' => array(
+			                'style' => PHPExcel_Style_Border::BORDER_THIN
+			            )
+			        )
+			    );
+			    $objPHPExcel->getActiveSheet()->getStyle('A1:E'.$maxrow)->applyFromArray($styleArray);
+			    //Save as an Excel BIFF (xls) file
+			    $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel,'Excel2007');
+
+			    header('Content-Type: application/vnd.ms-excel');
+			    header('Content-Disposition: attachment;filename="Search Result.xlsx"');
+			    header('Cache-Control: max-age=0');
+
+			    $objWriter->save('php://output');
+			    exit();
+		     }
+		     elseif($userdata['previledge']=='1')
+		     {
+		     	redirect('admin');
+		     }
+	   }
+	   else
+	   {
+	     redirect('loginform');
+	   }
 	}
 
 	public function listprofile()
