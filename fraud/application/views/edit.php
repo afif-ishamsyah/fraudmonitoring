@@ -52,7 +52,7 @@
             <div class="box-footer">
               <div class="form-group">
                 <div class="pull-right">
-                  <a href="<?php echo site_url("cases/$nomor->ID_CASE"); ?>" type="button" class="btn btn-danger" >Cancel</a>
+                  <a href="javascript:void(0)" onclick="location.href='<?php echo site_url("cases/$nomor->ID_CASE"); ?>';" type="button" class="btn btn-danger" >Cancel</a>
                   <button type="submit" class="btn btn-primary">Check</button>
                 </div>
               </div>
@@ -140,7 +140,7 @@
                 <div class="box-footer">
                   <div class="form-group">
                     <div class="pull-right">
-                      <a href="<?php echo site_url("cases/$nomor->ID_CASE"); ?>" type="button" class="btn btn-danger" >Cancel</a>
+                      <a href="javascript:void(0)" onclick="location.href='<?php echo site_url("cases/$nomor->ID_CASE"); ?>';" type="button" class="btn btn-danger" >Cancel</a>
                       <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Update</button>
                     </div>
                   </div>

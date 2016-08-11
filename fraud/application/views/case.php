@@ -93,7 +93,7 @@
                 <a type="button" class="btn btn-danger center-block" data-toggle="modal" data-target="#myModal"><i class="fa fa-plus"></i> <span>Add Activity</span></a>
                 </div>
                 <div class="col-md-4">
-                <a href="<?php echo site_url("editingprofile/$cases->ID_CASE"); ?>" type="button" class="btn btn-danger center-block"><i class="fa fa-edit"></i> <span>Edit Profile</span></a>
+                <a href="javascript:void(0)" onclick="location.href='<?php echo site_url("editingprofile/$cases->ID_CASE"); ?>';" type="button" class="btn btn-danger center-block"><i class="fa fa-edit"></i> <span>Edit Profile</span></a>
                 </div>
                 <?php endif; ?>
                 <div class="col-md-4">
@@ -148,7 +148,7 @@
                 <div class="form-group">
                   <label class="control-label col-sm-5">Evidence:</label>
                   <div class="col-sm-7">
-                    <a href="<?php echo site_url("getcase/$cases->FILENAME"); ?>" type="button" class="btn btn-primary btn-xs"><i class="fa fa-download"></i> <span>Download Evidence</span></a>
+                    <a href="javascript:void(0)" onclick="location.href='<?php echo site_url("getcase/$cases->FILENAME"); ?>';" type="button" class="btn btn-primary btn-xs"><i class="fa fa-download"></i> <span>Download Evidence</span></a>
                   </div>
                 </div>
             </div>
@@ -176,7 +176,7 @@
                         <td><?php echo date('d-m-Y',strtotime($act->TANGGAL)); ?></td>
                         <td><?php echo $act->TYPE; ?></td>
                         <td><?php echo $act->DESCR; ?></td>
-                        <td><a href="<?php echo site_url("getact/$act->FILENAME"); ?>" type="get" class="btn btn-danger">View</a></td>
+                        <td><a href="javascript:void(0)" onclick="location.href='<?php echo site_url("getact/$act->FILENAME"); ?>';" type="get" class="btn btn-danger">View</a></td>
                       </tr>
                       <?php endforeach; ?>
                       </tbody>

@@ -149,7 +149,7 @@
                             </div>
                             <div class="modal-footer">
                               <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-                              <a href="<?php echo site_url("changecaseparam/$casepar->ID_PARAMETER"); ?>" type="submit" class="btn btn-success">Yes</a>
+                              <a href="javascript:void(0)" onclick="location.href='<?php echo site_url("changecaseparam/$casepar->ID_PARAMETER"); ?>';" type="submit" class="btn btn-success">Yes</a>
                             </div>
                           </div>
                         </div>
@@ -167,7 +167,7 @@
                             </div>
                             <div class="modal-footer">
                               <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-                              <a href="<?php echo site_url("changecaseparam/$casepar->ID_PARAMETER"); ?>" type="submit" class="btn btn-success">Yes</a>
+                              <a href="javascript:void(0)" onclick="location.href='<?php echo site_url("changecaseparam/$casepar->ID_PARAMETER"); ?>';" type="submit" class="btn btn-success">Yes</a>
                             </div>
                           </div>
                         </div>
@@ -258,7 +258,7 @@
                             </div>
                             <div class="modal-footer">
                               <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-                              <a href="<?php echo site_url("changeactparam/$actpar->ID_PARAMETER"); ?>" type="submit" class="btn btn-success">Yes</a>
+                              <a href="javascript:void(0)" onclick="location.href='<?php echo site_url("changeactparam/$actpar->ID_PARAMETER"); ?>';" type="submit" class="btn btn-success">Yes</a>
                             </div>
                           </div>
                         </div>
@@ -276,7 +276,7 @@
                             </div>
                             <div class="modal-footer">
                               <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-                              <a href="<?php echo site_url("changeactparam/$actpar->ID_PARAMETER"); ?>" type="submit" class="btn btn-success">Yes</a>
+                              <a href="javascript:void(0)" onclick="location.href='<?php echo site_url("changeactparam/$actpar->ID_PARAMETER"); ?>';" type="submit" class="btn btn-success">Yes</a>
                             </div>
                           </div>
                         </div>

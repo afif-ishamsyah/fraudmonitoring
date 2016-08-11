@@ -246,22 +246,22 @@
                 <div class="box-header">
                   <h3 class="box-title">List Case</h3>
                   <?php if($value==1): ?>
-                  <a href="<?php echo site_url("downloadsearch"); ?>"type="get" class="btn btn-success pull-right"><i class="fa fa-download"></i> <span>Download Result</span></a>
+                  <a href="javascript:void(0)" onclick="location.href='<?php echo site_url("downloadsearch"); ?>';" type="get" class="btn btn-success pull-right"><i class="fa fa-download"></i> <span>Download Result</span></a>
                    <?php endif; ?>
                    <?php if($value==2): ?>
-                  <a href="<?php echo site_url("downloadsearchnumber/$telephone/$opsi"); ?>"type="get" class="btn btn-success pull-right"><i class="fa fa-download"></i> <span>Download Result</span></a>
+                  <a href="javascript:void(0)" onclick="location.href='<?php echo site_url("downloadsearchnumber/$telephone/$opsi"); ?>';"  type="get" class="btn btn-success pull-right"><i class="fa fa-download"></i> <span>Download Result</span></a>
                    <?php endif; ?>
                    <?php if($value==3): ?>
-                  <a href="<?php echo site_url("downloadsearchdate/$startdate/$enddate/$opsi"); ?>"type="get" class="btn btn-success pull-right"><i class="fa fa-download"></i> <span>Download Result</span></a>
+                  <a href="javascript:void(0)" onclick="location.href='<?php echo site_url("downloadsearchdate/$startdate/$enddate/$opsi"); ?>';"  type="get" class="btn btn-success pull-right"><i class="fa fa-download"></i> <span>Download Result</span></a>
                    <?php endif; ?>
                     <?php if($value==4): ?>
-                  <a href="<?php echo site_url("downloadsearchinputdate/$startdate/$enddate/$opsi"); ?>"type="get" class="btn btn-success pull-right"><i class="fa fa-download"></i> <span>Download Result</span></a>
+                  <a href="javascript:void(0)" onclick="location.href='<?php echo site_url("downloadsearchinputdate/$startdate/$enddate/$opsi"); ?>';"  type="get" class="btn btn-success pull-right"><i class="fa fa-download"></i> <span>Download Result</span></a>
                    <?php endif; ?>
                     <?php if($value==5): ?>
-                  <a href="<?php echo site_url("downloadsearcham/$nama/$opsi"); ?>"type="get" class="btn btn-success pull-right"><i class="fa fa-download"></i> <span>Download Result</span></a>
+                  <a href="javascript:void(0)" onclick="location.href='<?php echo site_url("downloadsearcham/$nama/$opsi"); ?>';"  type="get" class="btn btn-success pull-right"><i class="fa fa-download"></i> <span>Download Result</span></a>
                    <?php endif; ?>
                     <?php if($value==6): ?>
-                  <a href="<?php echo site_url("downloadsearchcustomer/$nama/$opsi"); ?>"type="get" class="btn btn-success pull-right"><i class="fa fa-download"></i> <span>Download Result</span></a>
+                  <a href="javascript:void(0)" onclick="location.href='<?php echo site_url("downloadsearchcustomer/$nama/$opsi"); ?>';"  type="get" class="btn btn-success pull-right"><i class="fa fa-download"></i> <span>Download Result</span></a>
                    <?php endif; ?>
                 </div><!-- /.box-header -->
                 <div class="box-body">
@@ -285,10 +285,10 @@
                         <td><?php echo $number->AM; ?></td>
                         <td><?php echo $number->LAST_ACTIVITY; ?></td>
                         <?php if($number->STATUS=='0'): ?>
-                        <td><a href="<?php echo site_url("cases/$number->ID_CASE"); ?>"type="get" class="btn btn-danger">Update</a></td>
+                        <td><a href="javascript:void(0)" onclick="location.href='<?php echo site_url("cases/$number->ID_CASE"); ?>';" type="get" class="btn btn-danger">Update</a></td>
                         <?php endif; ?>
                         <?php if($number->STATUS=='1'): ?>
-                        <td><a href="<?php echo site_url("cases/$number->ID_CASE"); ?>"type="get" class="btn btn-success">View</a></td>
+                        <td><a href="javascript:void(0)" onclick="location.href='<?php echo site_url("cases/$number->ID_CASE"); ?>';" type="get" class="btn btn-success">View</a></td>
                         <?php endif; ?>
                       </tr>
                       <?php endforeach; ?>
