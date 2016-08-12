@@ -30,7 +30,7 @@
 
       function countperparam()
       {
-      	$this->db->select('KASUS.CASE_PARAMETER, COUNT(KASUS.ID_CASE) AS TOTAL')
+      	$this->db->select('KASUS.CASE_PARAMETER, COUNT({F}KASUS.ID_CASE) AS TOTAL')
       	    ->from('KASUS')
       	    ->group_by('KASUS.CASE_PARAMETER')
       	    ->order_by('KASUS.CASE_PARAMETER','ASC');
@@ -84,8 +84,8 @@
 	  	$this->db->select('KASUS.ID_CASE, PROFIL.TELEPHONE_NUMBER, PROFIL.CUSTOMER, PROFIL.AM, KASUS.CASE_TIME, KASUS.STATUS, KASUS.LAST_ACTIVITY')
 	  			->from('KASUS')
 	  			->join('PROFIL','KASUS.ID_CASE = PROFIL.ID_CASE')
-	  			->where('KASUS.CASE_TIME >=',"TO_DATE('$date','DD/MM/YYYY')", FALSE)
-	  			->where('KASUS.CASE_TIME <=',"TO_DATE('$enddate','DD/MM/YYYY')", FALSE)
+	  			->where('{F}KASUS.CASE_TIME >=',"TO_DATE('$date','DD/MM/YYYY')", FALSE)
+	  			->where('{F}KASUS.CASE_TIME <=',"TO_DATE('$enddate','DD/MM/YYYY')", FALSE)
 	  			->order_by('KASUS.STATUS','ASC');
 	  	$query = $this->db->get();
 	  	return $query->result();
@@ -96,8 +96,8 @@
 	  	$this->db->select('KASUS.ID_CASE, PROFIL.TELEPHONE_NUMBER, PROFIL.CUSTOMER, PROFIL.AM, KASUS.CASE_TIME, KASUS.STATUS, KASUS.LAST_ACTIVITY')
 	  			->from('KASUS')
 	  			->join('PROFIL','KASUS.ID_CASE = PROFIL.ID_CASE')
-	  			->where('KASUS.CASE_TIME >=',"TO_DATE('$date','DD/MM/YYYY')", FALSE)
-	  			->where('KASUS.CASE_TIME <=',"TO_DATE('$enddate','DD/MM/YYYY')", FALSE)
+	  			->where('{F}KASUS.CASE_TIME >=',"TO_DATE('$date','DD/MM/YYYY')", FALSE)
+	  			->where('{F}KASUS.CASE_TIME <=',"TO_DATE('$enddate','DD/MM/YYYY')", FALSE)
 	  			->where('KASUS.STATUS', $status);
 	  	$query = $this->db->get();
 	  	return $query->result();
@@ -108,8 +108,8 @@
 	  	$this->db->select('KASUS.ID_CASE, PROFIL.TELEPHONE_NUMBER, PROFIL.CUSTOMER, PROFIL.AM, KASUS.CASE_TIME, KASUS.STATUS, KASUS.LAST_ACTIVITY')
 	  			->from('KASUS')
 	  			->join('PROFIL','KASUS.ID_CASE = PROFIL.ID_CASE')
-	  			->where('KASUS.INPUT_DATE >=',"TO_DATE('$date','DD/MM/YYYY')", FALSE)
-	  			->where('KASUS.INPUT_DATE <=',"TO_DATE('$enddate','DD/MM/YYYY')", FALSE)
+	  			->where('{F}KASUS.INPUT_DATE >=',"TO_DATE('$date','DD/MM/YYYY')", FALSE)
+	  			->where('{F}KASUS.INPUT_DATE <=',"TO_DATE('$enddate','DD/MM/YYYY')", FALSE)
 	  			->order_by('KASUS.STATUS','ASC');
 	  	$query = $this->db->get();
 	  	return $query->result();
@@ -120,8 +120,8 @@
 	  	$this->db->select('KASUS.ID_CASE, PROFIL.TELEPHONE_NUMBER, PROFIL.CUSTOMER, PROFIL.AM, KASUS.CASE_TIME, KASUS.STATUS, KASUS.LAST_ACTIVITY')
 	  			->from('KASUS')
 	  			->join('PROFIL','KASUS.ID_CASE = PROFIL.ID_CASE')
-	  			->where('KASUS.INPUT_DATE >=',"TO_DATE('$date','DD/MM/YYYY')", FALSE)
-	  			->where('KASUS.INPUT_DATE <=',"TO_DATE('$enddate','DD/MM/YYYY')", FALSE)
+	  			->where('{F}KASUS.INPUT_DATE >=',"TO_DATE('$date','DD/MM/YYYY')", FALSE)
+	  			->where('{F}KASUS.INPUT_DATE <=',"TO_DATE('$enddate','DD/MM/YYYY')", FALSE)
 	  			->where('KASUS.STATUS', $status);
 	  	$query = $this->db->get();
 	  	return $query->result();
@@ -239,19 +239,18 @@
 	  			 ->from('KASUS')
 	  			 ->join('PROFIL','KASUS.ID_CASE = PROFIL.ID_CASE')
 	  			 ->where('PROFIL.TELEPHONE_NUMBER', $number)
-	  			 ->where('KASUS.CASE_TIME <',"TO_DATE('$tanggal','DD/MM/YYYY')", FALSE);
+	  			 ->where('{F}KASUS.CASE_TIME <',"TO_DATE('$tanggal','DD/MM/YYYY')", FALSE);
 	  	$query = $this->db->get();
 	  	return $query->num_rows();
 	  }
 
 	  function gethistory($number, $tanggal)
 	  {
-	  	$this->db->select('KASUS.CASE_TIME, KASUS.DESTINATION_NUMBER, KASUS.DESTINATION, KASUS.DURASI, KASUS.NUMBER_OF_CALL, CASE_PARAMETER.DESCRIPTION')
+	  	$this->db->select('KASUS.CASE_TIME, KASUS.DESTINATION_NUMBER, KASUS.DESTINATION, KASUS.DURASI, KASUS.NUMBER_OF_CALL, KASUS.CASE_PARAMETER AS DESCRIPTION')
 	  			 ->from('KASUS')
 	  			 ->join('PROFIL','KASUS.ID_CASE = PROFIL.ID_CASE')
-	  			 ->join('CASE_PARAMETER','KASUS.CASE_PARAMETER = CASE_PARAMETER.ID_PARAMETER')
 	  			 ->where('PROFIL.TELEPHONE_NUMBER', $number)
-	  			 ->where('KASUS.CASE_TIME <',"TO_DATE('$tanggal','DD/MM/YYYY')", FALSE);
+	  			 ->where('{F}KASUS.CASE_TIME <',"TO_DATE('$tanggal','DD/MM/YYYY')", FALSE);
 	  	$query = $this->db->get();
 	  	return $query->result();
 	  }

@@ -102,7 +102,7 @@
 
       function countperparam()
       {
-        $this->db->select('KASUS.CASE_PARAMETER, COUNT(KASUS.ID_CASE) AS TOTAL')
+        $this->db->select('KASUS.CASE_PARAMETER, COUNT({F}KASUS.ID_CASE) AS TOTAL')
             ->from('KASUS')
             ->group_by('KASUS.CASE_PARAMETER')
             ->order_by('KASUS.CASE_PARAMETER','ASC');
@@ -232,6 +232,23 @@
       $this->db->where('ID_PARAMETER', $id);
       $this->db->update('ACTIVITY_PARAMETER');
     }
+
+
+  function actparamexist($parameter ,$akronim)
+  {
+    $this->db->select('ID_PARAMETER')->from('ACTIVITY_PARAMETER')
+                                     ->where('AKRONIM', strtoupper($akronim))
+                                     ->or_where('DESCRIPTION',strtoupper($parameter));
+    $query = $this->db->get();
+      if($query->num_rows() > 0)
+      {
+        return 1;
+      }
+      else
+      {
+        return 0;
+      }
+  }
 
   function actparamexist1($id ,$parameter)
   {

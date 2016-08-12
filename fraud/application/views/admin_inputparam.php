@@ -41,7 +41,7 @@
             <div class="form-group" style="margin-bottom:113px;">
               <label class="control-label col-sm-2" for="namaparameter">Name:</label>
               <div class="col-sm-9">
-                <input class="form-control" name="parameter" id="namaparameter" placeholder="Masukkan Nama Parameter" pattern=".{1,30}" required>
+                <input class="form-control" name="parameter" pattern=".{1,15}" id="namaparameter" placeholder="Masukkan Nama Parameter" pattern=".{1,30}" required>
               </div>
             </div>
 
@@ -72,7 +72,7 @@
             <div class="form-group">
               <label class="control-label col-sm-2" for="namaparameter">Name:</label>
               <div class="col-sm-9">
-                <input class="form-control" name="parameter" id="namaparameter" placeholder="Masukkan Nama Parameter" pattern=".{1,30}" required>
+                <input class="form-control" name="parameter" id="namaparameter" pattern=".{1,15}" placeholder="Masukkan Nama Parameter" pattern=".{1,30}" required>
               </div>
             </div>
 
@@ -184,7 +184,7 @@
                                <form class="form-horizontal" role="form" action="<?php echo site_url("editcaseparam"); ?>" method="post" enctype="multipart/form-data"> 
                                   <div class="form-group">
                                       <label class="control-label">Case Name:</label>
-                                      <input type="text" name="casename" class="form-control" value="<?php echo $casepar->DESCRIPTION;?>" required>
+                                      <input type="text" name="casename" pattern=".{1,15}" class="form-control" value="<?php echo $casepar->DESCRIPTION;?>" required>
                                       <input class="form-control" type="hidden" name="idcase" id="idcase" value="<?php echo $casepar->ID_PARAMETER; ?>">
                                       <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>">
 
@@ -293,14 +293,14 @@
                               <form class="form-horizontal" role="form" action="<?php echo site_url("editactparam"); ?>" method="post" enctype="multipart/form-data">
                               <div class="form-group">
                                 <label class="control-label" for="frekueni">Activity Name:</label>
-                                  <input type="text" class="form-control" name="actname" id="actname" value="<?php echo $actpar->DESCRIPTION; ?>" required>
+                                  <input type="text" class="form-control" name="actname" pattern=".{1,15}" id="actname" value="<?php echo $actpar->DESCRIPTION; ?>" required>
                                   <input class="form-control" type="hidden" name="idcase" id="idcase" value="<?php echo $actpar->ID_PARAMETER; ?>">
                                   <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>">
 
                               </div>
                               <div class="form-group">
                                 <label class="control-label" for="frekueni">Activity Code:</label>
-                                  <input type="text" class="form-control" name="actcode" id="actcode" value="<?php echo $actpar->AKRONIM; ?>" required>                              
+                                  <input type="text" class="form-control" name="actcode" id="actcode" pattern=".{3,3}" value="<?php echo $actpar->AKRONIM; ?>" required>                              
                               </div>
                             </div>
                             <div class="modal-footer">
