@@ -7,37 +7,6 @@
    		$this->db2 = $this->load->database('oracle2', TRUE);
       }
 
-      function countopen()
-      {
-      	$this->db->select('ID_CASE')->from('KASUS')->where('STATUS', '0');
-      	$query = $this->db->get();
-	  	return $query->num_rows();
-      }
-
-      function countclose()
-      {
-      	$this->db->select('ID_CASE')->from('KASUS')->where('STATUS', '1');
-      	$query = $this->db->get();
-	  	return $query->num_rows();
-      }
-
-      function countperyear($year, $status)
-      {
-      	$this->db->select('ID_CASE')->from('KASUS')->where('EXTRACT(YEAR from CASE_TIME) =', $year)->where('STATUS',$status);
-      	$query = $this->db->get();
-	  	return $query->num_rows();
-      }
-
-      function countperparam()
-      {
-      	$this->db->select('KASUS.CASE_PARAMETER, COUNT({F}KASUS.ID_CASE) AS TOTAL')
-      	    ->from('KASUS')
-      	    ->group_by('KASUS.CASE_PARAMETER')
-      	    ->order_by('KASUS.CASE_PARAMETER','ASC');
-      	$query = $this->db->get();
-	  	return $query->result();
-      }
-
       function getcaseparam()
 	  {
 	  	$this->db->select('ID_PARAMETER, DESCRIPTION, AKTIF')
@@ -175,9 +144,27 @@
 	  {
 	  	$this->db2->select('DES_PROFILE_FASTEL_AM.NOTEL AS NOTEL, DES_PROFILE_FASTEL_AM.NIP_NAS AS NIPNAS, DES_PROFILE_FASTEL_AM.STANDARD_NAME AS NAMACC, DES_PROFILE_FASTEL_AM.ALAMAT_DOSSIER AS ALAMAT, DES_PROFILE_FASTEL_AM.NIK_AM AS NIKAM, DES_PROFILE_FASTEL_AM.NAMA_AM AS NAMAAM, DES_PROFILE_FASTEL_AM.SEGMENT_6_LNAME AS SEGMEN, PMS_SLI_DES_LAST_3_MONTH.RATA_RATA AS AVERAGE')
 	  			->from('DES_PROFILE_FASTEL_AM')
-	  			->join('PMS_SLI_DES_LAST_3_MONTH','DES_PROFILE_FASTEL_AM.NOTEL = PMS_SLI_DES_LAST_3_MONTH.TELP');
+	  			->join('PMS_SLI_DES_LAST_3_MONTH','DES_PROFILE_FASTEL_AM.NOTEL = PMS_SLI_DES_LAST_3_MONTH.TELP','left');
 	  	$query = $this->db2->get();
 	  	return $query->result();
+	  }
+
+	   function limitgetlistprofile($limit, $start)
+	  {
+	  	$this->db2->limit($limit, $start);
+	  	$this->db2->select('DES_PROFILE_FASTEL_AM.NOTEL AS NOTEL, DES_PROFILE_FASTEL_AM.NIP_NAS AS NIPNAS, DES_PROFILE_FASTEL_AM.STANDARD_NAME AS NAMACC, DES_PROFILE_FASTEL_AM.ALAMAT_DOSSIER AS ALAMAT, DES_PROFILE_FASTEL_AM.NIK_AM AS NIKAM, DES_PROFILE_FASTEL_AM.NAMA_AM AS NAMAAM, DES_PROFILE_FASTEL_AM.SEGMENT_6_LNAME AS SEGMEN, PMS_SLI_DES_LAST_3_MONTH.RATA_RATA AS AVERAGE')
+	  			->from('DES_PROFILE_FASTEL_AM')
+	  			->join('PMS_SLI_DES_LAST_3_MONTH','DES_PROFILE_FASTEL_AM.NOTEL = PMS_SLI_DES_LAST_3_MONTH.TELP','left');
+	  	$query = $this->db2->get();
+	  	if ($query->num_rows() > 0) 
+	  	{
+            foreach ($query->result() as $row) 
+            {
+                $data[] = $row;
+            }
+            return $data;
+        }
+        return false;
 	  }
 
 	  function getnumber($id)
@@ -259,7 +246,7 @@
 	  {
 	  	$this->db2->select('DES_PROFILE_FASTEL_AM.NIP_NAS AS NIPNAS, DES_PROFILE_FASTEL_AM.STANDARD_NAME AS NAMACC, DES_PROFILE_FASTEL_AM.ALAMAT_DOSSIER AS ALAMAT, DES_PROFILE_FASTEL_AM.NIK_AM AS NIKAM, DES_PROFILE_FASTEL_AM.NAMA_AM AS NAMAAM, DES_PROFILE_FASTEL_AM.SEGMENT_6_LNAME AS SEGMEN, PMS_SLI_DES_LAST_3_MONTH.RATA_RATA AS AVERAGE')
 	  			->from('DES_PROFILE_FASTEL_AM')
-	  			->join('PMS_SLI_DES_LAST_3_MONTH','DES_PROFILE_FASTEL_AM.NOTEL = PMS_SLI_DES_LAST_3_MONTH.TELP')
+	  			->join('PMS_SLI_DES_LAST_3_MONTH','DES_PROFILE_FASTEL_AM.NOTEL = PMS_SLI_DES_LAST_3_MONTH.TELP','left')
 	  			->where('DES_PROFILE_FASTEL_AM.NOTEL',$mainnumber);
 	  	$query = $this->db2->get();
 	  	return $query->row();

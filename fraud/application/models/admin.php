@@ -79,38 +79,6 @@
         return $query->row()->USERNAME;
       }
 
-      function countopen()
-      {
-      	$this->db->select('ID_CASE')->from('KASUS')->where('STATUS', '0');
-      	$query = $this->db->get();
-	  	return $query->num_rows();
-      }
-
-       function countclose()
-      {
-      	$this->db->select('ID_CASE')->from('KASUS')->where('STATUS', '1');
-      	$query = $this->db->get();
-	  	return $query->num_rows();
-      }
-
-      function countperyear($year, $status)
-      {
-      	$this->db->select('ID_CASE')->from('KASUS')->where('EXTRACT(YEAR from CASE_TIME) =', $year)->where('STATUS',$status);
-      	$query = $this->db->get();
-	  	return $query->num_rows();
-      }
-
-      function countperparam()
-      {
-        $this->db->select('KASUS.CASE_PARAMETER, COUNT({F}KASUS.ID_CASE) AS TOTAL')
-            ->from('KASUS')
-            ->group_by('KASUS.CASE_PARAMETER')
-            ->order_by('KASUS.CASE_PARAMETER','ASC');
-        $query = $this->db->get();
-      return $query->result();
-      }
-
-
        //------------------------------------------------------------------------Case Parameter--------------------
 
     function getcaseparam()

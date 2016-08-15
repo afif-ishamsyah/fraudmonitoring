@@ -93,3 +93,28 @@
         </nav>
       </header>
       <!-- Left side column. contains the logo and sidebar -->
+
+      <aside class="main-sidebar">
+      <section class="sidebar">
+          <!-- sidebar menu: : style can be found in sidebar.less -->
+          <ul class="sidebar-menu">
+            <?php if($previledge=='1'): ?>
+            <li  class="active"><a href="<?php echo site_url("home"); ?>"><i class="fa fa-home"></i><span>Home</span></a></li>
+            <li><a href="<?php echo site_url("userform"); ?>"><i class="fa fa-edit"></i> <span>Create User</span></a></li>
+            <li><a href="<?php echo site_url("listuser"); ?>"><i class="fa fa-search"></i> <span>List User</span></a></li>
+            <li><a href="<?php echo site_url("paramform"); ?>"><i class="fa fa-plus "></i> <span>Input Parameter</span></a></li>
+            <?php endif; ?>
+             <?php if($previledge=='0'): ?>
+             <li class="active"><a href="<?php echo site_url("home"); ?>"><i class="fa fa-home"></i><span>Home</span></a></li>
+            <li><a href="<?php echo site_url("caseform"); ?>"><i class="fa fa-edit"></i><span>Input Case</span></a></li>
+            <li><a href="<?php echo site_url("search"); ?>"><i class="fa fa-search"></i> <span>Search Case</span></a></li>
+            <li><a href="<?php echo site_url("listprofile"); ?>"><i class="fa fa-list"></i> <span>List Profile</span></a></li>
+            <?php endif; ?>
+          </ul>
+          </ul>
+        </section>
+        <!-- /.sidebar -->
+      </aside>
+    
+                    
+      

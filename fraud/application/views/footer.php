@@ -43,11 +43,12 @@
 
 
     <script>
-      $('#repass').bind("cut copy paste",function(e) {
+     
+     $(function () {
+
+       $('#repass').bind("cut copy paste",function(e) {
        e.preventDefault();
        });
-
-     $(function () {
 
         $( "#datepicker" ).datepicker({constrainInput: true, dateFormat:"dd-mm-yy"});
         $( "#datepicker2" ).datepicker({constrainInput: true, dateFormat:"dd-mm-yy"});
@@ -107,6 +108,7 @@
           "info": true,
           "autoWidth": false
         });
+
       });
      </script>
 

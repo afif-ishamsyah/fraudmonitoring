@@ -10,17 +10,8 @@ class Fraud extends CI_Controller {
 	{
 		if($this->session->userdata('logged_in'))
 	    {
-		     $session_data = $this->session->userdata('logged_in');
-		     $previledge = $session_data['previledge'];
-		     if($previledge=='1')
-		     {
-		     	redirect('admin');
-		     }
-		     elseif($previledge=='0')
-		     {
-		     	redirect('user');
-		     }
-	   }
+		     redirect('home');
+	    }
 	   else
 	   {
 	   		$this->load->view('login');
@@ -68,21 +59,161 @@ class Fraud extends CI_Controller {
 	{
 	   if($this->session->userdata('logged_in'))
 	   {
-	     $session_data = $this->session->userdata('logged_in');
-	     $previledge = $session_data['previledge'];
-	     if($previledge=='1')
-	     {
-	     	redirect('admin');
-	     }
-	     elseif($previledge=='0')
-	     {
-	     	redirect('user');
-	     }
+	    	$session_data = $this->session->userdata('logged_in');
+	     	$userdata['previledge'] = $session_data['previledge'];
+	     	$userdata['username'] = $session_data['username'];
+
+	    	$this->load->model('general');
+
+			$data=array();
+
+			$data['tahun1'] = date("Y");
+			$data['tahun2'] = date("Y")-1;
+			$data['tahun3'] = date("Y")-2;
+			$data['tahun4'] = date("Y")-3;
+			$data['tahun5'] = date("Y")-4;
+
+			$data['unfinish'] = $this->general->countopen();
+			$data['finish'] = $this->general->countclose();
+
+			$data['closed1'] = $this->general->countperyear($data['tahun1'], '1');
+			$data['open1'] = $this->general->countperyear($data['tahun1'], '0');
+
+			$data['closed2'] = $this->general->countperyear($data['tahun2'], '1');
+			$data['open2'] = $this->general->countperyear($data['tahun2'], '0');
+
+			$data['closed3'] = $this->general->countperyear($data['tahun3'], '1');
+			$data['open3'] = $this->general->countperyear($data['tahun3'], '0');
+
+			$data['closed4'] = $this->general->countperyear($data['tahun4'], '1');
+			$data['open4'] = $this->general->countperyear($data['tahun4'], '0');
+
+			$data['closed5'] = $this->general->countperyear($data['tahun5'], '1');
+			$data['open5'] = $this->general->countperyear($data['tahun5'], '0');
+
+			$data['parameter'] = $this->general->countperparam();
+
+			$this->load->view('headerhome',$userdata); 
+			$this->load->view('home');
+			$this->load->view('footerhome',$data); 
+	     
 	   }
 	   else
 	   {
 	     redirect('loginform');
 	   }
+	}
+
+	
+	public function monthlist()
+	{
+		
+	 	if($this->session->userdata('logged_in'))
+	    {
+		    $session_data = $this->session->userdata('logged_in');
+	     	$userdata['previledge'] = $session_data['previledge'];
+	     	$userdata['username'] = $session_data['username'];
+
+	    	$this->load->model('general');
+	    	$data = array();
+
+	    	if ($_SERVER['REQUEST_METHOD'] === 'POST') 
+	    	{
+	    		$data['tahun'] = $this->input->post('year');
+	    	}
+	    	elseif ($_SERVER['REQUEST_METHOD'] === 'GET')
+			{
+				$data['tahun'] = date("Y");
+			}
+			$data['tahun1'] = date("Y");
+			$data['tahun2'] = date("Y")-1;
+			$data['tahun3'] = date("Y")-2;
+			$data['tahun4'] = date("Y")-3;
+			$data['tahun5'] = date("Y")-4;
+
+			
+			$data['bulan1'] = date('m', mktime(0,0,0,1));
+			$data['bulan2'] = date('m', mktime(0,0,0,2));
+			$data['bulan3'] = date('m', mktime(0,0,0,3));
+			$data['bulan4'] = date('m', mktime(0,0,0,4));
+			$data['bulan5'] = date('m', mktime(0,0,0,5));
+			$data['bulan6'] = date('m', mktime(0,0,0,6));
+			$data['bulan7'] = date('m', mktime(0,0,0,7));
+			$data['bulan8'] = date('m', mktime(0,0,0,8));
+			$data['bulan9'] = date('m', mktime(0,0,0,9));
+			$data['bulan10'] = date('m', mktime(0,0,0,10));
+			$data['bulan11'] = date('m', mktime(0,0,0,11));
+			$data['bulan12'] = date('m', mktime(0,0,0,12));
+
+			$data['monthopen1'] = $this->general->countpermonth($data['bulan1'], $data['tahun'],'0');
+			$data['monthopen2'] = $this->general->countpermonth($data['bulan2'], $data['tahun'],'0');
+			$data['monthopen3'] = $this->general->countpermonth($data['bulan3'], $data['tahun'],'0');
+			$data['monthopen4'] = $this->general->countpermonth($data['bulan4'], $data['tahun'],'0');
+			$data['monthopen5'] = $this->general->countpermonth($data['bulan5'], $data['tahun'],'0');
+			$data['monthopen6'] = $this->general->countpermonth($data['bulan6'], $data['tahun'],'0');
+			$data['monthopen7'] = $this->general->countpermonth($data['bulan7'], $data['tahun'],'0');
+			$data['monthopen8'] = $this->general->countpermonth($data['bulan8'], $data['tahun'],'0');
+			$data['monthopen9'] = $this->general->countpermonth($data['bulan9'], $data['tahun'],'0');
+			$data['monthopen10'] = $this->general->countpermonth($data['bulan10'], $data['tahun'],'0');
+			$data['monthopen11'] = $this->general->countpermonth($data['bulan11'], $data['tahun'],'0');
+			$data['monthopen12'] = $this->general->countpermonth($data['bulan12'], $data['tahun'],'0');
+
+			$data['monthclose1'] = $this->general->countpermonth($data['bulan1'], $data['tahun'],'1');
+			$data['monthclose2'] = $this->general->countpermonth($data['bulan2'], $data['tahun'],'1');
+			$data['monthclose3'] = $this->general->countpermonth($data['bulan3'], $data['tahun'],'1');
+			$data['monthclose4'] = $this->general->countpermonth($data['bulan4'], $data['tahun'],'1');
+			$data['monthclose5'] = $this->general->countpermonth($data['bulan5'], $data['tahun'],'1');
+			$data['monthclose6'] = $this->general->countpermonth($data['bulan6'], $data['tahun'],'1');
+			$data['monthclose7'] = $this->general->countpermonth($data['bulan7'], $data['tahun'],'1');
+			$data['monthclose8'] = $this->general->countpermonth($data['bulan8'], $data['tahun'],'1');
+			$data['monthclose9'] = $this->general->countpermonth($data['bulan9'], $data['tahun'],'1');
+			$data['monthclose10'] = $this->general->countpermonth($data['bulan10'], $data['tahun'],'1');
+			$data['monthclose11'] = $this->general->countpermonth($data['bulan11'], $data['tahun'],'1');
+			$data['monthclose12'] = $this->general->countpermonth($data['bulan12'], $data['tahun'],'1');
+
+
+			$this->load->view('headerhome',$userdata); 
+			$this->load->view('detail_per_bulan',$data);
+		} 
+		else
+	   {
+	     redirect('loginform');
+	   }
+	}
+
+	public function agelist()
+	{
+		
+	 	if($this->session->userdata('logged_in'))
+	    {
+		    $session_data = $this->session->userdata('logged_in');
+	     	$userdata['previledge'] = $session_data['previledge'];
+	     	$userdata['username'] = $session_data['username'];
+
+	    	$this->load->model('general');
+	    	$data = array();
+	    	$data['open1'] = $this->general->openunder1month();
+	    	$data['open2'] = $this->general->openunder1_3month();
+	    	$data['open3'] = $this->general->openunder3_6month();
+	    	$data['open4'] = $this->general->openunder6_12month();
+	    	$data['open5'] = $this->general->openover1year();
+
+
+	    	$data['close1'] = $this->general->closeunder1month();
+	    	$data['close2'] = $this->general->closeunder1_3month();
+	    	$data['close3'] = $this->general->closeunder3_6month();
+	    	$data['close4'] = $this->general->closeunder6_12month();
+	    	$data['close5'] = $this->general->closeover1year();
+	    	
+
+			$this->load->view('headerhome',$userdata); 
+			$this->load->view('detail_per_umur',$data);
+		} 
+		else
+	   {
+	     redirect('loginform');
+	   }
+		
 	}
 
 	public function logout()
@@ -100,61 +231,6 @@ class Fraud extends CI_Controller {
 	}
 //---------------------------------------------------------------------Fungsi Admin------------------------------------------------------
 
-	public function admin()
-	{
-		if($this->session->userdata('logged_in'))
-	    {
-		     $session_data = $this->session->userdata('logged_in');
-		     $userdata['username'] = $session_data['username'];
-		     $userdata['previledge'] = $session_data['previledge'];
-		     if($userdata['previledge']=='1')
-		     {
-		     	$this->load->model('admin');
-
-				$data=array();
-
-				$data['tahun1'] = date("Y");
-				$data['tahun2'] = date("Y")-1;
-				$data['tahun3'] = date("Y")-2;
-				$data['tahun4'] = date("Y")-3;
-				$data['tahun5'] = date("Y")-4;
-
-				$data['unfinish'] = $this->admin->countopen();
-				$data['finish'] = $this->admin->countclose();
-
-				$data['closed1'] = $this->admin->countperyear($data['tahun1'], '1');
-				$data['open1'] = $this->admin->countperyear($data['tahun1'], '0');
-
-				$data['closed2'] = $this->admin->countperyear($data['tahun2'], '1');
-				$data['open2'] = $this->admin->countperyear($data['tahun2'], '0');
-
-				$data['closed3'] = $this->admin->countperyear($data['tahun3'], '1');
-				$data['open3'] = $this->admin->countperyear($data['tahun3'], '0');
-
-				$data['closed4'] = $this->admin->countperyear($data['tahun4'], '1');
-				$data['open4'] = $this->admin->countperyear($data['tahun4'], '0');
-
-				$data['closed5'] = $this->admin->countperyear($data['tahun5'], '1');
-				$data['open5'] = $this->admin->countperyear($data['tahun5'], '0');
-
-				$data['parameter'] = $this->admin->countperparam();
-
-				$this->load->view('headerhome',$userdata); 
-				$this->load->view('home_admin');
-				$this->load->view('footerhome',$data);  
-		     }
-		     elseif($userdata['previledge']=='0')
-		     {
-		     	redirect('user');
-		     }
-	   }
-	   else
-	   {
-	     redirect('loginform');
-	   }
-		
-	}
-
 	public function userform()
 	{
 		if($this->session->userdata('logged_in'))
@@ -170,7 +246,7 @@ class Fraud extends CI_Controller {
 		     }
 		     elseif($userdata['previledge']=='0')
 		     {
-		     	redirect('user');
+		     	redirect('home');
 		     }
 	   }
 	   else
@@ -199,7 +275,7 @@ class Fraud extends CI_Controller {
 		     }
 		     elseif($userdata['previledge']=='0')
 		     {
-		     	redirect('user');
+		     	redirect('home');
 		     }
 	   }
 	   else
@@ -236,7 +312,7 @@ class Fraud extends CI_Controller {
 		     }
 		     elseif($userdata['previledge']=='0')
 		     {
-		     	redirect('user');
+		     	redirect('home');
 		     }
 	   }
 	   else
@@ -264,7 +340,7 @@ class Fraud extends CI_Controller {
 		     }
 		     elseif($userdata['previledge']=='0')
 		     {
-		     	redirect('user');
+		     	redirect('home');
 		     }
 	   }
 	   else
@@ -383,7 +459,7 @@ class Fraud extends CI_Controller {
 			 }
 		     elseif($userdata['previledge']=='0')
 		     {
-		     	redirect('user');
+		     	redirect('home');
 		     }
 	   }
 	   else
@@ -470,7 +546,7 @@ class Fraud extends CI_Controller {
 
 				if($exist==0)
 				{
-					redirect('admin');
+					redirect('home');
 				}
 
 				$aktif = $this->admin->getcaseaktif($id);
@@ -491,7 +567,7 @@ class Fraud extends CI_Controller {
 		     }
 		     elseif($userdata['previledge']=='0')
 		     {
-		     	redirect('user');
+		     	redirect('home');
 		     }
 	   }
 	   else
@@ -515,7 +591,7 @@ class Fraud extends CI_Controller {
 
 				if($exist==0)
 				{
-					redirect('admin');
+					redirect('home');
 				}
 
 				$aktif = $this->admin->getactaktif($id);
@@ -537,7 +613,7 @@ class Fraud extends CI_Controller {
 		     }
 		     elseif($userdata['previledge']=='0')
 		     {
-		     	redirect('user');
+		     	redirect('home');
 		     }
 	   }
 	   else
@@ -617,61 +693,6 @@ class Fraud extends CI_Controller {
 
 //---------------------------------------------------------Fungsi User------------------------------------------------------------------
 
-
-public function user()
-	{
-		if($this->session->userdata('logged_in'))
-	    {
-		     $session_data = $this->session->userdata('logged_in');
-		     $userdata['username'] = $session_data['username'];
-		     $userdata['previledge'] = $session_data['previledge'];
-		     if($userdata['previledge']=='0')
-		     {
-		     	$this->load->model('user');
-
-				$data=array();
-
-				$data['tahun1'] = date("Y");
-				$data['tahun2'] = date("Y")-1;
-				$data['tahun3'] = date("Y")-2;
-				$data['tahun4'] = date("Y")-3;
-				$data['tahun5'] = date("Y")-4;
-
-				$data['unfinish'] = $this->user->countopen();
-				$data['finish'] = $this->user->countclose();
-
-				$data['closed1'] = $this->user->countperyear($data['tahun1'], '1');
-				$data['open1'] = $this->user->countperyear($data['tahun1'], '0');
-
-				$data['closed2'] = $this->user->countperyear($data['tahun2'], '1');
-				$data['open2'] = $this->user->countperyear($data['tahun2'], '0');
-
-				$data['closed3'] = $this->user->countperyear($data['tahun3'], '1');
-				$data['open3'] = $this->user->countperyear($data['tahun3'], '0');
-
-				$data['closed4'] = $this->user->countperyear($data['tahun4'], '1');
-				$data['open4'] = $this->user->countperyear($data['tahun4'], '0');
-
-				$data['closed5'] = $this->user->countperyear($data['tahun5'], '1');
-				$data['open5'] = $this->user->countperyear($data['tahun5'], '0');
-
-				$data['parameter'] = $this->user->countperparam();
-
-				$this->load->view('headerhome',$userdata); 
-				$this->load->view('home_user');
-				$this->load->view('footerhome',$data);  
-		     }
-		     elseif($userdata['previledge']=='1')
-		     {
-		     	redirect('admin');
-		     }
-	   }
-	   else
-	   {
-	     redirect('loginform');
-	   }
-	}
-
 	public function caseform()
 	{
 		if($this->session->userdata('logged_in'))
@@ -691,7 +712,7 @@ public function user()
 		     }
 		     elseif($userdata['previledge']=='1')
 		     {
-		     	redirect('admin');
+		     	redirect('home');
 		     }
 	   }
 	   else
@@ -722,7 +743,7 @@ public function user()
 		     }
 		     elseif($userdata['previledge']=='1')
 		     {
-		     	redirect('admin');
+		     	redirect('home');
 		     }
 	   }
 	   else
@@ -814,7 +835,7 @@ public function user()
 		     }
 		     elseif($userdata['previledge']=='1')
 		     {
-		     	redirect('admin');
+		     	redirect('home');
 		     }
 	   }
 	   else
@@ -859,7 +880,7 @@ public function user()
 		     }
 		     elseif($userdata['previledge']=='1')
 		     {
-		     	redirect('admin');
+		     	redirect('home');
 		     }
 	   }
 	   else
@@ -965,7 +986,7 @@ public function user()
 		     }
 		     elseif($userdata['previledge']=='1')
 		     {
-		     	redirect('admin');
+		     	redirect('home');
 		     }
 	   }
 	   else
@@ -1012,7 +1033,7 @@ public function user()
 		     }
 		     elseif($userdata['previledge']=='1')
 		     {
-		     	redirect('admin');
+		     	redirect('home');
 		     }
 	   }
 	   else
@@ -1119,7 +1140,7 @@ public function user()
 		     }
 		     elseif($userdata['previledge']=='1')
 		     {
-		     	redirect('admin');
+		     	redirect('home');
 		     }
 	   }
 	   else
@@ -1166,7 +1187,7 @@ public function user()
 		     }
 		     elseif($userdata['previledge']=='1')
 		     {
-		     	redirect('admin');
+		     	redirect('home');
 		     }
 	   }
 	   else
@@ -1273,7 +1294,7 @@ public function user()
 		     }
 		     elseif($userdata['previledge']=='1')
 		     {
-		     	redirect('admin');
+		     	redirect('home');
 		     }
 	   }
 	   else
@@ -1318,7 +1339,7 @@ public function user()
 		     }
 		     elseif($userdata['previledge']=='1')
 		     {
-		     	redirect('admin');
+		     	redirect('home');
 		     }
 	   }
 	   else
@@ -1424,7 +1445,7 @@ public function user()
 		     }
 		     elseif($userdata['previledge']=='1')
 		     {
-		     	redirect('admin');
+		     	redirect('home');
 		     }
 	   }
 	   else
@@ -1469,7 +1490,7 @@ public function user()
 		     }
 		     elseif($userdata['previledge']=='1')
 		     {
-		     	redirect('admin');
+		     	redirect('home');
 		     }
 	   }
 	   else
@@ -1575,7 +1596,7 @@ public function user()
 		     }
 		     elseif($userdata['previledge']=='1')
 		     {
-		     	redirect('admin');
+		     	redirect('home');
 		     }
 	   }
 	   else
@@ -1593,9 +1614,40 @@ public function user()
 		     $userdata['previledge'] = $session_data['previledge'];
 		     if($userdata['previledge']=='0')
 		     {
+		     	$this->load->library("pagination");
 		     	$this->load->model('user');
 				$data = array();
+				// $list = $this->user->getlistprofile();
 				$data['nomor'] = $this->user->getlistprofile();
+				// $config = array();
+		  //       $config["base_url"] = site_url('listprofile'); 
+		  //       $config["total_rows"] = count($list);
+		  //       $config["per_page"] = 15;
+		  //       $config['full_tag_open'] = '<ul class="pagination">';
+		  //       $config['full_tag_close'] = '</ul>';
+		  //       $config['first_link'] = false;
+		  //       $config['last_link'] = false;
+		  //       $config['first_tag_open'] = '<li>';
+		  //       $config['first_tag_close'] = '</li>';
+		  //       $config['prev_link'] = '&laquo';
+		  //       $config['prev_tag_open'] = '<li class="prev">';
+		  //       $config['prev_tag_close'] = '</li>';
+		  //       $config['next_link'] = '&raquo';
+		  //       $config['next_tag_open'] = '<li>';
+		  //       $config['next_tag_close'] = '</li>';
+		  //       $config['last_tag_open'] = '<li>';
+		  //       $config['last_tag_close'] = '</li>';
+		  //       $config['cur_tag_open'] = '<li class="active"><a href="#">';
+		  //       $config['cur_tag_close'] = '</a></li>';
+		  //       $config['num_tag_open'] = '<li>';
+		  //       $config['num_tag_close'] = '</li>';
+
+
+		  //       $this->pagination->initialize($config);
+
+		  //       $page = ($this->uri->segment(2)) ? $this->uri->segment(2) : 0;
+		  //       $data['nomor'] = $this->user->limitgetlistprofile($config["per_page"], $page); 
+		  //       $data['links'] = $this->pagination->create_links();
 
 				$this->load->view('header',$userdata); 
 				$this->load->view('listprofile',$data);
@@ -1603,7 +1655,7 @@ public function user()
 		     }
 		     elseif($userdata['previledge']=='1')
 		     {
-		     	redirect('admin');
+		     	redirect('home');
 		     }
 	   }
 	   else
@@ -1648,7 +1700,7 @@ public function user()
 		     }
 		     elseif($userdata['previledge']=='1')
 		     {
-		     	redirect('admin');
+		     	redirect('home');
 		     }
 	   }
 	   else
@@ -1801,14 +1853,24 @@ public function user()
 
 				 $this->user->inseractivity($data);
 
-				
+				if($status->STATUS=='1')
+				{
 
-				 $casedata = array(
-			                'STATUS' =>  $status->STATUS,
-			                'LAST_ACTIVITY' =>   $status->AKRONIM
-			                );
-
-				 $this->user->insertlastactivity($id ,$casedata);
+					 $casedata = array(
+					 			'FINISH_DATE' => date('d-M-Y'),
+				                'STATUS' =>  $status->STATUS,
+				                'LAST_ACTIVITY' =>   $status->AKRONIM
+				                );
+					 $this->user->insertlastactivity($id ,$casedata);
+				}
+				else
+				{
+					$casedata = array(
+				                'STATUS' =>  $status->STATUS,
+				                'LAST_ACTIVITY' =>   $status->AKRONIM
+				                );
+					 $this->user->insertlastactivity($id ,$casedata);
+				}
 
 				 redirect('cases/'.$id);
 			 }
@@ -1839,7 +1901,7 @@ public function user()
 		     }
 		     elseif($userdata['previledge']=='1')
 		     {
-		     	redirect('admin');
+		     	redirect('home');
 		     }
 	   }
 	   else
@@ -1863,7 +1925,7 @@ public function user()
 		     }
 		     elseif($userdata['previledge']=='1')
 		     {
-		     	redirect('admin');
+		     	redirect('home');
 		     }
 	   }
 	   else
@@ -1914,12 +1976,12 @@ public function user()
 				}
 				elseif($status=='1')
 				{
-					redirect('user');
+					redirect('home');
 				}
 		     }
 		     elseif($userdata['previledge']=='1')
 		     {
-		     	redirect('admin');
+		     	redirect('home');
 		     }
 	   }
 	   else

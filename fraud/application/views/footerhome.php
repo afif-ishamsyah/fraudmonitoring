@@ -34,7 +34,6 @@
           ],
           hideHover: 'auto'
         });
-
         
         var bar = new Morris.Bar({
           element: 'bar-chart',
@@ -76,9 +75,12 @@
             show: true
           }
         });
+
         /*
          * END DONUT CHART
          */
+
+         
       });
       /*
        * Custom Label formatter
