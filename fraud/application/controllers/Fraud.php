@@ -216,6 +216,215 @@ class Fraud extends CI_Controller {
 		
 	}
 
+	public function agedetailopen()
+	{
+		if ($_SERVER['REQUEST_METHOD'] === 'POST') 
+		{
+		 	$session_data = $this->session->userdata('logged_in');
+	     	$userdata['previledge'] = $session_data['previledge'];
+	     	$userdata['username'] = $session_data['username'];
+
+	    	$this->load->model('general');
+	    	$choice = $this->input->post('opsi');
+	    	$data = array();
+	    	if($choice=='0')
+	    	{
+	    		$data['detail'] = $this->general->detailopenunder1month();
+	    		$data['choice'] = '0';
+	    	}
+	    	elseif($choice=='1')
+	    	{
+	    		$data['detail'] = $this->general->detailopenunder1_3month();
+	    		$data['choice'] = '1';
+	    	}
+	    	elseif($choice=='2')
+	    	{
+	    		$data['detail'] = $this->general->detailopenunder3_6month();
+	    		$data['choice'] = '2';
+	    	}
+	    	elseif($choice=='3')
+	    	{
+	    		$data['detail'] = $this->general->detailopenunder6_12month();
+	    		$data['choice'] = '3';
+	    	}
+	    	elseif($choice=='4')
+	    	{
+	    		$data['detail'] = $this->general->detailopenover1year();
+	    		$data['choice'] = '4';
+	    	}
+	    	
+	    	$this->load->view('headerhome',$userdata); 
+			$this->load->view('list_per_umur',$data);
+		}
+		elseif ($_SERVER['REQUEST_METHOD'] === 'GET')
+		{
+			redirect('agelist');
+		}
+	}
+
+	public function agedetailclose()
+	{
+		if ($_SERVER['REQUEST_METHOD'] === 'POST') 
+		{
+		 	$session_data = $this->session->userdata('logged_in');
+	     	$userdata['previledge'] = $session_data['previledge'];
+	     	$userdata['username'] = $session_data['username'];
+
+	    	$this->load->model('general');
+	    	$choice = $this->input->post('opsi');
+	    	$data = array();
+	    	if($choice=='0')
+	    	{
+	    		$data['detail'] = $this->general->detailcloseunder1month();
+	    		$data['choice'] = '5';
+	    	}
+	    	elseif($choice=='1')
+	    	{
+	    		$data['detail'] = $this->general->detailcloseunder1_3month();
+	    		$data['choice'] = '6';
+	    	}
+	    	elseif($choice=='2')
+	    	{
+	    		$data['detail'] = $this->general->detailcloseunder3_6month();
+	    		$data['choice'] = '7';
+	    	}
+	    	elseif($choice=='3')
+	    	{
+	    		$data['detail'] = $this->general->detailcloseunder6_12month();
+	    		$data['choice'] = '8';
+	    	}
+	    	elseif($choice=='4')
+	    	{
+	    		$data['detail'] = $this->general->detailcloseover1year();
+	    		$data['choice'] = '9';
+	    	}
+	    	
+	    	$this->load->view('headerhome',$userdata); 
+			$this->load->view('list_per_umur',$data);
+		}
+		elseif ($_SERVER['REQUEST_METHOD'] === 'GET')
+		{
+			redirect('agelist');
+		}
+	}
+
+	public function downloadage($choice)
+	{
+		if($this->session->userdata('logged_in'))
+	    {
+	     	$this->load->library('excel');
+	     	$this->load->model('general');
+
+			$data = array();
+			if($choice=='0')
+	    	{
+	    		$data = $this->general->detailopenunder1month();
+	    	}
+	    	elseif($choice=='1')
+	    	{
+	    		$data = $this->general->detailopenunder1_3month();
+	    	}
+	    	elseif($choice=='2')
+	    	{
+	    		$data = $this->general->detailopenunder3_6month();
+	    	}
+	    	elseif($choice=='3')
+	    	{
+	    		$data = $this->general->detailopenunder6_12month();
+	    	}
+	    	elseif($choice=='4')
+	    	{
+	    		$data = $this->general->detailopenover1year();
+	    	}
+	    	elseif($choice=='5')
+	    	{
+	    		$data = $this->general->detailcloseunder1month();
+	    	}
+	    	elseif($choice=='6')
+	    	{
+	    		$data = $this->general->detailcloseunder1_3month();
+	    	}
+	    	elseif($choice=='7')
+	    	{
+	    		$data = $this->general->detailcloseunder3_6month();
+	    	}
+	    	elseif($choice=='8')
+	    	{
+	    		$data = $this->general->detailcloseunder6_12month();
+	    	}
+	    	elseif($choice=='9')
+	    	{
+	    		$data = $this->general->detailcloseover1year();
+	    	}
+			$count = count($data);
+
+			$objPHPExcel = new PHPExcel();
+		    $objPHPExcel->getActiveSheet()->setTitle("Age Detail Result");
+		    //Loop Heading
+		    $heading=array('No','Nomor Telepon','Nama CC','Nama AM','Nomor Tujuan','Tujuan','Tanggal Case','Tipe Case');
+		    $rowNumberH = 1;
+		    $colH = 'A';
+
+		    foreach($heading as $h){
+		        $objPHPExcel->getActiveSheet()->setCellValue($colH.$rowNumberH,$h);
+		        $colH++;    
+		    }
+		    //Loop Result
+		    $maxrow=$count+1;
+		    $row = 2;
+		    $no = 1;
+	        foreach($data as $n){
+	            //$numnil = (float) str_replace(',','.',$n->nilai);
+	            $objPHPExcel->getActiveSheet()->setCellValue('A'.$row,$no);
+	            $objPHPExcel->getActiveSheet()->setCellValue('B'.$row,$n->TELEPHONE_NUMBER);
+	            $objPHPExcel->getActiveSheet()->setCellValue('C'.$row,$n->CUSTOMER);
+	            $objPHPExcel->getActiveSheet()->setCellValue('D'.$row,$n->AM);
+	            $objPHPExcel->getActiveSheet()->setCellValue('E'.$row,$n->DESTINATION_NUMBER);
+	            $objPHPExcel->getActiveSheet()->setCellValue('F'.$row,$n->DESTINATION);
+	            $objPHPExcel->getActiveSheet()->setCellValue('G'.$row,date('d-M-Y',strtotime($n->CASE_TIME)));
+	            $objPHPExcel->getActiveSheet()->setCellValue('H'.$row,$n->CASE_PARAMETER);
+	            $row++;
+	            $no++;
+	        }
+		    
+
+		    $header = 'a1:h1';
+			$objPHPExcel->getActiveSheet()->getStyle($header)->getFill()->setFillType(\PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setARGB('00ffff00');
+			$style = array(
+			    'font' => array('bold' => true,),
+			    'alignment' => array('horizontal' => \PHPExcel_Style_Alignment::HORIZONTAL_CENTER,),
+			    );
+			$objPHPExcel->getActiveSheet()->getStyle($header)->applyFromArray($style);
+
+			for ($col = ord('a'); $col <= ord('h'); $col++)
+			{
+				$objPHPExcel->getActiveSheet()->getColumnDimension(chr($col))->setAutoSize(true);
+			}
+		    //Cell Style
+		    $styleArray = array(
+		        'borders' => array(
+		            'allborders' => array(
+		                'style' => PHPExcel_Style_Border::BORDER_THIN
+		            )
+		        )
+		    );
+		    $objPHPExcel->getActiveSheet()->getStyle('A1:H'.$maxrow)->applyFromArray($styleArray);
+		    //Save as an Excel BIFF (xls) file
+		    $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel,'Excel2007');
+
+		    header('Content-Type: application/vnd.ms-excel');
+		    header('Content-Disposition: attachment;filename="Search Result.xlsx"');
+		    header('Cache-Control: max-age=0');
+
+		    $objWriter->save('php://output');
+		    exit();
+	   }
+	   else
+	   {
+	     redirect('loginform');
+	   }
+	}
+
 	public function logout()
 	{
 		if($this->session->userdata('logged_in'))
@@ -783,19 +992,18 @@ class Fraud extends CI_Controller {
 			    $row = 2;
 			    $no = 1;
 		        foreach($data as $n){
-		            //$numnil = (float) str_replace(',','.',$n->nilai);
 		            $objPHPExcel->getActiveSheet()->setCellValue('A'.$row,$no);
-		            $objPHPExcel->getActiveSheet()->setCellValue('B'.$row,$n->TELEPHONE_NUMBER);
+		            $objPHPExcel->getActiveSheet()->setCellValueExplicit('B'.$row,$n->TELEPHONE_NUMBER, PHPExcel_Cell_DataType::TYPE_STRING);
 		            $objPHPExcel->getActiveSheet()->setCellValue('C'.$row,date('d-M-Y',strtotime($n->CASE_TIME)));
-		            $objPHPExcel->getActiveSheet()->setCellValueExplicit('D'.$row,$n->CUSTOMER);
-		            $objPHPExcel->getActiveSheet()->setCellValueExplicit('E'.$row,$n->AM);
+		            $objPHPExcel->getActiveSheet()->setCellValue('D'.$row,$n->CUSTOMER);
+		            $objPHPExcel->getActiveSheet()->setCellValue('E'.$row,$n->AM);
 		            if($n->STATUS=='0')
 		            {
-		            	$objPHPExcel->getActiveSheet()->setCellValueExplicit('F'.$row,'Open');
+		            	$objPHPExcel->getActiveSheet()->setCellValue('F'.$row,'Open');
 		            }
 		            if($n->STATUS=='1')
 		            {
-		            	$objPHPExcel->getActiveSheet()->setCellValueExplicit('F'.$row,'Close');
+		            	$objPHPExcel->getActiveSheet()->setCellValue('F'.$row,'Close');
 		            }
 		            $row++;
 		            $no++;
@@ -934,19 +1142,18 @@ class Fraud extends CI_Controller {
 			    $row = 2;
 			    $no = 1;
 		        foreach($data as $n){
-		            //$numnil = (float) str_replace(',','.',$n->nilai);
 		            $objPHPExcel->getActiveSheet()->setCellValue('A'.$row,$no);
-		            $objPHPExcel->getActiveSheet()->setCellValue('B'.$row,$n->TELEPHONE_NUMBER);
+		            $objPHPExcel->getActiveSheet()->setCellValueExplicit('B'.$row,$n->TELEPHONE_NUMBER, PHPExcel_Cell_DataType::TYPE_STRING);
 		            $objPHPExcel->getActiveSheet()->setCellValue('C'.$row,date('d-M-Y',strtotime($n->CASE_TIME)));
-		            $objPHPExcel->getActiveSheet()->setCellValueExplicit('D'.$row,$n->CUSTOMER);
-		            $objPHPExcel->getActiveSheet()->setCellValueExplicit('E'.$row,$n->AM);
+		            $objPHPExcel->getActiveSheet()->setCellValue('D'.$row,$n->CUSTOMER);
+		            $objPHPExcel->getActiveSheet()->setCellValue('E'.$row,$n->AM);
 		            if($n->STATUS=='0')
 		            {
-		            	$objPHPExcel->getActiveSheet()->setCellValueExplicit('F'.$row,'Open');
+		            	$objPHPExcel->getActiveSheet()->setCellValue('F'.$row,'Open');
 		            }
 		            if($n->STATUS=='1')
 		            {
-		            	$objPHPExcel->getActiveSheet()->setCellValueExplicit('F'.$row,'Close');
+		            	$objPHPExcel->getActiveSheet()->setCellValue('F'.$row,'Close');
 		            }
 		            $row++;
 		            $no++;
@@ -1088,19 +1295,18 @@ class Fraud extends CI_Controller {
 			    $row = 2;
 			    $no = 1;
 		        foreach($data as $n){
-		            //$numnil = (float) str_replace(',','.',$n->nilai);
 		            $objPHPExcel->getActiveSheet()->setCellValue('A'.$row,$no);
-		            $objPHPExcel->getActiveSheet()->setCellValue('B'.$row,$n->TELEPHONE_NUMBER);
+		            $objPHPExcel->getActiveSheet()->setCellValueExplicit('B'.$row,$n->TELEPHONE_NUMBER, PHPExcel_Cell_DataType::TYPE_STRING);
 		            $objPHPExcel->getActiveSheet()->setCellValue('C'.$row,date('d-M-Y',strtotime($n->CASE_TIME)));
-		            $objPHPExcel->getActiveSheet()->setCellValueExplicit('D'.$row,$n->CUSTOMER);
-		            $objPHPExcel->getActiveSheet()->setCellValueExplicit('E'.$row,$n->AM);
+		            $objPHPExcel->getActiveSheet()->setCellValue('D'.$row,$n->CUSTOMER);
+		            $objPHPExcel->getActiveSheet()->setCellValue('E'.$row,$n->AM);
 		            if($n->STATUS=='0')
 		            {
-		            	$objPHPExcel->getActiveSheet()->setCellValueExplicit('F'.$row,'Open');
+		            	$objPHPExcel->getActiveSheet()->setCellValue('F'.$row,'Open');
 		            }
 		            if($n->STATUS=='1')
 		            {
-		            	$objPHPExcel->getActiveSheet()->setCellValueExplicit('F'.$row,'Close');
+		            	$objPHPExcel->getActiveSheet()->setCellValue('F'.$row,'Close');
 		            }
 		            $row++;
 		            $no++;
@@ -1242,19 +1448,18 @@ class Fraud extends CI_Controller {
 			    $row = 2;
 			    $no = 1;
 		        foreach($data as $n){
-		            //$numnil = (float) str_replace(',','.',$n->nilai);
 		            $objPHPExcel->getActiveSheet()->setCellValue('A'.$row,$no);
-		            $objPHPExcel->getActiveSheet()->setCellValue('B'.$row,$n->TELEPHONE_NUMBER);
+		            $objPHPExcel->getActiveSheet()->setCellValueExplicit('B'.$row,$n->TELEPHONE_NUMBER, PHPExcel_Cell_DataType::TYPE_STRING);
 		            $objPHPExcel->getActiveSheet()->setCellValue('C'.$row,date('d-M-Y',strtotime($n->CASE_TIME)));
-		            $objPHPExcel->getActiveSheet()->setCellValueExplicit('D'.$row,$n->CUSTOMER);
-		            $objPHPExcel->getActiveSheet()->setCellValueExplicit('E'.$row,$n->AM);
+		            $objPHPExcel->getActiveSheet()->setCellValue('D'.$row,$n->CUSTOMER);
+		            $objPHPExcel->getActiveSheet()->setCellValue('E'.$row,$n->AM);
 		            if($n->STATUS=='0')
 		            {
-		            	$objPHPExcel->getActiveSheet()->setCellValueExplicit('F'.$row,'Open');
+		            	$objPHPExcel->getActiveSheet()->setCellValue('F'.$row,'Open');
 		            }
 		            if($n->STATUS=='1')
 		            {
-		            	$objPHPExcel->getActiveSheet()->setCellValueExplicit('F'.$row,'Close');
+		            	$objPHPExcel->getActiveSheet()->setCellValue('F'.$row,'Close');
 		            }
 		            $row++;
 		            $no++;
@@ -1393,19 +1598,18 @@ class Fraud extends CI_Controller {
 			    $row = 2;
 			    $no = 1;
 		        foreach($data as $n){
-		            //$numnil = (float) str_replace(',','.',$n->nilai);
 		            $objPHPExcel->getActiveSheet()->setCellValue('A'.$row,$no);
-		            $objPHPExcel->getActiveSheet()->setCellValue('B'.$row,$n->TELEPHONE_NUMBER);
+		            $objPHPExcel->getActiveSheet()->setCellValueExplicit('B'.$row,$n->TELEPHONE_NUMBER, PHPExcel_Cell_DataType::TYPE_STRING);
 		            $objPHPExcel->getActiveSheet()->setCellValue('C'.$row,date('d-M-Y',strtotime($n->CASE_TIME)));
-		            $objPHPExcel->getActiveSheet()->setCellValueExplicit('D'.$row,$n->CUSTOMER);
-		            $objPHPExcel->getActiveSheet()->setCellValueExplicit('E'.$row,$n->AM);
+		            $objPHPExcel->getActiveSheet()->setCellValue('D'.$row,$n->CUSTOMER);
+		            $objPHPExcel->getActiveSheet()->setCellValue('E'.$row,$n->AM);
 		            if($n->STATUS=='0')
 		            {
-		            	$objPHPExcel->getActiveSheet()->setCellValueExplicit('F'.$row,'Open');
+		            	$objPHPExcel->getActiveSheet()->setCellValue('F'.$row,'Open');
 		            }
 		            if($n->STATUS=='1')
 		            {
-		            	$objPHPExcel->getActiveSheet()->setCellValueExplicit('F'.$row,'Close');
+		            	$objPHPExcel->getActiveSheet()->setCellValue('F'.$row,'Close');
 		            }
 		            $row++;
 		            $no++;
@@ -1544,19 +1748,18 @@ class Fraud extends CI_Controller {
 			    $row = 2;
 			    $no = 1;
 		        foreach($data as $n){
-		            //$numnil = (float) str_replace(',','.',$n->nilai);
 		            $objPHPExcel->getActiveSheet()->setCellValue('A'.$row,$no);
-		            $objPHPExcel->getActiveSheet()->setCellValue('B'.$row,$n->TELEPHONE_NUMBER);
+		            $objPHPExcel->getActiveSheet()->setCellValueExplicit('B'.$row,$n->TELEPHONE_NUMBER, PHPExcel_Cell_DataType::TYPE_STRING);
 		            $objPHPExcel->getActiveSheet()->setCellValue('C'.$row,date('d-M-Y',strtotime($n->CASE_TIME)));
-		            $objPHPExcel->getActiveSheet()->setCellValueExplicit('D'.$row,$n->CUSTOMER);
-		            $objPHPExcel->getActiveSheet()->setCellValueExplicit('E'.$row,$n->AM);
+		            $objPHPExcel->getActiveSheet()->setCellValue('D'.$row,$n->CUSTOMER);
+		            $objPHPExcel->getActiveSheet()->setCellValue('E'.$row,$n->AM);
 		            if($n->STATUS=='0')
 		            {
-		            	$objPHPExcel->getActiveSheet()->setCellValueExplicit('F'.$row,'Open');
+		            	$objPHPExcel->getActiveSheet()->setCellValue('F'.$row,'Open');
 		            }
 		            if($n->STATUS=='1')
 		            {
-		            	$objPHPExcel->getActiveSheet()->setCellValueExplicit('F'.$row,'Close');
+		            	$objPHPExcel->getActiveSheet()->setCellValue('F'.$row,'Close');
 		            }
 		            $row++;
 		            $no++;
@@ -1593,6 +1796,72 @@ class Fraud extends CI_Controller {
 
 			    $objWriter->save('php://output');
 			    exit();
+		     }
+		     elseif($userdata['previledge']=='1')
+		     {
+		     	redirect('home');
+		     }
+	   }
+	   else
+	   {
+	     redirect('loginform');
+	   }
+	}
+
+	public function kasusberulang()
+	{
+		if($this->session->userdata('logged_in'))
+	    {
+			 $session_data = $this->session->userdata('logged_in');
+		     $userdata['username'] = $session_data['username'];
+		     $userdata['previledge'] = $session_data['previledge'];
+		     if($userdata['previledge']=='0')
+		     {
+		     	$this->load->model('user');
+				$data = array();
+				$data['list'] = $this->user->getkasusberulang();
+
+				$this->load->view('header',$userdata); 
+				$this->load->view('list_berapa_kali_kasus',$data);
+				$this->load->view('footer'); 
+		     }
+		     elseif($userdata['previledge']=='1')
+		     {
+		     	redirect('home');
+		     }
+	   }
+	   else
+	   {
+	     redirect('loginform');
+	   }
+	}
+
+	public function detailkasusberulang($number)
+	{
+		if($this->session->userdata('logged_in'))
+	    {
+			 $session_data = $this->session->userdata('logged_in');
+		     $userdata['username'] = $session_data['username'];
+		     $userdata['previledge'] = $session_data['previledge'];
+		     if($userdata['previledge']=='0')
+		     {
+		     	$this->load->model('user');
+				$data = array();
+				$data['nomor'] = $number;
+				$data['list'] = $this->user->getdetailkasusberulang($number);
+
+				$count = count($data['list']);
+
+				if($count>=2)
+				{
+					$this->load->view('header',$userdata); 
+					$this->load->view('detail_berapa_kali_kasus',$data);
+					$this->load->view('footer');
+				} 
+				else
+				{
+					redirect('recurrent');
+				}
 		     }
 		     elseif($userdata['previledge']=='1')
 		     {

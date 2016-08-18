@@ -58,6 +58,9 @@ $route['home'] = 'fraud/home';
 $route['logout'] = 'fraud/logout';
 $route['monthlist'] = 'fraud/monthlist';
 $route['agelist'] = 'fraud/agelist';
+$route['agedetailopen'] = 'fraud/agedetailopen';
+$route['agedetailclose'] = 'fraud/agedetailclose';
+$route['downloadage/(:any)'] = 'fraud/downloadage/$1';
 
 //---------Admin------------
 $route['userform'] = 'fraud/userform';
@@ -89,6 +92,8 @@ $route['searchdate'] = 'fraud/searchdate';
 $route['searchinputdate'] = 'fraud/searchinputdate';
 $route['searcham'] = 'fraud/searcham';
 $route['searchcustomer'] = 'fraud/searchcustomer';
+$route['recurrent'] = 'fraud/kasusberulang';
+$route['recurrentdetail/(:any)'] = 'fraud/detailkasusberulang/$1';
 $route['listprofile'] = 'fraud/listprofile';
 //$route['listprofile/(:any)'] = 'fraud/listprofile';
 $route['cases/(:any)'] = 'fraud/cases/$1';

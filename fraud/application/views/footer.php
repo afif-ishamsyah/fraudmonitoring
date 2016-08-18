@@ -59,7 +59,7 @@
 
         //Initialize Select2 Elements
         $(".select2").select2();
-        $("#example1").DataTable();
+        $("#example1").DataTable({"order": [[ 1, "asc" ]]});
         $('#example2').DataTable({
           "paging": true,
           "lengthChange": false,
@@ -106,9 +106,26 @@
           "searching": false,
           "ordering": true,
           "info": true,
+          "autoWidth": false,
+          "order": [[ 5, "asc" ]]
+        });
+        $('#example10').DataTable({
+          "paging": true,
+          "lengthChange": false,
+          "searching": true,
+          "ordering": true,
+          "info": true,
           "autoWidth": false
         });
-
+         $('#example11').DataTable({
+          "paging": true,
+          "lengthChange": false,
+          "searching": true,
+          "ordering": true,
+          "info": true,
+          "autoWidth": false,
+          "order": [[ 6, "asc" ]]
+        });
       });
      </script>
 

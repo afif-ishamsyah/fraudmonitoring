@@ -63,6 +63,8 @@
         return $query->result();
       }
 
+
+//------------------------------------------------ Agelist Open Case-----------------------------------------
       function openunder1month()
       {
         $this->db->select('KASUS.ID_CASE')
@@ -115,6 +117,69 @@
         $query = $this->db->get();
         return $query->num_rows();
       }
+      //-----------------------------------List Details---------------------------------------------------
+      function detailopenunder1month()
+      {
+         $this->db->select('KASUS.ID_CASE, PROFIL.TELEPHONE_NUMBER, PROFIL.CUSTOMER, PROFIL.AM, KASUS.DESTINATION, KASUS.DESTINATION_NUMBER, KASUS.CASE_TIME, KASUS.CASE_PARAMETER')
+            ->from('KASUS')
+            ->join('PROFIL','KASUS.ID_CASE = PROFIL.ID_CASE')
+            ->where('KASUS.STATUS','0')
+            ->where('trunc(sysdate) -  trunc(CASE_TIME) <=', 30);
+        $query = $this->db->get();
+        return $query->result();
+      }
+
+      function detailopenunder1_3month()
+      {
+       $this->db->select('KASUS.ID_CASE, PROFIL.TELEPHONE_NUMBER, PROFIL.CUSTOMER, PROFIL.AM, KASUS.DESTINATION, KASUS.DESTINATION_NUMBER, KASUS.CASE_TIME, KASUS.CASE_PARAMETER')
+            ->from('KASUS')
+            ->join('PROFIL','KASUS.ID_CASE = PROFIL.ID_CASE')
+            ->where('KASUS.STATUS','0')
+            ->where('trunc(sysdate) -  trunc(CASE_TIME) >', 30)
+            ->where('trunc(sysdate) -  trunc(CASE_TIME) <=', 90);
+        $query = $this->db->get();
+        return $query->result();
+      }
+
+      function detailopenunder3_6month()
+      {
+       $this->db->select('KASUS.ID_CASE, PROFIL.TELEPHONE_NUMBER, PROFIL.CUSTOMER, PROFIL.AM, KASUS.DESTINATION, KASUS.DESTINATION_NUMBER, KASUS.CASE_TIME, KASUS.CASE_PARAMETER')
+            ->from('KASUS')
+            ->join('PROFIL','KASUS.ID_CASE = PROFIL.ID_CASE')
+            ->where('KASUS.STATUS','0')
+            ->where('trunc(sysdate) -  trunc(CASE_TIME) >', 90)
+            ->where('trunc(sysdate) -  trunc(CASE_TIME) <=', 180);
+        $query = $this->db->get();
+        return $query->result();
+      }
+
+      function detailopenunder6_12month()
+      {
+        $this->db->select('KASUS.ID_CASE, PROFIL.TELEPHONE_NUMBER, PROFIL.CUSTOMER, PROFIL.AM, KASUS.DESTINATION, KASUS.DESTINATION_NUMBER, KASUS.CASE_TIME, KASUS.CASE_PARAMETER')
+            ->from('KASUS')
+            ->join('PROFIL','KASUS.ID_CASE = PROFIL.ID_CASE')
+            ->where('KASUS.STATUS','0')
+            ->where('trunc(sysdate) -  trunc(CASE_TIME) >', 180)
+            ->where('trunc(sysdate) -  trunc(CASE_TIME) <=', 360);
+        $query = $this->db->get();
+        return $query->result();
+      }
+
+      function detailopenover1year()
+      {
+        $this->db->select('KASUS.ID_CASE, PROFIL.TELEPHONE_NUMBER, PROFIL.CUSTOMER, PROFIL.AM, KASUS.DESTINATION, KASUS.DESTINATION_NUMBER, KASUS.CASE_TIME, KASUS.CASE_PARAMETER')
+            ->from('KASUS')
+            ->join('PROFIL','KASUS.ID_CASE = PROFIL.ID_CASE')
+            ->where('KASUS.STATUS','0')
+            ->where('trunc(sysdate) -  trunc(CASE_TIME) >', 360);
+        $query = $this->db->get();
+        return $query->result();
+      }
+      //-------------------------------------------------Download----------------------------------------------------
+
+      
+
+      //------------------------------------------------ Agelist Closed Case-----------------------------------------
 
        function closeunder1month()
       {
@@ -167,6 +232,66 @@
             ->where('trunc(FINISH_DATE) - trunc(CASE_TIME) >', 360);
         $query = $this->db->get();
         return $query->num_rows();
+      }
+
+      //----------------------------------Details--------------------------------------------------------
+
+      function detailcloseunder1month()
+      {
+         $this->db->select('KASUS.ID_CASE, PROFIL.TELEPHONE_NUMBER, PROFIL.CUSTOMER, PROFIL.AM, KASUS.DESTINATION, KASUS.DESTINATION_NUMBER, KASUS.CASE_TIME, KASUS.CASE_PARAMETER')
+            ->from('KASUS')
+            ->join('PROFIL','KASUS.ID_CASE = PROFIL.ID_CASE')
+            ->where('KASUS.STATUS','1')
+            ->where('trunc(sysdate) -  trunc(CASE_TIME) <=', 30);
+        $query = $this->db->get();
+        return $query->result();
+      }
+
+      function detailcloseunder1_3month()
+      {
+       $this->db->select('KASUS.ID_CASE, PROFIL.TELEPHONE_NUMBER, PROFIL.CUSTOMER, PROFIL.AM, KASUS.DESTINATION, KASUS.DESTINATION_NUMBER, KASUS.CASE_TIME, KASUS.CASE_PARAMETER')
+            ->from('KASUS')
+            ->join('PROFIL','KASUS.ID_CASE = PROFIL.ID_CASE')
+            ->where('KASUS.STATUS','1')
+            ->where('trunc(sysdate) -  trunc(CASE_TIME) >', 30)
+            ->where('trunc(sysdate) -  trunc(CASE_TIME) <=', 90);
+        $query = $this->db->get();
+        return $query->result();
+      }
+
+      function detailcloseunder3_6month()
+      {
+       $this->db->select('KASUS.ID_CASE, PROFIL.TELEPHONE_NUMBER, PROFIL.CUSTOMER, PROFIL.AM, KASUS.DESTINATION, KASUS.DESTINATION_NUMBER, KASUS.CASE_TIME, KASUS.CASE_PARAMETER')
+            ->from('KASUS')
+            ->join('PROFIL','KASUS.ID_CASE = PROFIL.ID_CASE')
+            ->where('KASUS.STATUS','1')
+            ->where('trunc(sysdate) -  trunc(CASE_TIME) >', 90)
+            ->where('trunc(sysdate) -  trunc(CASE_TIME) <=', 180);
+        $query = $this->db->get();
+        return $query->result();
+      }
+
+      function detailcloseunder6_12month()
+      {
+        $this->db->select('KASUS.ID_CASE, PROFIL.TELEPHONE_NUMBER, PROFIL.CUSTOMER, PROFIL.AM, KASUS.DESTINATION, KASUS.DESTINATION_NUMBER, KASUS.CASE_TIME, KASUS.CASE_PARAMETER')
+            ->from('KASUS')
+            ->join('PROFIL','KASUS.ID_CASE = PROFIL.ID_CASE')
+            ->where('KASUS.STATUS','1')
+            ->where('trunc(sysdate) -  trunc(CASE_TIME) >', 180)
+            ->where('trunc(sysdate) -  trunc(CASE_TIME) <=', 360);
+        $query = $this->db->get();
+        return $query->result();
+      }
+
+      function detailcloseover1year()
+      {
+        $this->db->select('KASUS.ID_CASE, PROFIL.TELEPHONE_NUMBER, PROFIL.CUSTOMER, PROFIL.AM, KASUS.DESTINATION, KASUS.DESTINATION_NUMBER, KASUS.CASE_TIME, KASUS.CASE_PARAMETER')
+            ->from('KASUS')
+            ->join('PROFIL','KASUS.ID_CASE = PROFIL.ID_CASE')
+            ->where('KASUS.STATUS','1')
+            ->where('trunc(sysdate) -  trunc(CASE_TIME) >', 360);
+        $query = $this->db->get();
+        return $query->result();
       }
 
 }

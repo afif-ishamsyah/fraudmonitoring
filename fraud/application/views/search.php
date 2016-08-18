@@ -22,7 +22,7 @@
         <!-- Main content -->
         <section class="content">
         <div class="row">
-         <div class="col-md-6">
+         <div class="col-md-7">
               <!-- Custom Tabs -->
               <div class="nav-tabs-custom">
                 <ul class="nav nav-tabs">
@@ -31,6 +31,7 @@
                   <li><a href="#tab_3" data-toggle="tab">By Input Date</a></li>
                   <li><a href="#tab_4" data-toggle="tab">By CC</a></li>
                   <li><a href="#tab_5" data-toggle="tab">By AM</a></li>
+                  <li><a href="#tab_6" data-toggle="tab">Recurrent Cases</a></li>
                 </ul>
 
                 <div class="tab-content">
@@ -235,6 +236,10 @@
 
                   <button type="submit" class="btn btn-primary">Search</button>
                   </form>
+                  </div>
+
+                  <div class="tab-pane" id="tab_6">
+                  <a href="javascript:void(0)" onclick="location.href='<?php echo site_url("recurrent"); ?>';" type="get" class="btn btn-danger"><span>List Kasus Berulang</span></a>
                   </div>
                   
                 </div><!-- /.tab-content -->

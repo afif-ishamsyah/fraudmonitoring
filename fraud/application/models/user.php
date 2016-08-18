@@ -140,6 +140,29 @@
 	  	return $query->result();
 	  }
 
+	  function getkasusberulang()
+	  {
+	  	$this->db->select('PROFIL.TELEPHONE_NUMBER, COUNT({F}KASUS.ID_CASE) AS TOTAL')
+            ->from('KASUS')
+	  		->join('PROFIL','KASUS.ID_CASE = PROFIL.ID_CASE')
+            ->group_by('PROFIL.TELEPHONE_NUMBER')
+            ->having('COUNT({F}KASUS.ID_CASE) >', 1);
+            
+        $query = $this->db->get();
+        return $query->result();
+	  }
+
+	  function getdetailkasusberulang($number)
+	  {
+	  	$this->db->select('PROFIL.TELEPHONE_NUMBER, KASUS.DESTINATION_NUMBER, KASUS.DESTINATION, KASUS.CASE_TIME, KASUS.FINISH_DATE, KASUS.DESCRIPTION, KASUS.STATUS')
+            ->from('KASUS')
+	  		->join('PROFIL','KASUS.ID_CASE = PROFIL.ID_CASE')
+	  		->where('PROFIL.TELEPHONE_NUMBER',$number);
+            
+        $query = $this->db->get();
+        return $query->result();
+	  }
+
 	  function getlistprofile()
 	  {
 	  	$this->db2->select('DES_PROFILE_FASTEL_AM.NOTEL AS NOTEL, DES_PROFILE_FASTEL_AM.NIP_NAS AS NIPNAS, DES_PROFILE_FASTEL_AM.STANDARD_NAME AS NAMACC, DES_PROFILE_FASTEL_AM.ALAMAT_DOSSIER AS ALAMAT, DES_PROFILE_FASTEL_AM.NIK_AM AS NIKAM, DES_PROFILE_FASTEL_AM.NAMA_AM AS NAMAAM, DES_PROFILE_FASTEL_AM.SEGMENT_6_LNAME AS SEGMEN, PMS_SLI_DES_LAST_3_MONTH.RATA_RATA AS AVERAGE')

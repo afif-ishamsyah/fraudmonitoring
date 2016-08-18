@@ -33,6 +33,64 @@
               </div><!-- /.box -->
               </div>
 
+              <div class="col-md-6">
+             <!-- DONUT CHART -->
+              <div class="box box-danger">
+                <div class="box-header with-border">
+                  <h3 class="box-title">Detail Usia Kasus yang Belum Selesai</h3>
+                </div>
+                <form class="form-horizontal" role="form" action="<?php echo site_url('agedetailopen'); ?>" method="post">
+                <div class="box-body">
+                  <div class="form-group">
+                    <label for="groupusia" class="col-sm-2 control-label">Group:</label>
+                    <div class="col-sm-10">
+                      <select class="form-control" name="opsi">
+                        <option value="0">< 1 Bulan</option>
+                        <option value="1">1-3 Bulan</option>
+                        <option value="2">3-6 Bulan</option>
+                        <option value="3">6-12 Bulan</option>
+                        <option value="4">> 12 Bulan</option>
+                      </select>
+                    </div>
+                  </div>
+                </div><!-- /.box-body -->
+                <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>">
+                <div class="box-footer">
+                <button type="submit" class="btn btn-primary pull-right">See Detail ></button>
+                </div>
+                </form>
+              </div><!-- /.box -->
+              </div>
+
+              <div class="col-md-6">
+             <!-- DONUT CHART -->
+              <div class="box box-danger">
+                <div class="box-header with-border">
+                  <h3 class="box-title">Detail Lama Penyelesaian Kasus yang telah di Selesaikan</h3>
+                </div>
+                <form class="form-horizontal" role="form" action="<?php echo site_url('agedetailclose'); ?>" method="post">
+                <div class="box-body">
+                  <div class="form-group">
+                    <label for="groupusia" class="col-sm-2 control-label">Group:</label>
+                    <div class="col-sm-10">
+                      <select class="form-control" name="opsi">
+                        <option value="0">< 1 Bulan</option>
+                        <option value="1">1-3 Bulan</option>
+                        <option value="2">3-6 Bulan</option>
+                        <option value="3">6-12 Bulan</option>
+                        <option value="4">> 12 Bulan</option>
+                      </select>
+                    </div>
+                  </div>
+                </div><!-- /.box-body -->
+                <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>">
+                <div class="box-footer">
+                <button type="submit" class="btn btn-primary pull-right">See Detail ></button>
+                </div>
+                </form>
+              </div><!-- /.box -->
+              </div>
+
               </div>
           </section><!-- /.content -->
         </div><!-- /.content-wrapper -->

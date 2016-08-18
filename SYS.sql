@@ -16,7 +16,7 @@ grant select, insert on activity to fraud;
 grant select, insert on profil to fraud;
 grant select, insert on profileuser to fraud;
 
-grant select, insert on case to fastel;
+grant ALL on FRAUD_KASUS to FASTEL, FRAUD;
 grant select, insert on case_parameter to fastel;
 grant select, insert on activity_parameter to fastel;
 grant select, insert on activity to fastel;
