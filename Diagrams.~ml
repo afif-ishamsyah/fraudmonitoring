@@ -178,7 +178,7 @@
 <XPD:REF name="Incomings[1]">2nbSwV801k+H4Fz/N00hTAAA</XPD:REF>
 </XPD:OBJ>
 <XPD:OBJ name="Subvertices[14]" type="UMLActionState" guid="cXfytdTd7UOV3LkiLKt90wAA">
-<XPD:ATTR name="Name" type="string">Menampilkan Jumlah Case Berdasarkan Tahun</XPD:ATTR>
+<XPD:ATTR name="Name" type="string">Menampilkan Jumlah Case Per Bulan</XPD:ATTR>
 <XPD:REF name="ContainerState">suopieRa9UqfQL495uBRXQAA</XPD:REF>
 <XPD:ATTR name="#Views" type="integer">1</XPD:ATTR>
 <XPD:REF name="Views[0]">KiKWek73dE2oBHI1FhH50wAA</XPD:REF>
@@ -1628,7 +1628,7 @@
 <XPD:REF name="Model">cXfytdTd7UOV3LkiLKt90wAA</XPD:REF>
 <XPD:OBJ name="NameCompartment" type="UMLNameCompartmentView" guid="W8cQM26XhUuiH2hRfpGrRgAA">
 <XPD:OBJ name="NameLabel" type="LabelView" guid="KKzypMd8JUW3pHwCb80sEwAA">
-<XPD:ATTR name="Text" type="string">Menampilkan Jumlah Case Berdasarkan Tahun</XPD:ATTR>
+<XPD:ATTR name="Text" type="string">Menampilkan Jumlah Case Per Bulan</XPD:ATTR>
 </XPD:OBJ>
 <XPD:OBJ name="StereotypeLabel" type="LabelView" guid="WiVz0Di2j0iST9xp7i4rLAAA">
 <XPD:ATTR name="Visible" type="boolean">False</XPD:ATTR>
@@ -8750,7 +8750,7 @@
 <XPD:OBJ name="OwnedViews[2]" type="UMLPseudostateView" guid="R8bJzVCKsk6R9QUAWNavfAAA">
 <XPD:ATTR name="LineColor" type="string">clMaroon</XPD:ATTR>
 <XPD:ATTR name="FillColor" type="string">$00B9FFFF</XPD:ATTR>
-<XPD:ATTR name="Left" type="integer">292</XPD:ATTR>
+<XPD:ATTR name="Left" type="integer">288</XPD:ATTR>
 <XPD:ATTR name="Top" type="integer">120</XPD:ATTR>
 <XPD:ATTR name="Width" type="integer">20</XPD:ATTR>
 <XPD:ATTR name="Height" type="integer">20</XPD:ATTR>
@@ -8779,7 +8779,7 @@
 <XPD:OBJ name="OwnedViews[4]" type="UMLTransitionView" guid="z+yEYQmZNECf7FRDrzr7BgAA">
 <XPD:ATTR name="LineColor" type="string">clMaroon</XPD:ATTR>
 <XPD:ATTR name="FillColor" type="string">$00B9FFFF</XPD:ATTR>
-<XPD:ATTR name="Points" type="Points">301,139;299,176</XPD:ATTR>
+<XPD:ATTR name="Points" type="Points">297,139;298,176</XPD:ATTR>
 <XPD:REF name="Model">Weaw4IQdK0KGM8nvGgrzmAAA</XPD:REF>
 <XPD:REF name="Head">LzPc09byK0WtEPXay6ZdGAAA</XPD:REF>
 <XPD:REF name="Tail">R8bJzVCKsk6R9QUAWNavfAAA</XPD:REF>
